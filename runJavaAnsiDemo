@@ -1,8 +1,6 @@
 #!/bin/bash
 
-./gradlew uberJar
-exec java -cp build/libs/ansi-0.0.1.0-uber.jar femtioprocent.ansi.appl.AnsiDemo "$@"
+./gradlew install
 
-
-# exec ./runJava femtioprocent.ansi.appl.AnsiDemo "$@"
+build/install/ansi/ansi "$@"
 
