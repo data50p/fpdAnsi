@@ -1,6 +1,5 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.logging.MyLogger
 import femtioprocent.sundry.Ansi
 import femtioprocent.sundry.Ansi.cvBg
 import femtioprocent.sundry.Ansi.cvFg
@@ -524,22 +523,7 @@ class AnsiDemo {
 		    }
 		}
 	    }
-
-	    Am("L")            -> {
-		//   Let's see how the logs look like
-
-		println("")
-		MyLogger.logOut.level = ALL
-		MyLogger.logOut.severe("This is severe")
-		MyLogger.logOut.warning("This is warning")
-		MyLogger.logOut.info("This is info")
-		MyLogger.logOut.config("This is config")
-		MyLogger.logOut.fine("This is fine")
-		MyLogger.logOut.finer("This is finer")
-		MyLogger.logOut.finest("This is finest")
-		Sundry.milliSleep(100)
-	    }
-	}
+        }
     }
 
     private fun rgbToHsvToRgbDump(cv_: Ansi.CubeValue, nnn: Int = -1) {
