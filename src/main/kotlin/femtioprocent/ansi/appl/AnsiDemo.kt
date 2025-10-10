@@ -456,9 +456,15 @@ class AnsiDemo {
 		val to = if (narg > 0) narg else 10
 
 		(from..to).forEach { cubeSize ->
-		    val cvBase = Ansi.CubeValue(cubeSize, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+		    val cvList = if (cubeSize < 3)
+			listOf(Random.nextInt(cubeSize-1), Random.nextInt(cubeSize-1), Random.nextInt(cubeSize-1))
+		    else
+			(0..<cubeSize).shuffled().take(3)
+		    val cvBase = Ansi.CubeValue(cubeSize, cvList[0], cvList[1], cvList[2])
 
-		    cvBase.hueGradient(6).forEach { (cubeValue, id) ->
+		    cvBase.permutationGradient().forEach { (cubeValue_, id) ->
+			val cubeValue = if (cubeValue_.cubeSize != cubeSize) cubeValue_.toCubeSize(cubeSize) else cubeValue_
+
 			println("")
 			println("Cube size ${cubeSize} -- gradients : " + cvFg(cubeValue)(" $cubeValue") + "    " + cvBg(cubeValue)("  color: $id  "))
 			println()
