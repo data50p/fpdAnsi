@@ -555,6 +555,10 @@ class AnsiDemo {
     }
 
     companion object {
+	fun main() {
+	    AnsiDemo().main("G3")
+	}
+
 	@JvmStatic
 	fun main(args: Array<String>) {
 	    AnsiDemo().main(if (args.size > 0) args[0] else "d")
