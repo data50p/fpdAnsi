@@ -145,7 +145,7 @@ class Test1 {
         println()
         val g1 = cvBase.gradient(12, cvBase2)
         g1.map{it.first}.forEach {
-            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${" ${it.complement().toHsv()} ".cvBg(it.complement())}")
         }
     }
 
