@@ -555,10 +555,10 @@ object Ansi {
             return l
         }
 
-        fun gradient(loops: Int = 6, c1: CubeValue, c2: CubeValue): List<Pair<CubeValue, String>> {
+        fun gradient(loops: Int = 6, c2: CubeValue): List<Pair<CubeValue, String>> {
             val l = mutableListOf<Pair<CubeValue, String>>()
 
-            val hsv1 = c1.toHsv()
+            val hsv1 = toHsv()
             val hsv2 = c2.toHsv()
 
             val dh = hsv2.h - hsv1.h
@@ -573,7 +573,9 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it}"
-                hsv = HSV((hsv.h + steph) % 360.0, (hsv.s + steps) % 1.0, (hsv.v + stepv) % 1.0)
+                val ss = if ( hsv.s == 1.0 ) 0.999999 else hsv.s
+                val vv = if ( hsv.v == 1.0 ) 0.999999 else hsv.v
+                hsv = HSV((hsv.h + steph) % 360.0, (ss + steps) % 1.0, (vv + stepv) % 1.0) // avoid v == 1.000
             }
 
             return l

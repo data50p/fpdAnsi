@@ -200,7 +200,7 @@ class AnsiDemo {
                         Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     val cvRandG2 =
                         Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                    cvRandG1.gradient(144, cvRandG1, cvRandG2).map { it.first }.forEach { it2 ->
+                    cvRandG1.gradient(144, cvRandG2).map { it.first }.forEach { it2 ->
                         print("·".cvBg(it2))
                     }
                     println()
