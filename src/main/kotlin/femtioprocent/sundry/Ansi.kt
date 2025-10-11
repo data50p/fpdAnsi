@@ -523,7 +523,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
             }
 
             return l
@@ -539,7 +539,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
             }
 
             return l
@@ -555,7 +555,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
             }
 
             return l

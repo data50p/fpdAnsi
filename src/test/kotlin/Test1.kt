@@ -52,13 +52,12 @@ class Test1 {
 
     @Test
     fun testHueGradient() {
-        val cvBase = Ansi.CubeValue(3, 0, 1, 2)
-        println("${" $cvBase ".cvBg(cvBase)}")
+        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val cv256 = cvBase.toCubeSize(256)
-        println("${" $cv256 ".cvBg(cv256)}")
-        val g1 = cvBase.hueGradient(12)
+        println("${" $cvBase ".cvBg(cvBase)}  ${" ${cvBase.toHsv()} ".cvBg(cvBase)}   ${" $cv256 ".cvBg(cv256)}\n")
+        val g1 = cv256.hueGradient(12)
         g1.map { it.first }.forEach {
-            println("${" $it ".cvBg(it)}")
+            println("${"      $it ".cvBg(it)}")
         }
     }
 
@@ -75,7 +74,7 @@ class Test1 {
     }
 
     @Test
-    fun testHueGradient3() {
+    fun testSaturationGradient3() {
         val cvBase = Ansi.CubeValue(8, 0, 1, 7)
         println("${" $cvBase ".cvBg(cvBase)}")
         val g1 = cvBase.saturationGradientValues(12)
@@ -85,7 +84,7 @@ class Test1 {
     }
 
     @Test
-    fun testHueGradient4() {
+    fun testValueGradient4() {
         val cvBase = Ansi.CubeValue(8, 0, 1, 7)
         println("${" $cvBase ".cvBg(cvBase)}")
         val g1 = cvBase.valueGradientValues(12)
@@ -95,13 +94,13 @@ class Test1 {
     }
 
     @Test
-    fun tesSaturationGradient4() {
+    fun testSaturationGradient4() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        println("${" $cvBase ".cvBg(cvBase)}")
+        println("${" $cvBase ".cvBg(cvBase)}  ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
         println()
         val g1 = cvBase.saturationGradientValues(12)
         g1.forEach {
-            println("${"     $it ".cvBg(it)}")
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
         }
         println()
         val g2 = cvBase.saturationGradientToMax(12).map {it.first}
@@ -118,11 +117,11 @@ class Test1 {
     @Test
     fun tesValueGradient6() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        println("${" $cvBase ".cvBg(cvBase)}")
+        println("${" $cvBase ".cvBg(cvBase)}  ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
         println()
         val g1 = cvBase.valueGradientValues(12)
         g1.forEach {
-            println("${"     $it ".cvBg(it)}")
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
         }
         println()
         val g2 = cvBase.valueGradientToMax(12).map {it.first}
@@ -159,19 +158,6 @@ class Test1 {
         val g1 = cvBase.gradient(12, cvBase2)
         g1.map{it.first}.forEach {
             println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${"    ${it.complement().toHsv()} ".cvBg(it.complement())}  ${"    ${it.complementRGB().toHsv()} ".cvBg(it.complementRGB())}")
-        }
-    }
-
-    @Test
-    fun tesHueGradientColColS() {
-        val cvBase = Ansi.CubeValue(8, 3, 5, 0)
-        val cvBase2 = Ansi.CubeValue(8, 0, 4, 5)
-        println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
-        println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
-        println()
-        val g1 = cvBase.gradient(12, cvBase2)
-        g1.map{it.first}.forEach {
-            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
         }
     }
 }
