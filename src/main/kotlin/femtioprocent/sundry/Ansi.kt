@@ -110,6 +110,9 @@ object Ansi {
         return r
     }
 
+    /**
+     * value => 0..5
+     */
     fun color5Bg(color: Color5, value: Int, s: String): String {
         val valueS = 8 - value
         val h1 = if (color.bgFlip < value) 0 else 5
