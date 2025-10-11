@@ -360,6 +360,10 @@ object Ansi {
          * cube size = 4: (0, 1, 2, 3) -> (0, 85, 171, 255)
          */
         fun color2ValuesForColorCubeSize(n: Int): List<Int> {
+            return color2ValuesForColorCubeSizeAlt(n)
+        }
+
+        fun color2ValuesForColorCubeSizeOld(n: Int): List<Int> {
 
             require(n <= 16 || n == 32 || n == 64 || n == 128 || n == 256) { "cube size must be <= 16 or 2 ^ (4..8)" }
 
