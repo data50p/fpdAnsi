@@ -354,8 +354,7 @@ object Ansi {
     object Support {
 
         var verbose = false
-        private val stepMap = mutableMapOf<Int, Int>()
-        private val color2ValuesMap = mutableMapOf<Int, List<Int>>()
+        private val colorValuesMap = mutableMapOf<Int, List<Int>>()
 
         /**
          * Return list of color 256 based values for a Color Cube of size n
@@ -365,7 +364,7 @@ object Ansi {
         fun values256(n: Int): List<Int> {
             require(n <= 256) { "cube size must be <= 256" }
 
-            return when (n) {
+            return colorValuesMap[n] ?: when (n) {
                 256 -> (0..255 step 1).toList()
                 else -> {
                     val step = 255.00 / (n - 1)
@@ -373,6 +372,8 @@ object Ansi {
                         (step * it + 0.5).toInt()
                     }
                 }
+            }.also {
+                colorValuesMap[n] = it
             }
         }
     }
