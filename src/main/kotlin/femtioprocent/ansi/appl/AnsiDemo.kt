@@ -426,7 +426,7 @@ class AnsiDemo {
                 fun f2(v: Int): String = Sundry.padLeft(v.toString(), 2, ' ')
                 fun f3(v: Int): String = Sundry.padLeft(v.toString(), 3, ' ')
 
-                val colors = Ansi.Support::color2ValuesForColorCubeSize
+                val colors = Ansi.Support::values256
 
                 (minCube..maxCube).forEach { cubeSize ->
                     println("")

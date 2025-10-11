@@ -232,18 +232,18 @@ object Ansi {
     // ---------------- cube sized colors ----------------
 
     fun csFg(cubeSize: Int, rix: Int, gix: Int, bix: Int, s: String): String {
-        val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-        val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-        val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
+        val r = Support.values256(cubeSize)[rix]
+        val g = Support.values256(cubeSize)[gix]
+        val b = Support.values256(cubeSize)[bix]
         return fg256(r, g, b, s)
     }
 
     fun csBg(cubeSize: Int, rix: Int, gix: Int, bix: Int, s: String): String {
         if (rix < 0 || gix < 0 || bix < 0)
             System.err.println(" ---- ")
-        val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-        val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-        val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
+        val r = Support.values256(cubeSize)[rix]
+        val g = Support.values256(cubeSize)[gix]
+        val b = Support.values256(cubeSize)[bix]
         return bg256(r, g, b, s)
     }
 
@@ -262,12 +262,12 @@ object Ansi {
             System.err.println(" ---- ")
         if (brix < 0 || bgix < 0 || bbix < 0 || brix >= cubeSizeBG || bgix >= cubeSizeBG || bbix >= cubeSizeBG)
             System.err.println(" ---- ")
-        val fr = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-        val fg = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-        val fb = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
-        val br = Support.color2ValuesForColorCubeSize(cubeSizeBG)[brix]
-        val bg = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bgix]
-        val bb = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bbix]
+        val fr = Support.values256(cubeSize)[rix]
+        val fg = Support.values256(cubeSize)[gix]
+        val fb = Support.values256(cubeSize)[bix]
+        val br = Support.values256(cubeSizeBG)[brix]
+        val bg = Support.values256(cubeSizeBG)[bgix]
+        val bb = Support.values256(cubeSizeBG)[bbix]
         return fgbg256(fr, fg, fb, br, bg, bb, s)
     }
 
@@ -359,7 +359,7 @@ object Ansi {
          *
          * cube size = 4: (0, 1, 2, 3) -> (0, 85, 171, 255)
          */
-        fun color2ValuesForColorCubeSize(n: Int): List<Int> {
+        fun values256(n: Int): List<Int> {
             require(n <= 256) { "cube size must be <= 256" }
 
             return when (n) {
