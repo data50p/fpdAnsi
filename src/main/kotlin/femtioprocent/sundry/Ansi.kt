@@ -13,87 +13,87 @@ package femtioprocent.sundry
 object Ansi {
 
     fun CSI(suffix: String = ""): String {
-	return "\u001b[$suffix"
+        return "\u001b[$suffix"
     }
 
     fun hideCursor(): String {
-	return CSI("?25l")
+        return CSI("?25l")
     }
 
     fun showCursor(): String {
-	return CSI("?25h")
+        return CSI("?25h")
     }
 
     fun inverse(s: String): String {
-	return "\u001b[7m$s\u001b[0m"
+        return "\u001b[7m$s\u001b[0m"
     }
 
     fun inverse(): String {
-	return "\u001b[7m"
+        return "\u001b[7m"
     }
 
     fun normal(): String {
-	return "\u001b[0m"
+        return "\u001b[0m"
     }
 
     fun goto(x: Int, y: Int): String {
-	return "\u001b[${y};${x}H"
+        return "\u001b[${y};${x}H"
     }
 
     fun clear(): String {
-	return "\u001b[2J"
+        return "\u001b[2J"
     }
 
     // ---------------------------------------------------- Predefined Colors -----------------------------------------------------
 
     enum class Color(val cr: Int, val cg: Int, val cb: Int) {
-	DD(0, 0, 0),
-	D(1, 1, 1),
-	DL(2, 2, 2),
-	WD(3, 3, 3),
-	W(4, 4, 4),
-	WL(5, 5, 5),
+        DD(0, 0, 0),
+        D(1, 1, 1),
+        DL(2, 2, 2),
+        WD(3, 3, 3),
+        W(4, 4, 4),
+        WL(5, 5, 5),
 
-	RD(4, 0, 0),
-	R(5, 0, 0),
-	RL(5, 1, 1),
-	OD(4, 1, 0),
-	O(5, 3, 0),
-	OL(5, 4, 1),
-	GD(0, 4, 0),
-	G(0, 5, 0),
-	GL(2, 5, 2),
-	YD(4, 4, 0),
-	Y(5, 5, 0),
-	YL(5, 5, 2),
-	BD(0, 0, 4),
-	B(0, 0, 5),
-	BL(1, 1, 5),
-	MD(4, 0, 4),
-	M(5, 0, 5),
-	ML(5, 2, 5),
-	CD(0, 4, 4),
-	C(0, 5, 5),
-	CL(2, 5, 5),
+        RD(4, 0, 0),
+        R(5, 0, 0),
+        RL(5, 1, 1),
+        OD(4, 1, 0),
+        O(5, 3, 0),
+        OL(5, 4, 1),
+        GD(0, 4, 0),
+        G(0, 5, 0),
+        GL(2, 5, 2),
+        YD(4, 4, 0),
+        Y(5, 5, 0),
+        YL(5, 5, 2),
+        BD(0, 0, 4),
+        B(0, 0, 5),
+        BL(1, 1, 5),
+        MD(4, 0, 4),
+        M(5, 0, 5),
+        ML(5, 2, 5),
+        CD(0, 4, 4),
+        C(0, 5, 5),
+        CL(2, 5, 5),
     }
 
     enum class Color5(val bits: Int, val bgFlip: Int, val complement: String) { // no X-reference
-	RED(1, 3, "GREEN"),
-	GREEN(2, 3, "RED"),
-	BLUE(4, 5, "YELLOW"),
-	YELLOW(3, 2, "BLUE"),
-	MAGENTA(5, 3, "CYAN"),
-	CYAN(6, 2, "MAGENTA"),
-	GRAY(7, 1, "GRAY")
+        RED(1, 3, "GREEN"),
+        GREEN(2, 3, "RED"),
+        BLUE(4, 5, "YELLOW"),
+        YELLOW(3, 2, "BLUE"),
+        MAGENTA(5, 3, "CYAN"),
+        CYAN(6, 2, "MAGENTA"),
+        GRAY(7, 1, "GRAY")
     }
 
     val maxColor5Index get() = Color5.entries.size - 1
     val maxColor5Value get() = g1.size - 1
 
     fun color5ByIndex(ix: Int): Color5 {
-	if (ix >= Color5.entries.size)
-	    return Color5.entries[maxColor5Index]
-	return Color5.entries[ix]
+        if (ix >= Color5.entries.size)
+            return Color5.entries[maxColor5Index]
+        return Color5.entries[ix]
     }
 
     //                                              (  darker  )
@@ -103,161 +103,186 @@ object Ansi {
     private val g2 = listOf(4, 3, 2, 1, 0, 0, 0, 0, 0)
 
     fun color5(color: Color5, value: Int, s: String): String {
-	val h1 = if ((color.bits and 1) == 1) g1 else g2
-	val h2 = if ((color.bits and 2) == 2) g1 else g2
-	val h3 = if ((color.bits and 4) == 4) g1 else g2
-	val r = fg5(h1[value], h2[value], h3[value], s)
-	return r
+        val h1 = if ((color.bits and 1) == 1) g1 else g2
+        val h2 = if ((color.bits and 2) == 2) g1 else g2
+        val h3 = if ((color.bits and 4) == 4) g1 else g2
+        val r = fg5(h1[value], h2[value], h3[value], s)
+        return r
     }
 
     fun color5Bg(color: Color5, value: Int, s: String): String {
-	val valueS = 8 - value
-	val h1 = if (color.bgFlip < value) 0 else 5
-	val h2 = if (color.bgFlip < value) 0 else 5
-	val h3 = if (color.bgFlip < value) 0 else 5
-	val bh1 = if ((color.bits and 1) == 1) g1 else g2
-	val bh2 = if ((color.bits and 2) == 2) g1 else g2
-	val bh3 = if ((color.bits and 4) == 4) g1 else g2
-	val r = fgbg5(h1, h2, h3, bh1[valueS], bh2[valueS], bh3[valueS], s)
-	return r
+        val valueS = 8 - value
+        val h1 = if (color.bgFlip < value) 0 else 5
+        val h2 = if (color.bgFlip < value) 0 else 5
+        val h3 = if (color.bgFlip < value) 0 else 5
+        val bh1 = if ((color.bits and 1) == 1) g1 else g2
+        val bh2 = if ((color.bits and 2) == 2) g1 else g2
+        val bh3 = if ((color.bits and 4) == 4) g1 else g2
+        val r = fgbg5(h1, h2, h3, bh1[valueS], bh2[valueS], bh3[valueS], s)
+        return r
     }
 
     fun color5FgBg(color: Color5, value: Int, bgColor: Color5, bgValue: Int, s: String): String {
-	val bgValueS = 8 - bgValue
-	val h1 = if ((color.bits and 1) == 1) g1 else g2
-	val h2 = if ((color.bits and 2) == 2) g1 else g2
-	val h3 = if ((color.bits and 4) == 4) g1 else g2
-	val bh1 = if ((bgColor.bits and 1) == 1) g1 else g2
-	val bh2 = if ((bgColor.bits and 2) == 2) g1 else g2
-	val bh3 = if ((bgColor.bits and 4) == 4) g1 else g2
-	val r = fgbg5(h1[value], h2[value], h3[value], bh1[bgValueS], bh2[bgValueS], bh3[bgValueS], s)
-	return r
+        val bgValueS = 8 - bgValue
+        val h1 = if ((color.bits and 1) == 1) g1 else g2
+        val h2 = if ((color.bits and 2) == 2) g1 else g2
+        val h3 = if ((color.bits and 4) == 4) g1 else g2
+        val bh1 = if ((bgColor.bits and 1) == 1) g1 else g2
+        val bh2 = if ((bgColor.bits and 2) == 2) g1 else g2
+        val bh3 = if ((bgColor.bits and 4) == 4) g1 else g2
+        val r = fgbg5(h1[value], h2[value], h3[value], bh1[bgValueS], bh2[bgValueS], bh3[bgValueS], s)
+        return r
     }
 
     @JvmInline
     value class Color5Num(val rgb: Int) {
-	constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
+        constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
     }
 
     inline fun color5Num(r: Int, g: Int, b: Int): Int {
-	return Color5Num(16 + b + 6 * g + 36 * r).rgb
+        return Color5Num(16 + b + 6 * g + 36 * r).rgb
     }
 
     private fun fgBg5(num: Int, s: String): String {
-	return "\u001b[1;${num + 10};37m${s}\u001b[00m"
+        return "\u001b[1;${num + 10};37m${s}\u001b[00m"
     }
 
     fun fg(color: Color, s: String): String {
-	return fg5(color.cr, color.cg, color.cb, s)
+        return fg5(color.cr, color.cg, color.cb, s)
     }
 
     private fun fg(num: Int, s: String): String {
-	return "\u001b[1;${num}m${s}\u001b[00m"
+        return "\u001b[1;${num}m${s}\u001b[00m"
     }
 
     fun colorFun(color: Color): (String) -> String {
-	return { s -> fg(color, s) }
+        return { s -> fg(color, s) }
     }
 
     fun dumpColor5(): List<String> {
-	val list = mutableListOf<String>()
+        val list = mutableListOf<String>()
 
-	Color.entries.forEach { acc ->
-	    list += "ColorSamples: ${Sundry.padLeft(acc.name, 2, ' ')} :: ${fg(acc, "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name)}"
-	}
+        Color.entries.forEach { acc ->
+            list += "ColorSamples: ${Sundry.padLeft(acc.name, 2, ' ')} :: ${
+                fg(
+                    acc,
+                    "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name
+                )
+            }"
+        }
 
-	return list
+        return list
     }
 
 
     // ---------- CSI for color type 5 (6 bits) ----------
 
     fun fg5(r: Int, g: Int, b: Int, s: String): String {
-	val num = color5Num(r, g, b)
-	return "\u001b[38;5;${num}m${s}\u001b[00m"
+        val num = color5Num(r, g, b)
+        return "\u001b[38;5;${num}m${s}\u001b[00m"
     }
 
     fun bg5(r: Int, g: Int, b: Int, s: String): String {
-	val num = color5Num(r, g, b)
-	val numfg = when {
-	    //r == 0 -> 231
-	    g == 5        -> 0
-	    //b == 5 -> 0
-	    r + g + b > 6 -> 0
-	    else          -> 231
-	}
-	return "\u001b[48;5;${num};38;5;${numfg}m${s}\u001b[00m"
+        val num = color5Num(r, g, b)
+        val numfg = when {
+            //r == 0 -> 231
+            g == 5 -> 0
+            //b == 5 -> 0
+            r + g + b > 6 -> 0
+            else -> 231
+        }
+        return "\u001b[48;5;${num};38;5;${numfg}m${s}\u001b[00m"
     }
 
     fun fgbg5(r: Int, g: Int, b: Int, br: Int, bg: Int, bb: Int, s: String): String {
-	val num = color5Num(r, g, b)
-	val bnum = color5Num(br, bg, bb)
-	return "\u001b[38;5;${num};48;5;${bnum}m${s}\u001b[00m"
+        val num = color5Num(r, g, b)
+        val bnum = color5Num(br, bg, bb)
+        return "\u001b[38;5;${num};48;5;${bnum}m${s}\u001b[00m"
     }
 
     fun fgbg5(r: Int, g: Int, b: Int, bgNum: Color5Num, s: String): String {
-	val num = color5Num(r, g, b)
-	return "\u001b[38;5;${num};48;5;${bgNum.rgb}m${s}\u001b[00m"
+        val num = color5Num(r, g, b)
+        return "\u001b[38;5;${num};48;5;${bgNum.rgb}m${s}\u001b[00m"
     }
 
 
     // ---------- CSI for color type 2 (8 bits) ----------
 
     fun fg256(r: Int, g: Int, b: Int, s: String): String {
-	return "\u001b[38;2;${r};${g};${b}m${s}\u001b[00m"
+        return "\u001b[38;2;${r};${g};${b}m${s}\u001b[00m"
     }
 
     fun bg256(r: Int, g: Int, b: Int, s: String): String {
-	val num = color5Num(r, g, b)
-	val numfg = when {
-	    //r == 0 -> 231
-	    g > 230         -> 0
-	    //b == 5 -> 0
-	    r + g + b > 290 -> 0
-	    else            -> 231
-	}
-	return "\u001b[48;2;${r};${g};${b};38;5;${numfg}m${s}\u001b[00m"
+        val num = color5Num(r, g, b)
+        val numfg = when {
+            //r == 0 -> 231
+            g > 230 -> 0
+            //b == 5 -> 0
+            r + g + b > 290 -> 0
+            else -> 231
+        }
+        return "\u001b[48;2;${r};${g};${b};38;5;${numfg}m${s}\u001b[00m"
     }
 
     fun fgbg256(fr: Int, fg: Int, fb: Int, br: Int, bg: Int, bb: Int, s: String): String {
-	return "\u001b[38;2;${fr};${fg};${fb};48;2;${br};${bg};${bb}m${s}\u001b[00m"
+        return "\u001b[38;2;${fr};${fg};${fb};48;2;${br};${bg};${bb}m${s}\u001b[00m"
     }
 
 
     // ---------------- cube sized colors ----------------
 
     fun csFg(cubeSize: Int, rix: Int, gix: Int, bix: Int, s: String): String {
-	val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-	val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-	val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
-	return fg256(r, g, b, s)
+        val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
+        val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
+        val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
+        return fg256(r, g, b, s)
     }
 
     fun csBg(cubeSize: Int, rix: Int, gix: Int, bix: Int, s: String): String {
-	if (rix < 0 || gix < 0 || bix < 0)
-	    System.err.println(" ---- ")
-	val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-	val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-	val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
-	return bg256(r, g, b, s)
+        if (rix < 0 || gix < 0 || bix < 0)
+            System.err.println(" ---- ")
+        val r = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
+        val g = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
+        val b = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
+        return bg256(r, g, b, s)
     }
 
-    fun csFgBg(cubeSize: Int, rix: Int, gix: Int, bix: Int, cubeSizeBG: Int, brix: Int, bgix: Int, bbix: Int, s: String): String {
-	if (rix < 0 || gix < 0 || bix < 0 || rix >= cubeSize || gix >= cubeSize || bix >= cubeSize)
-	    System.err.println(" ---- ")
-	if (brix < 0 || bgix < 0 || bbix < 0 || brix >= cubeSizeBG || bgix >= cubeSizeBG || bbix >= cubeSizeBG)
-	    System.err.println(" ---- ")
-	val fr = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
-	val fg = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
-	val fb = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
-	val br = Support.color2ValuesForColorCubeSize(cubeSizeBG)[brix]
-	val bg = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bgix]
-	val bb = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bbix]
-	return fgbg256(fr, fg, fb, br, bg, bb, s)
+    fun csFgBg(
+        cubeSize: Int,
+        rix: Int,
+        gix: Int,
+        bix: Int,
+        cubeSizeBG: Int,
+        brix: Int,
+        bgix: Int,
+        bbix: Int,
+        s: String
+    ): String {
+        if (rix < 0 || gix < 0 || bix < 0 || rix >= cubeSize || gix >= cubeSize || bix >= cubeSize)
+            System.err.println(" ---- ")
+        if (brix < 0 || bgix < 0 || bbix < 0 || brix >= cubeSizeBG || bgix >= cubeSizeBG || bbix >= cubeSizeBG)
+            System.err.println(" ---- ")
+        val fr = Support.color2ValuesForColorCubeSize(cubeSize)[rix]
+        val fg = Support.color2ValuesForColorCubeSize(cubeSize)[gix]
+        val fb = Support.color2ValuesForColorCubeSize(cubeSize)[bix]
+        val br = Support.color2ValuesForColorCubeSize(cubeSizeBG)[brix]
+        val bg = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bgix]
+        val bb = Support.color2ValuesForColorCubeSize(cubeSizeBG)[bbix]
+        return fgbg256(fr, fg, fb, br, bg, bb, s)
     }
 
     fun cvFgBg(cubeValueFG: CubeValue, cubeValueBG: CubeValue, s: String): String {
-	return csFgBg(cubeValueFG.cubeSize, cubeValueFG.r, cubeValueFG.g, cubeValueFG.b, cubeValueBG.cubeSize, cubeValueBG.r, cubeValueBG.g, cubeValueBG.b, s)
+        return csFgBg(
+            cubeValueFG.cubeSize,
+            cubeValueFG.r,
+            cubeValueFG.g,
+            cubeValueFG.b,
+            cubeValueBG.cubeSize,
+            cubeValueBG.r,
+            cubeValueBG.g,
+            cubeValueBG.b,
+            s
+        )
     }
 
 
@@ -269,11 +294,17 @@ object Ansi {
     fun csFg(cubeSize: Int): (r: Int, g: Int, b: Int, String) -> String = { r, g, b, s -> csFg(cubeSize, r, g, b, s) }
     fun csBg(cubeSize: Int): (r: Int, g: Int, b: Int, String) -> String = { r, g, b, s -> csBg(cubeSize, r, g, b, s) }
 
-    fun csFgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String = { r, g, b -> { s -> csFg(cubeSize, r, g, b, s) } }
-    fun csBgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String = { r, g, b -> { s -> csBg(cubeSize, r, g, b, s) } }
+    fun csFgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String =
+        { r, g, b -> { s -> csFg(cubeSize, r, g, b, s) } }
 
-    fun cvFg(cubeValue: CubeValue): (String) -> String = { s -> csFg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
-    fun cvBg(cubeValue: CubeValue): (String) -> String = { s -> csBg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+    fun csBgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String =
+        { r, g, b -> { s -> csBg(cubeSize, r, g, b, s) } }
+
+    fun cvFg(cubeValue: CubeValue): (String) -> String =
+        { s -> csFg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+
+    fun cvBg(cubeValue: CubeValue): (String) -> String =
+        { s -> csBg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
 
     fun String.cvFg(cubeValue: CubeValue) = csFg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, this)
     fun String.cvBg(cubeValue: CubeValue) = csBg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, this)
@@ -283,379 +314,398 @@ object Ansi {
     // ---------------------------------------------------- Legacy Color -----------------------------------------------------
 
     enum class LegacyColor(val cc: Int) {
-	D(30),
-	R(31),
-	G(32),
-	Y(33),
-	B(34),
-	M(35),
-	C(36),
-	W(37),
+        D(30),
+        R(31),
+        G(32),
+        Y(33),
+        B(34),
+        M(35),
+        C(36),
+        W(37),
     }
 
     fun legacyColorCode(ch: Char): LegacyColor {
-	val num = when (ch) {
-	    'd'  -> LegacyColor.D
-	    'r'  -> LegacyColor.R
-	    'g'  -> LegacyColor.G
-	    'y'  -> LegacyColor.Y
-	    'b'  -> LegacyColor.B
-	    'm'  -> LegacyColor.M
-	    'c'  -> LegacyColor.C
-	    'w'  -> LegacyColor.W
-	    else -> LegacyColor.W
-	}
-	return num
+        val num = when (ch) {
+            'd' -> LegacyColor.D
+            'r' -> LegacyColor.R
+            'g' -> LegacyColor.G
+            'y' -> LegacyColor.Y
+            'b' -> LegacyColor.B
+            'm' -> LegacyColor.M
+            'c' -> LegacyColor.C
+            'w' -> LegacyColor.W
+            else -> LegacyColor.W
+        }
+        return num
     }
 
     fun fg(cc: LegacyColor, s: String): String {
-	return fg(cc.cc, s)
+        return fg(cc.cc, s)
     }
 
     fun fgBg5(cc: LegacyColor, s: String): String {
-	return fgBg5(cc.cc, s)
+        return fgBg5(cc.cc, s)
     }
 
 
     object Support {
 
-	var verbose = false
-	private val stepMap = mutableMapOf<Int, Int>()
-	private val color2ValuesMap = mutableMapOf<Int, List<Int>>()
+        var verbose = false
+        private val stepMap = mutableMapOf<Int, Int>()
+        private val color2ValuesMap = mutableMapOf<Int, List<Int>>()
 
-	/**
-	 * Return list of color 256 based values for a Color Cube of size n
-	 *
-	 * cube size = 4: (0, 1, 2, 3) -> (0, 85, 171, 255)
-	 */
-	fun color2ValuesForColorCubeSize(n: Int): List<Int> {
+        /**
+         * Return list of color 256 based values for a Color Cube of size n
+         *
+         * cube size = 4: (0, 1, 2, 3) -> (0, 85, 171, 255)
+         */
+        fun color2ValuesForColorCubeSize(n: Int): List<Int> {
 
-	    require(n <= 16 || n == 32 || n == 64 || n == 128 || n == 256) { "cube size must be <= 16 or 2 ^ (4..8)" }
+            require(n <= 16 || n == 32 || n == 64 || n == 128 || n == 256) { "cube size must be <= 16 or 2 ^ (4..8)" }
 
-	    return when (n) {
-		256  -> (0..255 step 1).toList()
-		128  -> (0..255 step 2).toList()
-		64   -> (0..255 step 4).toList()
-		32   -> (0..255 step 8).toList()
-		else -> {
-		    val r = color2ValuesMap[n]
-		    if (r != null)
-			r
+            return when (n) {
+                256 -> (0..255 step 1).toList()
+                128 -> (0..255 step 2).toList()
+                64 -> (0..255 step 4).toList()
+                32 -> (0..255 step 8).toList()
+                else -> {
+                    val r = color2ValuesMap[n]
+                    if (r != null)
+                        r
 
-		    if (n == 1) {
-			listOf(255)
-		    }
+                    if (n == 1) {
+                        listOf(255)
+                    }
 
-		    return if (n == 2) {
-			listOf(0, 255)
-		    } else {
-			val step = steps(n)
-			colorValuesForStep(step)
-		    }.also {
-			color2ValuesMap[n] = it
-		    }
-		}
-	    }
-	}
+                    return if (n == 2) {
+                        listOf(0, 255)
+                    } else {
+                        val step = steps(n)
+                        colorValuesForStep(step)
+                    }.also {
+                        color2ValuesMap[n] = it
+                    }
+                }
+            }
+        }
 
-	/**
-	 * Return list of color values for a Color Cube of size n
-	 */
-	private fun colorValuesForStep(step: Int)
-		: List<Int> {
-	    val l = mutableListOf<Int>()
-	    if (step > 1)
-		l += 0
-	    (step - 1..254 step step).forEach { l += it }
-	    l += 255
-	    return l
-	}
+        fun color2ValuesForColorCubeSizeAlt(n: Int): List<Int> {
 
-	/**
-	 * Return the step value for colors by how many colors in each R G B
-	 * I.e. A color cube of size 5 * 5 * 5 need a step value of 64
-	 * Given by steps(5) -> 64
-	 */
-	private fun steps(numColors: Int)
-		: Int {
-	    synchronized(stepMap) {
-		if (stepMap.size == 0) {
-		    (1..255).forEach {
-			val ran = colorValuesForStep(it)
-			val ranL = ran.size
-			if (ranL !in stepMap)
-			    stepMap[ranL] = it
-			if (verbose)
-			    println("Use step value $it  for $ranL colors -> color values: $ran")
-		    }
+            require(n <= 256) { "cube size must be <= 256" }
 
-		    if (verbose)
-			stepMap.entries.forEach { (k, v) ->
-			    println("Color cube size: $k -> Use stepVal: $v")
-			}
-		}
-	    }
-	    return stepMap[numColors] ?: 128
-	}
+            return when (n) {
+                256 -> (0..255 step 1).toList()
+                128 -> (0..255 step 2).toList()
+                64 -> (0..255 step 4).toList()
+                32 -> (0..255 step 8).toList()
+                else -> {
+                    val step = 255.00 / (n - 1)
+                    (0..<n).map {
+                        (step * it + 0.5).toInt()
+                    }
+                }
+            }
+        }
+
+        /**
+         * Return list of color values for a Color Cube of size n
+         */
+        private fun colorValuesForStep(step: Int)
+                : List<Int> {
+            val l = mutableListOf<Int>()
+            if (step > 1)
+                l += 0
+            (step - 1..254 step step).forEach { l += it }
+            l += 255
+            return l
+        }
+
+        /**
+         * Return the step value for colors by how many colors in each R G B
+         * I.e. A color cube of size 5 * 5 * 5 need a step value of 64
+         * Given by steps(5) -> 64
+         */
+        private fun steps(numColors: Int)
+                : Int {
+            synchronized(stepMap) {
+                if (stepMap.size == 0) {
+                    (1..255).forEach {
+                        val ran = colorValuesForStep(it)
+                        val ranL = ran.size
+                        if (ranL !in stepMap)
+                            stepMap[ranL] = it
+                        if (verbose)
+                            println("Use step value $it  for $ranL colors -> color values: $ran")
+                    }
+
+                    if (verbose)
+                        stepMap.entries.forEach { (k, v) ->
+                            println("Color cube size: $k -> Use stepVal: $v")
+                        }
+                }
+            }
+            return stepMap[numColors] ?: 128
+        }
     }
 
 
     data class CubeValue(val cubeSize: Int, val r: Int, val g: Int, val b: Int) {
-	constructor(cubeSize: Int, rf: Double, gf: Double, bf: Double) :
-		this(
-		    cubeSize,
-		    fromDouble(rf, cubeSize),
-		    fromDouble(gf, cubeSize),
-		    fromDouble(bf, cubeSize)
-		)
+        constructor(cubeSize: Int, rf: Double, gf: Double, bf: Double) :
+                this(
+                    cubeSize,
+                    fromDouble(rf, cubeSize),
+                    fromDouble(gf, cubeSize),
+                    fromDouble(bf, cubeSize)
+                )
 
-	/**
-	 * Rounding effect will have an impact
-	 */
-	fun toCubeSize(n: Int): CubeValue {
-	    val rr = r * n;
-	    val gg = g * n;
-	    val bb = b * n;
-	    return CubeValue(n, rr / cubeSize, gg / cubeSize, bb / cubeSize)
-	}
+        /**
+         * Rounding effect will have an impact
+         */
+        fun toCubeSize(n: Int): CubeValue {
+            val rr = r * n;
+            val gg = g * n;
+            val bb = b * n;
+            return CubeValue(n, rr / cubeSize, gg / cubeSize, bb / cubeSize)
+        }
 
-	fun colorSpan(): Int {
-	    return Math.max(cubeSize - Math.min(r, Math.min(g, b)) - 1, Math.max(r, Math.max(g, b)))
-	}
+        fun colorSpan(): Int {
+            return Math.max(cubeSize - Math.min(r, Math.min(g, b)) - 1, Math.max(r, Math.max(g, b)))
+        }
 
-	fun min(): Int {
-	    return listOf(r, g, b).min()
-	}
+        fun min(): Int {
+            return listOf(r, g, b).min()
+        }
 
-	fun max(): Int {
-	    return listOf(r, g, b).max()
-	}
-
-
-	fun rotR() = CubeValue(cubeSize, b, r, g)
-	fun rotL() = CubeValue(cubeSize, g, b, r)
-
-	fun complement(): CubeValue = CubeValue(cubeSize, cubeSize - r - 1, cubeSize - g - 1, cubeSize - b - 1)
-
-	fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cubeSize, fr(r), fg(g), fb(b))
-	fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): CubeValue = if (n == 0) this else moreOrLess(fr, fg, fb).moreOrLess(n - 1, fr, fg, fb)
-
-	fun moreOrLess(opRGB: String) = CubeValue(cubeSize, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
-	fun moreOrLess(n: Int, op: String): CubeValue = if (n == 0) this else moreOrLess(op).moreOrLess(n - 1, op)
-
-	fun opFun(ch: Char): (Int) -> Int {
-	    return when (ch) {
-		'+'  -> ::inc
-		'-'  -> ::dec
-		else -> ::eq0
-	    }
-	}
-
-	fun toMaxSaturation(): CubeValue {
-	    val hsv = toHsv()
-	    val maxHsv = HSV(hsv.h, 1.0, hsv.v)
-	    val ret = maxHsv.toRGB()
-	    return ret
-	}
-
-	fun toMaxValue(): CubeValue {
-	    val hsv = toHsv()
-	    val maxHsv = HSV(hsv.h, hsv.s, 1.0)
-	    val ret = maxHsv.toRGB()
-	    return ret
-	}
-
-	fun hueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    val step = 360.0 / loops
-	    var hsv = toHsv()
-
-	    repeat(loops) {
-		l += hsv.toRGB() to "${it * step}"
-		hsv = HSV((hsv.h + step) % 360.0, hsv.s, hsv.v)
-	    }
-
-	    return l
-	}
-
-	fun hueGradient(loops: Int = 6, degree: Double): List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    val step = degree / loops
-	    var hsv = toHsv()
-
-	    repeat(loops) {
-		l += hsv.toRGB() to "${it * step}"
-		hsv = HSV((hsv.h + step + 360.0) % 360.0, hsv.s, hsv.v)
-	    }
-
-	    return l
-	}
-
-	fun saturationGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    val step = 0.999999 / (loops - 1)
-	    var hsv = toHsv()
-
-	    hsv = HSV(hsv.h, 0.0, hsv.v)
-
-	    repeat(loops) {
-		l += hsv.toRGB() to "${it * step}"
-		hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
-	    }
-
-	    return l
-	}
-
-	fun valueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    val step = 0.999999 / (loops - 1)
-	    var hsv = toHsv()
-
-	    val vv = hsv.v
-	    hsv = HSV(hsv.h, hsv.s, 0.0)
-
-	    repeat(loops) {
-		l += hsv.toRGB() to "${it * step}"
-		hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
-	    }
-
-	    return l
-	}
-
-	fun gradient(loops: Int = 6, c1: CubeValue, c2: CubeValue) : List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    val hsv1 = c1.toHsv()
-	    val hsv2 = c2.toHsv()
-
-	    val dh = hsv2.h - hsv1.h
-	    val ds = hsv2.s - hsv1.s
-	    val dv = hsv2.v - hsv1.v
-
-	    val steph = dh / (loops - 1)
-	    val steps = ds / (loops - 1)
-	    val stepv = dv / (loops - 1)
-
-	    var hsv = HSV(hsv1.h, hsv1.s, hsv1.v)
-
-	    repeat(loops) {
-		l += hsv.toRGB() to "${it}"
-		hsv = HSV((hsv.h + steph) % 360.0, (hsv.s + steps) % 1.0, (hsv.v + stepv) % 1.0)
-	    }
-
-	    return l
-	}
-
-	fun permutationGradient(): List<Pair<CubeValue, String>> {
-	    val l = mutableListOf<Pair<CubeValue, String>>()
-
-	    l += this to "[0] rgb"
-	    l += CubeValue(cubeSize, r, b, g) to "[1] rbg"
-	    l += CubeValue(cubeSize, g, b, r) to "[2] gbr"
-	    l += CubeValue(cubeSize, g, r, b) to "[3] grb"
-	    l += CubeValue(cubeSize, b, r, g) to "[4] brg"
-	    l += CubeValue(cubeSize, b, g, r) to "[5] bgr"
-
-	    // RR == L, and LL = R
-	    return l
-	}
-
-	fun hueGradientValues(n: Int = 6) = hueGradient(n).map { it.first }
-	fun saturationGradientValues(n: Int = 6) = saturationGradient(n).map { it.first }
-	fun valueGradientValues(n: Int = 6) = valueGradient(n).map { it.first }
-	fun permutationGradientValues() = permutationGradient().map { it.first }
+        fun max(): Int {
+            return listOf(r, g, b).max()
+        }
 
 
-	fun inc(v: Int): Int {
-	    val v1 = v + 1
-	    if (v1 >= cubeSize)
-		return cubeSize - 1
-	    else
-		return v1
-	}
+        fun rotR() = CubeValue(cubeSize, b, r, g)
+        fun rotL() = CubeValue(cubeSize, g, b, r)
 
-	fun dec(v: Int): Int {
-	    val v1 = v - 1
-	    if (v1 <= 0)
-		return 0
-	    else
-		return v1
-	}
+        fun complement(): CubeValue = CubeValue(cubeSize, cubeSize - r - 1, cubeSize - g - 1, cubeSize - b - 1)
 
-	fun eq0(v: Int): Int = v
+        fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cubeSize, fr(r), fg(g), fb(b))
+        fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): CubeValue =
+            if (n == 0) this else moreOrLess(fr, fg, fb).moreOrLess(n - 1, fr, fg, fb)
+
+        fun moreOrLess(opRGB: String) = CubeValue(cubeSize, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
+        fun moreOrLess(n: Int, op: String): CubeValue = if (n == 0) this else moreOrLess(op).moreOrLess(n - 1, op)
+
+        fun opFun(ch: Char): (Int) -> Int {
+            return when (ch) {
+                '+' -> ::inc
+                '-' -> ::dec
+                else -> ::eq0
+            }
+        }
+
+        fun toMaxSaturation(): CubeValue {
+            val hsv = toHsv()
+            val maxHsv = HSV(hsv.h, 1.0, hsv.v)
+            val ret = maxHsv.toRGB()
+            return ret
+        }
+
+        fun toMaxValue(): CubeValue {
+            val hsv = toHsv()
+            val maxHsv = HSV(hsv.h, hsv.s, 1.0)
+            val ret = maxHsv.toRGB()
+            return ret
+        }
+
+        fun hueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            val step = 360.0 / loops
+            var hsv = toHsv()
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV((hsv.h + step) % 360.0, hsv.s, hsv.v)
+            }
+
+            return l
+        }
+
+        fun hueGradient(loops: Int = 6, degree: Double): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            val step = degree / loops
+            var hsv = toHsv()
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV((hsv.h + step + 360.0) % 360.0, hsv.s, hsv.v)
+            }
+
+            return l
+        }
+
+        fun saturationGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            val step = 0.999999 / (loops - 1)
+            var hsv = toHsv()
+
+            hsv = HSV(hsv.h, 0.0, hsv.v)
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+            }
+
+            return l
+        }
+
+        fun valueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            val step = 0.999999 / (loops - 1)
+            var hsv = toHsv()
+
+            val vv = hsv.v
+            hsv = HSV(hsv.h, hsv.s, 0.0)
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+            }
+
+            return l
+        }
+
+        fun gradient(loops: Int = 6, c1: CubeValue, c2: CubeValue): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            val hsv1 = c1.toHsv()
+            val hsv2 = c2.toHsv()
+
+            val dh = hsv2.h - hsv1.h
+            val ds = hsv2.s - hsv1.s
+            val dv = hsv2.v - hsv1.v
+
+            val steph = dh / (loops - 1)
+            val steps = ds / (loops - 1)
+            val stepv = dv / (loops - 1)
+
+            var hsv = HSV(hsv1.h, hsv1.s, hsv1.v)
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it}"
+                hsv = HSV((hsv.h + steph) % 360.0, (hsv.s + steps) % 1.0, (hsv.v + stepv) % 1.0)
+            }
+
+            return l
+        }
+
+        fun permutationGradient(): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            l += this to "[0] rgb"
+            l += CubeValue(cubeSize, r, b, g) to "[1] rbg"
+            l += CubeValue(cubeSize, g, b, r) to "[2] gbr"
+            l += CubeValue(cubeSize, g, r, b) to "[3] grb"
+            l += CubeValue(cubeSize, b, r, g) to "[4] brg"
+            l += CubeValue(cubeSize, b, g, r) to "[5] bgr"
+
+            // RR == L, and LL = R
+            return l
+        }
+
+        fun hueGradientValues(n: Int = 6) = hueGradient(n).map { it.first }
+        fun saturationGradientValues(n: Int = 6) = saturationGradient(n).map { it.first }
+        fun valueGradientValues(n: Int = 6) = valueGradient(n).map { it.first }
+        fun permutationGradientValues() = permutationGradient().map { it.first }
 
 
-	fun toHsv(): HSV = (if (cubeSize == 256) this else toCubeSize(256)).toHsv256()
+        fun inc(v: Int): Int {
+            val v1 = v + 1
+            if (v1 >= cubeSize)
+                return cubeSize - 1
+            else
+                return v1
+        }
 
-	private fun toHsv256(): HSV {
-	    require(cubeSize == 256) { "Only 256 bits color" }
+        fun dec(v: Int): Int {
+            val v1 = v - 1
+            if (v1 <= 0)
+                return 0
+            else
+                return v1
+        }
 
-	    val rd = r / 255.0
-	    val gd = g / 255.0
-	    val bd = b / 255.0
-	    val cmax = Math.max(rd, Math.max(gd, bd))
-	    val cmin = Math.min(rd, Math.min(gd, bd))
-	    val delta = cmax - cmin
+        fun eq0(v: Int): Int = v
 
-	    val h = 60.0 * when (cmax) {
-		rd   -> ((gd - bd) / delta + 6.0) % 6.0
-		gd   -> ((bd - rd) / delta) + 2.0
-		bd   -> ((rd - gd) / delta) + 4.0
-		else -> 1.0
-	    }
 
-	    val s = when (cmax) {
-		0.0  -> 0.0
-		else -> delta / cmax
-	    }
+        fun toHsv(): HSV = (if (cubeSize == 256) this else toCubeSize(256)).toHsv256()
 
-	    val v = cmax
+        private fun toHsv256(): HSV {
+            require(cubeSize == 256) { "Only 256 bits color" }
 
-	    return HSV(if (h.isNaN()) 0.0 else h, s, v)
-	}
+            val rd = r / 255.0
+            val gd = g / 255.0
+            val bd = b / 255.0
+            val cmax = Math.max(rd, Math.max(gd, bd))
+            val cmin = Math.min(rd, Math.min(gd, bd))
+            val delta = cmax - cmin
 
-	fun toLaconicStringRGB() = "$r,$g,$b"
+            val h = 60.0 * when (cmax) {
+                rd -> ((gd - bd) / delta + 6.0) % 6.0
+                gd -> ((bd - rd) / delta) + 2.0
+                bd -> ((rd - gd) / delta) + 4.0
+                else -> 1.0
+            }
 
-	companion object Companion {
-	    private fun fromDouble(f: Double, cubeSize: Int): Int {
-		val ff = if (f >= 1.0) 0.999 else f
-		val v = cubeSize * ff
-		return v.toInt()
-	    }
-	}
+            val s = when (cmax) {
+                0.0 -> 0.0
+                else -> delta / cmax
+            }
+
+            val v = cmax
+
+            return HSV(if (h.isNaN()) 0.0 else h, s, v)
+        }
+
+        fun toLaconicStringRGB() = "$r,$g,$b"
+
+        companion object Companion {
+            private fun fromDouble(f: Double, cubeSize: Int): Int {
+                val ff = if (f >= 1.0) 0.999 else f
+                val v = cubeSize * ff
+                return v.toInt()
+            }
+        }
     }
 
     data class HSV(val h: Double, val s: Double, val v: Double) {
-	fun toRGB(): CubeValue {
-	    val hh =
-		if (h.isNaN())
-		    0.0
-		else
-		    h
+        fun toRGB(): CubeValue {
+            val hh =
+                if (h.isNaN())
+                    0.0
+                else
+                    h
 
-	    data class RGB(val r: Double, val g: Double, val b: Double)
+            data class RGB(val r: Double, val g: Double, val b: Double)
 
-	    val c = v * s
-	    val x = c * (1 - Math.abs((hh / 60.0) % 2.0 - 1))
-	    val m = v - c
-	    val rgb = when {
-		hh < 60  -> RGB(c, x, 0.0)
-		hh < 120 -> RGB(x, c, 0.0)
-		hh < 180 -> RGB(0.0, c, x)
-		hh < 240 -> RGB(0.0, x, c)
-		hh < 300 -> RGB(x, 0.0, c)
-		else     -> RGB(c, 0.0, x)
-	    }
-	    val r = ((rgb.r + m) * 255 + 0.5).toInt()
-	    val g = ((rgb.g + m) * 255 + 0.5).toInt()
-	    val b = ((rgb.b + m) * 255 + 0.5).toInt()
+            val c = v * s
+            val x = c * (1 - Math.abs((hh / 60.0) % 2.0 - 1))
+            val m = v - c
+            val rgb = when {
+                hh < 60 -> RGB(c, x, 0.0)
+                hh < 120 -> RGB(x, c, 0.0)
+                hh < 180 -> RGB(0.0, c, x)
+                hh < 240 -> RGB(0.0, x, c)
+                hh < 300 -> RGB(x, 0.0, c)
+                else -> RGB(c, 0.0, x)
+            }
+            val r = ((rgb.r + m) * 255 + 0.5).toInt()
+            val g = ((rgb.g + m) * 255 + 0.5).toInt()
+            val b = ((rgb.b + m) * 255 + 0.5).toInt()
 
-	    return CubeValue(256, r, g, b)
-	}
+            return CubeValue(256, r, g, b)
+        }
     }
 }
 
@@ -665,6 +715,6 @@ fun main() {
 
     println(Ansi.clear())
     (1..30).forEach { xy ->
-	println(Ansi.goto(xy, xy) + "I'm at ($xy $xy)")
+        println(Ansi.goto(xy, xy) + "I'm at ($xy $xy)")
     }
 }
