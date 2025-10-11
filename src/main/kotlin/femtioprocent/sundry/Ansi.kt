@@ -360,48 +360,10 @@ object Ansi {
          * cube size = 4: (0, 1, 2, 3) -> (0, 85, 171, 255)
          */
         fun color2ValuesForColorCubeSize(n: Int): List<Int> {
-            return color2ValuesForColorCubeSizeAlt(n)
-        }
-
-        fun color2ValuesForColorCubeSizeOld(n: Int): List<Int> {
-
-            require(n <= 16 || n == 32 || n == 64 || n == 128 || n == 256) { "cube size must be <= 16 or 2 ^ (4..8)" }
-
-            return when (n) {
-                256 -> (0..255 step 1).toList()
-                128 -> (0..255 step 2).toList()
-                64 -> (0..255 step 4).toList()
-                32 -> (0..255 step 8).toList()
-                else -> {
-                    val r = color2ValuesMap[n]
-                    if (r != null)
-                        r
-
-                    if (n == 1) {
-                        listOf(255)
-                    }
-
-                    return if (n == 2) {
-                        listOf(0, 255)
-                    } else {
-                        val step = steps(n)
-                        colorValuesForStep(step)
-                    }.also {
-                        color2ValuesMap[n] = it
-                    }
-                }
-            }
-        }
-
-        fun color2ValuesForColorCubeSizeAlt(n: Int): List<Int> {
-
             require(n <= 256) { "cube size must be <= 256" }
 
             return when (n) {
                 256 -> (0..255 step 1).toList()
-                128 -> (0..255 step 2).toList()
-                64 -> (0..255 step 4).toList()
-                32 -> (0..255 step 8).toList()
                 else -> {
                     val step = 255.00 / (n - 1)
                     (0..<n).map {
@@ -409,46 +371,6 @@ object Ansi {
                     }
                 }
             }
-        }
-
-        /**
-         * Return list of color values for a Color Cube of size n
-         */
-        private fun colorValuesForStep(step: Int)
-                : List<Int> {
-            val l = mutableListOf<Int>()
-            if (step > 1)
-                l += 0
-            (step - 1..254 step step).forEach { l += it }
-            l += 255
-            return l
-        }
-
-        /**
-         * Return the step value for colors by how many colors in each R G B
-         * I.e. A color cube of size 5 * 5 * 5 need a step value of 64
-         * Given by steps(5) -> 64
-         */
-        private fun steps(numColors: Int)
-                : Int {
-            synchronized(stepMap) {
-                if (stepMap.size == 0) {
-                    (1..255).forEach {
-                        val ran = colorValuesForStep(it)
-                        val ranL = ran.size
-                        if (ranL !in stepMap)
-                            stepMap[ranL] = it
-                        if (verbose)
-                            println("Use step value $it  for $ranL colors -> color values: $ran")
-                    }
-
-                    if (verbose)
-                        stepMap.entries.forEach { (k, v) ->
-                            println("Color cube size: $k -> Use stepVal: $v")
-                        }
-                }
-            }
-            return stepMap[numColors] ?: 128
         }
     }
 
