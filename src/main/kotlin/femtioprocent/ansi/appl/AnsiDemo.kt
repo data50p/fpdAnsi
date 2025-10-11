@@ -111,8 +111,9 @@ class AnsiDemo {
                     val cv0 = Ansi.CubeValue(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
                     val cv1 = cv0.toCubeSize(256)
                     val cv2 = cv1.toCubeSize(it)
-                    println(Sundry.padLeft(it.toString(), 3, ' ') +
-                        " ${Sundry.padRight("$cv0", 46, ' ').cvBg(cv0)}" +
+                    println(
+                        Sundry.padLeft(it.toString(), 3, ' ') +
+                                " ${Sundry.padRight("$cv0", 46, ' ').cvBg(cv0)}" +
                                 " -> ${Sundry.padRight("$cv1", 46, ' ').cvBg(cv1)}" +
                                 " -> ${Sundry.padRight("$cv2", 46, ' ').cvBg(cv2)}" +
                                 " ∆ ${cv0.r - cv2.r},${cv0.g - cv2.g},${cv0.b - cv2.b}"
@@ -208,68 +209,78 @@ class AnsiDemo {
                 println()
 
 
-                val max1 = 1
-
                 val max2_ = 10
                 val maxR = 8
 
-                repeat(maxR) { rIx ->
+                println()
+                println()
+                println()
 
-                    val max2 = if (rIx == maxR - 1) max2_ * 3 + 3 else max2_
-                    val pr = if (rIx == maxR - 1) ::pr2 else ::pr1
-                    val ww = if (rIx == maxR - 1) 4 * max2 else w * max2
+                repeat(maxR) { repeatIx ->
+
+                    val max2 = if (repeatIx == maxR - 1) max2_ * 3 + 3 else max2_
+                    val pr = if (repeatIx == maxR - 1) ::pr2 else ::pr1
+                    val ww = if (repeatIx == maxR - 1) 4 * max2 else w * max2
 
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
-
-                    val cvRand2 =
-                        Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-
-                    if (rIx == 0) {
-                        println("   Base color   ".cvBg(cvRand2))
-                        rgbToHsvToRgbDump(cvRand2, -1)
-                        println()
-                    }
 
                     val cvRand =
                         Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     println(Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
 
-                    //print("Hue Gradient\n   ")
-                    cvRand.hueGradientValues(max1).forEach { it1 ->
-                        it1.hueGradientValues(max2).forEach { it2 ->
-                            print("${pr(it2)}".cvBg(it2))
-                        }
-                        println()
-                    }
-
-                    //print("Value Gradient\n   ")
-                    cvRand.hueGradientValues(max1).forEach { it1 ->
-                        it1.valueGradientValues(max2).reversed().forEach { it2 ->
-                            print("${pr(it2)}".cvBg(it2))
-                        }
-                        println()
-                    }
-
-                    //print("Saturation Gradient\n   ")
-                    cvRand.hueGradientValues(max1).forEach { it1 ->
-                        it1.saturationGradientValues(max2).forEach { it2 ->
-                            print("${pr(it2)}".cvBg(it2))
-                        }
-                        println()
-                    }
-
-                    //print("Saturation Gradient for max value\n   ")
-                    cvRand.hueGradientValues(max1).forEach { it1 ->
-                        it1.toMaxValue().saturationGradientValues(max2)
-                            .forEach { it2 ->
-                                print("${pr(it2)}".cvBg(it2))
-                            }
-                        println()
+                    print("Hue    ")
+                    cvRand.hueGradientValues(max2).forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
                     }
                     println()
+
+                    print("Satur  ")
+                    cvRand.saturationGradientValues(max2).forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("MaxSat ")
+                    cvRand.toMaxValue().saturationGradientValues(max2)
+                        .forEach { it2 ->
+                            print("${pr(it2)}".cvBg(it2))
+                        }
+                    println()
+
+                    print("SatMin ")
+                    cvRand.saturationGradientToMin(max2).map{it.first}.reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("SatMax ")
+                    cvRand.saturationGradientToMax(max2).map{it.first}.reversed().reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("Value  ")
+                    cvRand.valueGradientValues(max2).forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("ValMin ")
+                    cvRand.valueGradientToMin(max2).map{it.first}.reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("ValMax ")
+                    cvRand.valueGradientToMax(max2).map{it.first}.reversed().reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
                     println()
                 }
 
+                println()
                 println("Permutation Gradient")
                 val cs = 5
 
@@ -590,24 +601,6 @@ class AnsiDemo {
                 }
             }
         }
-    }
-
-    private fun rgbToHsvToRgbDump(cv_: Ansi.CubeValue, nnn: Int = -1) {
-        val cv = cv_.toCubeSize(256)
-        val hsv = cv.toHsv()
-        val rgb = hsv.toRGB()
-        val dr = rgb.r - cv.r
-        val dg = rgb.g - cv.g
-        val db = rgb.b - cv.b
-        //require(dr == 0 && dg == 0 && db == 0) { "rgb -> hsv -> rgb differ" }
-        val nnns = if (nnn >= 0) Sundry.padLeft((nnn + 1).toString(), 3, ' ') else ""
-        println(
-            "" +
-//	    " ${Sundry.padLeft(dr.toString(), 4, ' ')}" +
-//	    " ${Sundry.padLeft(dg.toString(), 4, ' ')}" +
-//	    " ${Sundry.padLeft(db.toString(), 4, ' ')} " +
-                    "    " + cv_ + "\n -> " + cv + "\n -> " + hsv + "\n -> " + rgb
-        )
     }
 
     companion object {
