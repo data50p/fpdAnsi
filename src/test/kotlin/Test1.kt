@@ -1,5 +1,7 @@
-import femtioprocent.ansi.extentions.Extentions.*
+import femtioprocent.ansi.extentions.ansiBgColor
+import femtioprocent.ansi.extentions.ansiColor
 import femtioprocent.sundry.Ansi
+import femtioprocent.sundry.Ansi.cvBg
 import kotlin.test.Test
 
 class Test1 {
@@ -44,6 +46,18 @@ class Test1 {
     fun testColor5() {
         listOf(Ansi.Color5.MAGENTA, Ansi.Color5.RED, Ansi.Color5.GREEN, Ansi.Color5.BLUE).forEach {
             println("${it.toString().ansiColor(it, 3)}")
+        }
+    }
+
+    @Test
+    fun testHueGradient() {
+        val cvBase = Ansi.CubeValue(3, 0, 1, 2)
+        println("${" $cvBase ".cvBg(cvBase)}")
+        val cv256 = cvBase.toCubeSize(256)
+        println("${" $cv256 ".cvBg(cv256)}")
+        val g1 = cvBase.hueGradient(12)
+        g1.map { it.first }.forEach {
+            println("${" $it ".cvBg(it)}")
         }
     }
 }

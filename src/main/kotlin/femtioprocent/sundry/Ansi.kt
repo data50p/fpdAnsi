@@ -365,7 +365,7 @@ object Ansi {
             require(n <= 256) { "cube size must be <= 256" }
 
             return colorValuesMap[n] ?: when (n) {
-                256 -> (0..255 step 1).toList()
+                256 -> (0..255).toList()
                 else -> {
                     val step = 255.00 / (n - 1)
                     (0..<n).map {
@@ -392,10 +392,15 @@ object Ansi {
          * Rounding effect will have an impact
          */
         fun toCubeSize(n: Int): CubeValue {
-            val rr = r * n;
-            val gg = g * n;
-            val bb = b * n;
-            return CubeValue(n, rr / cubeSize, gg / cubeSize, bb / cubeSize)
+            val n1 = n - 1
+            val cs1 = cubeSize - 1
+            val rr = r.toDouble() * n1
+            val gg = g.toDouble() * n1
+            val bb = b.toDouble() * n1
+            val rrr = rr / cs1
+            val ggg = gg / cs1
+            val bbb = bb / cs1
+            return CubeValue(n, rrr.toInt(), ggg.toInt(), bbb.toInt())
         }
 
         fun colorSpan(): Int {
@@ -445,21 +450,7 @@ object Ansi {
             return ret
         }
 
-        fun hueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
-
-            val step = 360.0 / loops
-            var hsv = toHsv()
-
-            repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV((hsv.h + step) % 360.0, hsv.s, hsv.v)
-            }
-
-            return l
-        }
-
-        fun hueGradient(loops: Int = 6, degree: Double): List<Pair<CubeValue, String>> {
+        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<Pair<CubeValue, String>> {
             val l = mutableListOf<Pair<CubeValue, String>>()
 
             val step = degree / loops
@@ -469,7 +460,6 @@ object Ansi {
                 l += hsv.toRGB() to "${it * step}"
                 hsv = HSV((hsv.h + step + 360.0) % 360.0, hsv.s, hsv.v)
             }
-
             return l
         }
 
