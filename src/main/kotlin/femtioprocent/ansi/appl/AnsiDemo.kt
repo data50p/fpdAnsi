@@ -228,6 +228,13 @@ class AnsiDemo {
                         Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     println(Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
 
+                    val www = ww / 4
+                    print(Sundry.padCenter("mxV ${cvRand.toMaxValue().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxValue()))
+                    print(Sundry.padCenter("mxS ${cvRand.toMaxSaturation().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxSaturation()))
+                    print(Sundry.padCenter("cmpl ${cvRand.complement().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complement()))
+                    print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complementRGB()))
+                    println()
+
                     print("Hue    ")
                     cvRand.hueGradientValues(max2).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
@@ -240,21 +247,14 @@ class AnsiDemo {
                     }
                     println()
 
-                    print("MaxSat ")
-                    cvRand.toMaxValue().saturationGradientValues(max2)
-                        .forEach { it2 ->
-                            print("${pr(it2)}".cvBg(it2))
-                        }
-                    println()
-
                     print("SatMin ")
-                    cvRand.saturationGradientToMin(max2).map{it.first}.reversed().forEach { it2 ->
+                    cvRand.saturationGradientToMin(max2).map { it.first }.reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
                     print("SatMax ")
-                    cvRand.saturationGradientToMax(max2).map{it.first}.reversed().reversed().forEach { it2 ->
+                    cvRand.saturationGradientToMax(max2).map { it.first }.reversed().reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
@@ -266,13 +266,13 @@ class AnsiDemo {
                     println()
 
                     print("ValMin ")
-                    cvRand.valueGradientToMin(max2).map{it.first}.reversed().forEach { it2 ->
+                    cvRand.valueGradientToMin(max2).map { it.first }.reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
                     print("ValMax ")
-                    cvRand.valueGradientToMax(max2).map{it.first}.reversed().reversed().forEach { it2 ->
+                    cvRand.valueGradientToMax(max2).map { it.first }.reversed().reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
