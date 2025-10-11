@@ -225,13 +225,14 @@ class AnsiDemo {
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
                     val cvRand = Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                    println(Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
+                    println("       " + Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
 
                     val www = ww / 4
+                    print("       ")
                     print(Sundry.padCenter("mxV ${cvRand.toMaxValue().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxValue()))
                     print(Sundry.padCenter("mxS ${cvRand.toMaxSaturation().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxSaturation()))
                     print(Sundry.padCenter("cmpl ${cvRand.complement().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complement()))
-                    print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complementRGB()))
+                    print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", ww - 3 * www, ' ').cvBg(cvRand.complementRGB()))
                     println()
 
                     print("Hue    ")
