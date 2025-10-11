@@ -150,6 +150,19 @@ class Test1 {
     }
 
     @Test
+    fun tesHueGradientColCol2() {
+        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val cvBase2 = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
+        println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
+        println()
+        val g1 = cvBase.gradient(12, cvBase2)
+        g1.map{it.first}.forEach {
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${"    ${it.complement().toHsv()} ".cvBg(it.complement())}  ${"    ${it.complementRGB().toHsv()} ".cvBg(it.complementRGB())}")
+        }
+    }
+
+    @Test
     fun tesHueGradientColColS() {
         val cvBase = Ansi.CubeValue(8, 3, 5, 0)
         val cvBase2 = Ansi.CubeValue(8, 0, 4, 5)

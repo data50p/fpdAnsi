@@ -412,7 +412,13 @@ object Ansi {
         fun rotR() = CubeValue(cubeSize, b, r, g)
         fun rotL() = CubeValue(cubeSize, g, b, r)
 
-        fun complement(): CubeValue = CubeValue(cubeSize, cubeSize - r - 1, cubeSize - g - 1, cubeSize - b - 1)
+        fun complementRGB(): CubeValue = CubeValue(cubeSize, cubeSize - r - 1, cubeSize - g - 1, cubeSize - b - 1)
+
+        fun complement(): CubeValue {
+            val hsv = toHsv()
+            val chsv = HSV((hsv.h + 180.0) % 360.0, hsv.s, hsv.v)
+            return chsv.toRGB().toCubeSize(cubeSize)
+        }
 
         fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cubeSize, fr(r), fg(g), fb(b))
         fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): CubeValue =
@@ -686,6 +692,10 @@ object Ansi {
             val b = ((rgb.b + m) * 255 + 0.5).toInt()
 
             return CubeValue(256, r, g, b)
+        }
+
+        override fun toString(): String {
+            return "HSV{%7.3f,%7.3f,%7.3f}".format(h, s, v)
         }
     }
 }
