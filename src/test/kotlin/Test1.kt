@@ -60,4 +60,16 @@ class Test1 {
             println("${" $it ".cvBg(it)}")
         }
     }
+
+    @Test
+    fun testHueGradient2() {
+        val cvBase = Ansi.CubeValue(8, 0, 1, 7)
+        println("${" $cvBase ".cvBg(cvBase)}")
+        val cv256 = cvBase.toCubeSize(256)
+        println("${" $cv256 ".cvBg(cv256)}")
+        val g1 = cvBase.hueGradient(12)
+        g1.map { it.first }.forEach {
+            println("${" $it ".cvBg(it)}")
+        }
+    }
 }

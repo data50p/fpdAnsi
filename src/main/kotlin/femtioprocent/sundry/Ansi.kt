@@ -388,19 +388,12 @@ object Ansi {
                     fromDouble(bf, cubeSize)
                 )
 
-        /**
-         * Rounding effect will have an impact
-         */
         fun toCubeSize(n: Int): CubeValue {
-            val n1 = n - 1
-            val cs1 = cubeSize - 1
-            val rr = r.toDouble() * n1
-            val gg = g.toDouble() * n1
-            val bb = b.toDouble() * n1
-            val rrr = rr / cs1
-            val ggg = gg / cs1
-            val bbb = bb / cs1
-            return CubeValue(n, rrr.toInt(), ggg.toInt(), bbb.toInt())
+            val f = (n - 1).toDouble() / (cubeSize - 1).toDouble()
+            val rr = r.toDouble() * f
+            val gg = g.toDouble() * f
+            val bb = b.toDouble() * f
+            return CubeValue(n, rr.toInt(), gg.toInt(), bb.toInt())
         }
 
         fun colorSpan(): Int {
