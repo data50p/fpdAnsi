@@ -472,6 +472,40 @@ object Ansi {
             return l
         }
 
+        fun saturationGradientToMax(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            var hsv = toHsv()
+
+            val left = 0.9999999 - hsv.s
+            val step = left / (loops - 1)
+
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+            }
+
+            return l
+        }
+
+        fun saturationGradientToMin(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            var hsv = toHsv()
+
+            val left = hsv.s
+            val step = -(left / (loops - 1))
+
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+            }
+
+            return l
+        }
+
         fun valueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
             val l = mutableListOf<Pair<CubeValue, String>>()
 
@@ -480,6 +514,38 @@ object Ansi {
 
             val vv = hsv.v
             hsv = HSV(hsv.h, hsv.s, 0.0)
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+            }
+
+            return l
+        }
+
+        fun valueGradientToMax(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            var hsv = toHsv()
+            val step = (0.999999 - hsv.v) / (loops - 1)
+
+            val vv = hsv.v
+
+            repeat(loops) {
+                l += hsv.toRGB() to "${it * step}"
+                hsv = HSV(hsv.h, hsv.v, (hsv.v + step) % 1.0)
+            }
+
+            return l
+        }
+
+        fun valueGradientToMin(loops: Int = 6): List<Pair<CubeValue, String>> {
+            val l = mutableListOf<Pair<CubeValue, String>>()
+
+            var hsv = toHsv()
+            val step = -(hsv.v / (loops - 1))
+
+            val vv = hsv.v
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"

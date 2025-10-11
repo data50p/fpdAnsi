@@ -2,6 +2,7 @@ import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
 import femtioprocent.sundry.Ansi
 import femtioprocent.sundry.Ansi.cvBg
+import kotlin.random.Random
 import kotlin.test.Test
 
 class Test1 {
@@ -70,6 +71,68 @@ class Test1 {
         val g1 = cvBase.hueGradient(12)
         g1.map { it.first }.forEach {
             println("${" $it ".cvBg(it)}")
+        }
+    }
+
+    @Test
+    fun testHueGradient3() {
+        val cvBase = Ansi.CubeValue(8, 0, 1, 7)
+        println("${" $cvBase ".cvBg(cvBase)}")
+        val g1 = cvBase.saturationGradientValues(12)
+        g1.forEach {
+            println("${" $it ".cvBg(it)}")
+        }
+    }
+
+    @Test
+    fun testHueGradient4() {
+        val cvBase = Ansi.CubeValue(8, 0, 1, 7)
+        println("${" $cvBase ".cvBg(cvBase)}")
+        val g1 = cvBase.valueGradientValues(12)
+        g1.forEach {
+            println("${" $it ".cvBg(it)}")
+        }
+    }
+
+    @Test
+    fun tesSaturationGradient4() {
+        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        println("${" $cvBase ".cvBg(cvBase)}")
+        println()
+        val g1 = cvBase.saturationGradientValues(12)
+        g1.forEach {
+            println("${"     $it ".cvBg(it)}")
+        }
+        println()
+        val g2 = cvBase.saturationGradientToMax(12).map {it.first}
+        g2.reversed().forEach {
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
+        }
+        println()
+        val g3 = cvBase.saturationGradientToMin(12).map {it.first}
+        g3.forEach {
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
+        }
+    }
+
+    @Test
+    fun tesValueGradient6() {
+        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        println("${" $cvBase ".cvBg(cvBase)}")
+        println()
+        val g1 = cvBase.valueGradientValues(12)
+        g1.forEach {
+            println("${"     $it ".cvBg(it)}")
+        }
+        println()
+        val g2 = cvBase.valueGradientToMax(12).map {it.first}
+        g2.reversed().forEach {
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
+        }
+        println()
+        val g3 = cvBase.valueGradientToMin(12).map {it.first}
+        g3.forEach {
+            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}")
         }
     }
 }
