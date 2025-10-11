@@ -7,7 +7,7 @@ object Version {
     const val projectGroup: String = "femtioprocent"
     const val projectName: String = "ansi"
     const val projectVersion: String = "0.0.1.0"
-    const val buildTimestamp: String = "2025-10-10 16:03:13 +0200"
+    const val buildTimestamp: String = "2025-10-11 11:50:27 +0200"
     const val buildHost = "hallon.local"
-    const val buildNumber = "120"
+    const val buildNumber = "155"
 }

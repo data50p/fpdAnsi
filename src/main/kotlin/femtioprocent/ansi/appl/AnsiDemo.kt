@@ -1,5 +1,6 @@
 package femtioprocent.ansi.appl
 
+import femtioprocent.ansi.Version
 import femtioprocent.sundry.Ansi
 import femtioprocent.sundry.Ansi.cvBg
 import femtioprocent.sundry.Ansi.cvFg
@@ -23,6 +24,7 @@ fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
 class AnsiDemo {
 
     fun main(arg: String) {
+        println(Version.info())
         ansiColorDemo(arg)
     }
 
