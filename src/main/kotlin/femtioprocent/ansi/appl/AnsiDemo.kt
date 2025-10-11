@@ -224,8 +224,7 @@ class AnsiDemo {
 
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
-                    val cvRand =
-                        Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    val cvRand = Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     println(Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
 
                     val www = ww / 4
