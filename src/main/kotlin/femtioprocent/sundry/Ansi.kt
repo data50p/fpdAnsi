@@ -350,6 +350,14 @@ object Ansi {
         return fgBg5(cc.cc, s)
     }
 
+    /** Make sure to handle subtile rounding effect */
+    fun Double.modSpecial(d: Double) : Double {
+
+        val m = (this-0.0000000001) % d
+        //println("mod: $this $d -> $m")
+        return m
+    }
+
 
     object Support {
 
@@ -560,8 +568,8 @@ object Ansi {
             return lrgb
         }
 
-        fun gradient(loops: Int = 6, c2: CubeValue): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun gradient(loops: Int = 6, c2: CubeValue): List<CubeValue> {
+            val l = mutableListOf<HSV>()
 
             val hsv1 = toHsv()
             val hsv2 = c2.toHsv()
@@ -575,21 +583,14 @@ object Ansi {
             val stepv = dv / (loops - 1)
 
             repeat(loops) {
-                val hsv2 = HSV((hsv1.h + it * steph) % 360.0, (hsv1.v + it * steps).modSpecial(1.0), (hsv1.v + it * stepv).modSpecial(1.0))
+                val hsv2 = HSV((hsv1.h + it * steph) % 360.0, (hsv1.s + it * steps).modSpecial(1.0), (hsv1.v + it * stepv).modSpecial(1.0))
                 // avoid v == 1.000
-                l += hsv2.toRGB() to "${it}"
+                l += hsv2
             }
 
-            return l
+            val lrgb = l.map { it.toRGB() }
+            return lrgb
         }
-
-	/** Make sure to handle subtile rounding effect */
-	fun Double.modSpecial(d: Double) : Double {
-
-	    val m = (this-0.0000000001) % d
-	    //println("mod: $this $d -> $m")
-	    return m
-	}
 
         fun permutationGradient(): List<Pair<CubeValue, String>> {
             val l = mutableListOf<Pair<CubeValue, String>>()
@@ -674,6 +675,25 @@ object Ansi {
 
         fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v) : HSV {
             return HSV(h, s, v)
+        }
+
+        fun gradient(loops: Int = 6, hsv2: HSV): List<HSV> {
+            val l = mutableListOf<HSV>()
+
+            val dh = hsv2.h - h
+            val ds = hsv2.s - s
+            val dv = hsv2.v - v
+
+            val steph = dh / (loops - 1)
+            val steps = ds / (loops - 1)
+            val stepv = dv / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSV((h + it * steph) % 360.0, (s + it * steps).modSpecial(1.0), (v + it * stepv).modSpecial(1.0))
+                // avoid v == 1.000
+                l += hsv2
+            }
+            return l
         }
 
         fun toRGB(): CubeValue {

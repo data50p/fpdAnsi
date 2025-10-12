@@ -228,7 +228,7 @@ class AnsiDemo {
 			Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
 		    val cvRandG2 =
 			Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-		    cvRandG1.gradient(144, cvRandG2).map { it.first }.forEach { it2 ->
+		    cvRandG1.gradient(144, cvRandG2).forEach { it2 ->
 			print("·".cvBg(it2))
 		    }
 		    println()
@@ -299,7 +299,7 @@ class AnsiDemo {
                     println()
 
                     print("ValMin ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB()).map { it.first }.reversed().forEach { it2 ->
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB()).reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
@@ -311,7 +311,7 @@ class AnsiDemo {
 
                     println()
                     print("ValMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).map { it.first }.reversed().reversed().forEach { it2 ->
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).reversed().reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()

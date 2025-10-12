@@ -183,7 +183,7 @@ class Test1 {
         println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
         println()
         val g1 = cvBase.gradient(12, cvBase2)
-        g1.map { it.first }.forEach {
+        g1.forEach {
             listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pr()
         }
     }
@@ -195,7 +195,7 @@ class Test1 {
         println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
         println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
         println()
-        cvBase.gradient(12, cvBase2).map { it.first }.forEach {
+        cvBase.gradient(12, cvBase2).forEach {
             listOf(pr(it), prHSV(it), prHSV(it.complement()), prCS(it.complementRGB(), 8)).pr()
         }
     }
@@ -207,7 +207,7 @@ class Test1 {
         println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
         println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
         println()
-        cvBase.gradient(12, cvBase2).map { it.first }.forEach {
+        cvBase.gradient(12, cvBase2).forEach {
             listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pr()
         }
     }
@@ -224,12 +224,17 @@ class Test1 {
         println()
 
         print("ValMin ")
+        cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0))
+            .forEach { it2 ->
+                print("${pr(it2.toRGB())}")
+            }
+        println()
+
+        print("ValMin ")
         cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB())
-            .map { it.first }.forEach { it2 ->
+            .forEach { it2 ->
                 print("${pr(it2)}")
             }
         println()
     }
-
-
 }
