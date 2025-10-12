@@ -293,7 +293,7 @@ class AnsiDemo {
 		    println()
 
                     print("ValMin ")
-                    cvRand.valueGradientToMin(max2).map { it.first }.reversed().forEach { it2 ->
+                    cvRand.valueGradientToMin(max2).reversed().forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()

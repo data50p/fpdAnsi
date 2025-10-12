@@ -169,7 +169,7 @@ class Test1 {
             listOf(pr(it), prHSV(it)).pr()
         }
         println()
-        val g3 = cvBase.valueGradientToMin(12).map { it.first }
+        val g3 = cvBase.valueGradientToMin(12)
         g3.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
@@ -218,7 +218,7 @@ class Test1 {
         val max2 = 7
         print("ValMin ")
         cvRand.valueGradientToMin(max2)
-            .map { it.first }.forEach { it2 ->
+            .forEach { it2 ->
                 print("${pr(it2)}")
             }
         println()

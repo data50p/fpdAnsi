@@ -545,18 +545,19 @@ object Ansi {
             return l
         }
 
-        fun valueGradientToMin(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun valueGradientToMin(loops: Int = 6): List<CubeValue> {
+            val l = mutableListOf<HSV>()
 
             var hsv = toHsv()
             val step = -(hsv.v / (loops - 1))
 
             repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
+                val hsv2 = hsv.clone(v = (hsv.v + it * step).modSpecial(1.0))
+                l += hsv2
             }
 
-            return l
+            val lrgb = l.map { it.toRGB() }
+            return lrgb
         }
 
         fun gradient(loops: Int = 6, c2: CubeValue): List<Pair<CubeValue, String>> {
@@ -573,13 +574,10 @@ object Ansi {
             val steps = ds / (loops - 1)
             val stepv = dv / (loops - 1)
 
-            var hsv = HSV(hsv1.h, hsv1.s, hsv1.v)
-
             repeat(loops) {
-                l += hsv.toRGB() to "${it}"
-                val ss = if ( hsv.s == 1.0 ) 0.999999 else hsv.s
-                val vv = if ( hsv.v == 1.0 ) 0.999999 else hsv.v
-                hsv = HSV((hsv.h + steph) % 360.0, (ss + steps).modSpecial(1.0), (vv + stepv).modSpecial(1.0)) // avoid v == 1.000
+                val hsv2 = HSV((hsv1.h + it * steph) % 360.0, (hsv1.v + it * steps).modSpecial(1.0), (hsv1.v + it * stepv).modSpecial(1.0))
+                // avoid v == 1.000
+                l += hsv2.toRGB() to "${it}"
             }
 
             return l
