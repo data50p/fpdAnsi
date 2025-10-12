@@ -457,21 +457,21 @@ object Ansi {
             return ret
         }
 
-        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<CubeValue> {
+            val l = mutableListOf<CubeValue>()
 
             val step = degree / loops
             var hsv = toHsv()
 
             repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV((hsv.h + step + 360.0) % 360.0, hsv.s, hsv.v)
+                val hsv2 = HSV((hsv.h + it * step + 360.0) % 360.0, hsv.s, hsv.v)
+                l += hsv.toRGB()
             }
             return l
         }
 
-        fun saturationGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun saturationGradient(loops: Int = 6): List<CubeValue> {
+            val l = mutableListOf<CubeValue>()
 
             val step = 0.999999 / (loops - 1)
             var hsv = toHsv()
@@ -479,49 +479,14 @@ object Ansi {
             hsv = HSV(hsv.h, 0.0, hsv.v)
 
             repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
+                val hsv2 = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
+                l += hsv2.toRGB()
             }
-
             return l
         }
 
-        fun saturationGradientToMax(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
-
-            var hsv = toHsv()
-
-            val left = 0.9999999 - hsv.s
-            val step = left / (loops - 1)
-
-
-            repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
-            }
-
-            return l
-        }
-
-        fun saturationGradientToMin(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
-
-            var hsv = toHsv()
-
-            val left = hsv.s
-            val step = -(left / (loops - 1))
-
-
-            repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
-            }
-
-            return l
-        }
-
-        fun valueGradient(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun valueGradient(loops: Int = 6): List<CubeValue> {
+            val l = mutableListOf<CubeValue>()
 
             val step = 0.999999 / (loops - 1)
             var hsv = toHsv()
@@ -530,42 +495,10 @@ object Ansi {
             hsv = HSV(hsv.h, hsv.s, 0.0)
 
             repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
+                val hsv2 = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
+                l += hsv2.toRGB()
             }
-
             return l
-        }
-
-        fun valueGradientToMax(loops: Int = 6): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
-
-            var hsv = toHsv()
-            val step = (0.999999 - hsv.v) / (loops - 1)
-
-            val vv = hsv.v
-
-            repeat(loops) {
-                l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
-            }
-
-            return l
-        }
-
-        fun valueGradientToMin(loops: Int = 6): List<CubeValue> {
-            val l = mutableListOf<HSV>()
-
-            var hsv = toHsv()
-            val step = -(hsv.v / (loops - 1))
-
-            repeat(loops) {
-                val hsv2 = hsv.clone(v = (hsv.v + it * step).modSpecial(1.0))
-                l += hsv2
-            }
-
-            val lrgb = l.map { it.toRGB() }
-            return lrgb
         }
 
         fun gradient(loops: Int = 6, c2: CubeValue): List<CubeValue> {
@@ -606,9 +539,6 @@ object Ansi {
             return l
         }
 
-        fun hueGradientValues(n: Int = 6) = hueGradient(n).map { it.first }
-        fun saturationGradientValues(n: Int = 6) = saturationGradient(n).map { it.first }
-        fun valueGradientValues(n: Int = 6) = valueGradient(n).map { it.first }
         fun permutationGradientValues() = permutationGradient().map { it.first }
 
 

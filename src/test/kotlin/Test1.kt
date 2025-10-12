@@ -81,7 +81,7 @@ class Test1 {
         cvBase.also { listOf(pr(it), prHSV(it)).pr() }
         println()
         val g1 = cv256.hueGradient(18)
-        g1.map { it.first }.forEach {
+        g1.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
     }
@@ -93,7 +93,7 @@ class Test1 {
         cvBase.also { listOf(pr(it), prHSV(it)).pr() }
         println()
         val g1 = cv256.hueGradient(18)
-        g1.map { it.first }.forEach {
+        g1.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
     }
@@ -106,51 +106,33 @@ class Test1 {
         cv256.also { listOf(pr(it), prHSV(it)).pr() }
         println()
         val g1 = cvBase.hueGradient(12)
-        g1.map { it.first }.forEach {
-            listOf(pr(it), prHSV(it)).pr()
-        }
-    }
-
-    @Test
-    fun testSaturationGradient3() {
-        val cvBase = Ansi.CubeValue(8, 0, 1, 7)
-        cvBase.also { listOf(pr(it), prHSV(it)).pr() }
-        println()
-        val g1 = cvBase.saturationGradientValues(12)
         g1.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
     }
 
-    @Test
-    fun testValueGradient4() {
-        val cvBase = Ansi.CubeValue(8, 0, 1, 7)
-        cvBase.also { listOf(pr(it), prHSV(it)).pr() }
-        println()
-        val g1 = cvBase.valueGradientValues(12)
-        g1.forEach {
-            listOf(pr(it), prHSV(it)).pr()
-        }
-    }
 
     @Test
-    fun testSaturationGradient4() {
+    fun testSaturationGradient6() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         cvBase.also { listOf(pr(it), prHSV(it)).pr() }
         println()
-        val g1 = cvBase.saturationGradientValues(12)
+        val g1 = cvBase.saturationGradient(12)
         g1.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
         println()
-        val g2 = cvBase.saturationGradientToMax(12).map { it.first }
+
+        val hsvBase = cvBase.toHsv()
+        val g2 = hsvBase.gradient(12, hsvBase.clone(s = 1.0))
         g2.reversed().forEach {
-            listOf(pr(it), prHSV(it)).pr()
+            listOf(pr(it.toRGB()), prHSV(it.toRGB())).pr()
         }
         println()
-        val g3 = cvBase.saturationGradientToMin(12).map { it.first }
+
+        val g3 = hsvBase.gradient(12, hsvBase.clone(s = 0.0))
         g3.forEach {
-            listOf(pr(it), prHSV(it)).pr()
+            listOf(pr(it.toRGB()), prHSV(it.toRGB())).pr()
         }
     }
 
@@ -159,19 +141,22 @@ class Test1 {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         cvBase.also { listOf(pr(it), prHSV(it)).pr() }
         println()
-        val g1 = cvBase.valueGradientValues(12)
+        val g1 = cvBase.valueGradient(12)
         g1.forEach {
             listOf(pr(it), prHSV(it)).pr()
         }
         println()
-        val g2 = cvBase.valueGradientToMax(12).map { it.first }
+
+        val hsvBase = cvBase.toHsv()
+        val g2 = hsvBase.gradient(12, hsvBase.clone(v = 1.0))
         g2.reversed().forEach {
-            listOf(pr(it), prHSV(it)).pr()
+            listOf(pr(it.toRGB()), prHSV(it.toRGB())).pr()
         }
         println()
-        val g3 = cvBase.valueGradientToMin(12)
+
+        val g3 = hsvBase.gradient(12, hsvBase.clone(v = 0.0))
         g3.forEach {
-            listOf(pr(it), prHSV(it)).pr()
+            listOf(pr(it.toRGB()), prHSV(it.toRGB())).pr()
         }
     }
 
@@ -216,12 +201,6 @@ class Test1 {
     fun testValMin() {
         val cvRand = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val max2 = 7
-        print("ValMin ")
-        cvRand.valueGradientToMin(max2)
-            .forEach { it2 ->
-                print("${pr(it2)}")
-            }
-        println()
 
         print("ValMin ")
         cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0))
