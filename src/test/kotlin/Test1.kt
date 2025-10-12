@@ -76,14 +76,26 @@ class Test1 {
     }
 
     @Test
+    fun testHueGradientRed() {
+        val cvBase = Ansi.CubeValue(256, 255, 0, 0)
+        val cv256 = cvBase.toCubeSize(256)
+        cvBase.also {listOf(pr(it), prHSV(it)).pr()}
+        println()
+        val g1 = cv256.hueGradient(18)
+        g1.map { it.first }.forEach {
+            listOf(pr(it), prHSV(it)).pr()
+        }
+    }
+
+    @Test
     fun testHueGradient() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val cv256 = cvBase.toCubeSize(256)
-	cvBase.also {listOf(pr(it), prHSV(it)).pr()}
-	println()
-        val g1 = cv256.hueGradient(12)
+        cvBase.also {listOf(pr(it), prHSV(it)).pr()}
+        println()
+        val g1 = cv256.hueGradient(18)
         g1.map { it.first }.forEach {
-	    listOf(pr(it), prHSV(it)).pr()
+            listOf(pr(it), prHSV(it)).pr()
         }
     }
 
@@ -200,4 +212,23 @@ class Test1 {
 	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pr()
 	}
     }
+
+    @Test
+    fun testValMin() {
+        val cvRand = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val max2 = 12
+        print("ValMin ")
+        cvRand.valueGradientToMin(max2).map { it.first }.forEach { it2 ->
+            print("${pr(it2)}")
+        }
+        println()
+
+        print("ValMin ")
+        cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB()).map { it.first }.forEach { it2 ->
+            print("${pr(it2)}")
+        }
+        println()
+    }
+
+
 }

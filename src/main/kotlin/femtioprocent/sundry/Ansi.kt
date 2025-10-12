@@ -551,8 +551,6 @@ object Ansi {
             var hsv = toHsv()
             val step = -(hsv.v / (loops - 1))
 
-            val vv = hsv.v
-
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
                 hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
@@ -675,6 +673,11 @@ object Ansi {
     }
 
     data class HSV(val h: Double, val s: Double, val v: Double) {
+
+        fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v) : HSV {
+            return HSV(h, s, v)
+        }
+
         fun toRGB(): CubeValue {
             val hh =
                 if (h.isNaN())

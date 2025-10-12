@@ -128,6 +128,11 @@ class AnsiDemo {
 		    val cv_256 = hsv.toRGB()
 		    val cv_N = cv_256.toCubeSize(cs)
 		    listOf(pr(cv, 44), pr(cv256, 44), prHSV(cv256, 32), pr(cv_256, 44), pr(cv_N, 44)).pr(" -> ")
+
+                    val hV = hsv.clone(v = 1.0)
+                    listOf(pr(hV.toRGB())).pr(" -> ")
+
+                    println()
 		}
 
 		println()
@@ -287,17 +292,29 @@ class AnsiDemo {
 		    }
 		    println()
 
-		    print("ValMin ")
-		    cvRand.valueGradientToMin(max2).map { it.first }.reversed().forEach { it2 ->
-			print("${pr(it2)}".cvBg(it2))
-		    }
-		    println()
+                    print("ValMin ")
+                    cvRand.valueGradientToMin(max2).map { it.first }.reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
 
-		    print("ValMax ")
-		    cvRand.valueGradientToMax(max2).map { it.first }.reversed().reversed().forEach { it2 ->
-			print("${pr(it2)}".cvBg(it2))
-		    }
-		    println()
+                    print("ValMin ")
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB()).map { it.first }.reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("ValMax ")
+                    cvRand.valueGradientToMax(max2).map { it.first }.reversed().reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+
+                    println()
+                    print("ValMax ")
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).map { it.first }.reversed().reversed().forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
 
 		    println()
 		}
