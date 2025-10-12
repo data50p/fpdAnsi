@@ -137,7 +137,7 @@ class Test1 {
     }
 
     @Test
-    fun tesValueGradient6() {
+    fun testValueGradient6() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         cvBase.also { listOf(pr(it), prHSV(it)).pr() }
         println()
@@ -161,7 +161,7 @@ class Test1 {
     }
 
     @Test
-    fun tesHueGradientColCol2() {
+    fun testHueGradientColCol() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val cvBase2 = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
@@ -174,7 +174,7 @@ class Test1 {
     }
 
     @Test
-    fun tesHueGradientA() {
+    fun testHueGradientA() {
         val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val cvBase2 = Ansi.CubeValue(8, 7, 7, 0)
         println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
@@ -186,7 +186,7 @@ class Test1 {
     }
 
     @Test
-    fun tesHueGradientAS() {
+    fun testHueGradientAS() {
         val cvBase = Ansi.CubeValue(8, 2, 5, 1)
         val cvBase2 = Ansi.CubeValue(8, 7, 7, 0)
         println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
@@ -200,20 +200,27 @@ class Test1 {
     @Test
     fun testValMin() {
         val cvRand = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        val max2 = 7
+        val max2 = 12
 
-        print("ValMin ")
+	print("ValMin RGB ")
+	cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB())
+	    .forEach { it2 ->
+		print("${pr(it2)}")
+	    }
+	println()
+	print("d:o 0.05   ")
+	cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.05).toRGB())
+	    .forEach { it2 ->
+		print("${pr(it2)}")
+	    }
+	println()
+
+        print("ValMin HSV ")
         cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0))
             .forEach { it2 ->
                 print("${pr(it2.toRGB())}")
             }
         println()
 
-        print("ValMin ")
-        cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB())
-            .forEach { it2 ->
-                print("${pr(it2)}")
-            }
-        println()
     }
 }

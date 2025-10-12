@@ -502,27 +502,7 @@ object Ansi {
         }
 
         fun gradient(loops: Int = 6, c2: CubeValue): List<CubeValue> {
-            val l = mutableListOf<HSV>()
-
-            val hsv1 = toHsv()
-            val hsv2 = c2.toHsv()
-
-            val dh = hsv2.h - hsv1.h
-            val ds = hsv2.s - hsv1.s
-            val dv = hsv2.v - hsv1.v
-
-            val steph = dh / (loops - 1)
-            val steps = ds / (loops - 1)
-            val stepv = dv / (loops - 1)
-
-            repeat(loops) {
-                val hsv2 = HSV((hsv1.h + it * steph) % 360.0, (hsv1.s + it * steps).modSpecial(1.0), (hsv1.v + it * stepv).modSpecial(1.0))
-                // avoid v == 1.000
-                l += hsv2
-            }
-
-            val lrgb = l.map { it.toRGB() }
-            return lrgb
+	    return toHsv().gradient(loops, c2.toHsv()).map {it.toRGB()}
         }
 
         fun permutationGradient(): List<Pair<CubeValue, String>> {
