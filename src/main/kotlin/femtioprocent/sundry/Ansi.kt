@@ -505,17 +505,22 @@ object Ansi {
 	    return toHsv().gradient(loops, c2.toHsv()).map {it.toRGB()}
         }
 
-        fun permutationGradient(): List<Pair<CubeValue, String>> {
-            val l = mutableListOf<Pair<CubeValue, String>>()
+        fun permutationGradient(): List<CubeValue> {
+            val l = mutableListOf<CubeValue>()
+            l += this
+            l += CubeValue(cubeSize, r, b, g)
+            l += CubeValue(cubeSize, b, r, g)
+            l += CubeValue(cubeSize, b, g, r)
+            l += CubeValue(cubeSize, g, b, r)
+            l += CubeValue(cubeSize, g, r, b)
 
-            l += this to "[0] rgb"
-            l += CubeValue(cubeSize, r, b, g) to "[1] rbg"
-            l += CubeValue(cubeSize, g, b, r) to "[2] gbr"
-            l += CubeValue(cubeSize, g, r, b) to "[3] grb"
-            l += CubeValue(cubeSize, b, r, g) to "[4] brg"
-            l += CubeValue(cubeSize, b, g, r) to "[5] bgr"
+            // 1 2 3
+            // 1 3 2
+            // 3 1 2
+            // 3 2 1
+            // 2 3 1
+            // 2 1 3
 
-            // RR == L, and LL = R
             return l
         }
 
