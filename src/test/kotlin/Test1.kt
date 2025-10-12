@@ -7,6 +7,22 @@ import kotlin.test.Test
 
 class Test1 {
 
+    fun pr(cv: Ansi.CubeValue) : String {
+	return "   $cv ".cvBg(cv)
+    }
+
+    fun prHSV(cv: Ansi.CubeValue) : String {
+	return "   ${cv.toHsv()} ".cvBg(cv)
+    }
+
+    fun pr256(cv: Ansi.CubeValue) : String {
+	return "   ${cv.toCubeSize(256)} ".cvBg(cv)
+    }
+
+    fun prCS(cv: Ansi.CubeValue, cs: Int) : String {
+	return "   ${cv.toCubeSize(cs)} ".cvBg(cv)
+    }
+
     @Test
     fun testM1() {
         (1..256).forEach { n ->
@@ -136,28 +152,39 @@ class Test1 {
     }
 
     @Test
-    fun tesHueGradientColCol() {
-        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        val cvBase2 = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
-        println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
-        println()
-        val g1 = cvBase.gradient(12, cvBase2)
-        g1.map{it.first}.forEach {
-            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${" ${it.complement().toHsv()} ".cvBg(it.complement())}")
-        }
+    fun tesHueGradientColCol2() {
+	val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+	val cvBase2 = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+	println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
+	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
+	println()
+	val g1 = cvBase.gradient(12, cvBase2)
+	g1.map{it.first}.forEach {
+	    println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${"    ${it.complement().toHsv()} ".cvBg(it.complement())}  ${"    ${it.complementRGB().toHsv()} ".cvBg(it.complementRGB())}")
+	}
     }
 
     @Test
-    fun tesHueGradientColCol2() {
-        val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        val cvBase2 = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
-        println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
-        println()
-        val g1 = cvBase.gradient(12, cvBase2)
-        g1.map{it.first}.forEach {
-            println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${"    ${it.complement().toHsv()} ".cvBg(it.complement())}  ${"    ${it.complementRGB().toHsv()} ".cvBg(it.complementRGB())}")
-        }
+    fun tesHueGradientA() {
+	val cvBase = Ansi.CubeValue(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+	val cvBase2 = Ansi.CubeValue(8, 7, 7, 0)
+	println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
+	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
+	println()
+	cvBase.gradient(12, cvBase2).map{it.first}.forEach {
+	    println("${"     $it ".cvBg(it)}  ${" ${it.toHsv()} ".cvBg(it)}  ${"    ${it.complement().toHsv()} ".cvBg(it.complement())}  ${"    ${it.complementRGB().toHsv()} ".cvBg(it.complementRGB())}")
+	}
+    }
+
+    @Test
+    fun tesHueGradientAS() {
+	val cvBase = Ansi.CubeValue(8, 2,5,1)
+	val cvBase2 = Ansi.CubeValue(8, 7, 7, 0)
+	println("    ${" $cvBase ".cvBg(cvBase)} ${" ${cvBase.toHsv()} ".cvBg(cvBase)}")
+	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
+	println()
+	cvBase.gradient(12, cvBase2).map{it.first}.forEach {
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).forEach { print(" $it") }; println()
+	}
     }
 }

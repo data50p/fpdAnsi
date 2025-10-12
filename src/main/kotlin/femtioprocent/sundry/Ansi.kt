@@ -472,7 +472,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
             }
 
             return l
@@ -489,7 +489,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
             }
 
             return l
@@ -506,7 +506,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, (hsv.s + step) % 1.0, hsv.v)
+                hsv = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
             }
 
             return l
@@ -523,7 +523,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
             }
 
             return l
@@ -539,7 +539,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
             }
 
             return l
@@ -555,7 +555,7 @@ object Ansi {
 
             repeat(loops) {
                 l += hsv.toRGB() to "${it * step}"
-                hsv = HSV(hsv.h, hsv.s, (hsv.v + step) % 1.0)
+                hsv = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
             }
 
             return l
@@ -581,11 +581,19 @@ object Ansi {
                 l += hsv.toRGB() to "${it}"
                 val ss = if ( hsv.s == 1.0 ) 0.999999 else hsv.s
                 val vv = if ( hsv.v == 1.0 ) 0.999999 else hsv.v
-                hsv = HSV((hsv.h + steph) % 360.0, (ss + steps) % 1.0, (vv + stepv) % 1.0) // avoid v == 1.000
+                hsv = HSV((hsv.h + steph) % 360.0, (ss + steps).modSpecial(1.0), (vv + stepv).modSpecial(1.0)) // avoid v == 1.000
             }
 
             return l
         }
+
+	/** Make sure to handle subtile rounding effect */
+	fun Double.modSpecial(d: Double) : Double {
+
+	    val m = (this-0.0000000001) % d
+	    //println("mod: $this $d -> $m")
+	    return m
+	}
 
         fun permutationGradient(): List<Pair<CubeValue, String>> {
             val l = mutableListOf<Pair<CubeValue, String>>()
