@@ -33,7 +33,10 @@ class Test1 {
     fun testM1() {
         (1..256).forEach { n ->
             val l = Ansi.Support.values256(n)
-            println("${l.size} $l")
+	    assert(l.size == n)
+	    assert(l.first() == 0)
+	    if ( l.size > 1 )
+		assert(l.last() == 255)
         }
     }
 
