@@ -582,11 +582,15 @@ class AnsiDemo {
                         measureTime {
                             val r = Random.nextInt(loremList.size - 8)
                             val ss = listOf(0, 2, 4).map { lorem(r + it, 2) }
+                            val ll = cubeValue.toHsv().gradient(cubeSize+1, Ansi.CubeValue(256, 0, 0, 1).toHsv())
+                            val lh = cubeValue.toHsv().gradient(cubeSize+1, Ansi.CubeValue(256, 255, 255, 255).toHsv())
                             (0..cubeSize).forEach { n ->
                                 val nn = Sundry.padLeft(n.toString(), 2, ' ')
                                 print(" $nn " + cvBg(cubeValue.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
                                 print(" $nn " + cvBg(cubeValue.moreOrLess(n, `+`, `+`, `+`))(" ${ss[1]} +++ "))
+                                print(" $nn " + cvBg(lh[n].toRGB())(" ${ss[2]} ··· "))
                                 print(" $nn " + cvBg(cubeValue.moreOrLess(n, `-`, `-`, `-`))(" ${ss[2]} --- "))
+                                print(" $nn " + cvBg(ll[n].toRGB())(" ${ss[2]} ··· "))
                                 println()
                             }
                         }.also { println("$it") }
