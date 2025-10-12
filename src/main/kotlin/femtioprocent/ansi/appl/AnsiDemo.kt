@@ -275,13 +275,19 @@ class AnsiDemo {
 		    println()
 
                     print("SatMin ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(s = 0.0).toRGB()).reversed().forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                    }
+                    println()
+
+                    print("SatMin ")
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
                     print("SatMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(s = 1.0).toRGB()).reversed().forEach { it2 ->
+                    cvRand.gradient(max2, cvRand.toHsv().clone(s = 1.0).toRGB()).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
@@ -292,27 +298,31 @@ class AnsiDemo {
 		    }
 		    println()
 
+                    print("ValMax ")
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("ValMax ")
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 1.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                    }
+                    println()
+
                     print("ValMin ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.0).toRGB()).reversed().forEach { it2 ->
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                    }
+                    println()
+
+                    print("ValMin ")
+                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.01).toRGB()).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
-                    print("ValMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).reversed().forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
-                    }
                     println()
-
-
-                    println()
-                    print("ValMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).reversed().reversed().forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
-                    }
-                    println()
-
-		    println()
 		}
 
 		println()

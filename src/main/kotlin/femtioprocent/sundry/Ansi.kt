@@ -479,7 +479,7 @@ object Ansi {
             hsv = HSV(hsv.h, 0.0, hsv.v)
 
             repeat(loops) {
-                val hsv2 = HSV(hsv.h, (hsv.s + step).modSpecial(1.0), hsv.v)
+                val hsv2 = HSV(hsv.h, (hsv.s + it * step).modSpecial(1.0), hsv.v)
                 l += hsv2.toRGB()
             }
             return l
@@ -495,7 +495,7 @@ object Ansi {
             hsv = HSV(hsv.h, hsv.s, 0.0)
 
             repeat(loops) {
-                val hsv2 = HSV(hsv.h, hsv.s, (hsv.v + step).modSpecial(1.0))
+                val hsv2 = HSV(hsv.h, hsv.s, (hsv.v + it * step).modSpecial(1.0))
                 l += hsv2.toRGB()
             }
             return l
