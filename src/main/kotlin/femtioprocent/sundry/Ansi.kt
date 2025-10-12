@@ -524,8 +524,6 @@ object Ansi {
             return l
         }
 
-        fun permutationGradientValues() = permutationGradient().map { it.first }
-
 
         fun inc(v: Int): Int {
             val v1 = v + 1
