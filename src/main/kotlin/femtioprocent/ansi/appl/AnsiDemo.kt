@@ -326,6 +326,7 @@ class AnsiDemo {
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
+                    println()
                 }
 
                 println()
