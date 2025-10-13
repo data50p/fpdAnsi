@@ -310,8 +310,14 @@ class AnsiDemo {
 
                     print("ValMin rbg  ")
                     val cvRand256 = cvRand.toCubeSize(256)
-                    cvRand.gradient(max2, Ansi.CubeValue(256, cvRand256.r/128, cvRand256.g/128, cvRand256.b/128)).forEach { it2 ->
+                    cvRand.gradient(max2, Ansi.CubeValue(256, cvRand256.r / 128, cvRand256.g / 128, cvRand256.b / 128)).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
+                    }
+                    println()
+
+                    print("ValMin hsv  ")
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
@@ -320,22 +326,6 @@ class AnsiDemo {
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
-
-                    listOf(
-                        0.0, 0.1,
-                        0.03, 0.01,
-                        0.003, 0.001,
-//                        0.0003, 0.0001,
-//                        0.00003, 0.00001,
-//                        0.000003, 0.000001,
-//                        0.0000003, 0.0000001,
-                    ).forEach { val0 ->
-                        print("ValMin hsv  ")
-                        cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = val0)).forEach { it2 ->
-                            print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
-                        }
-                        println(" $val0")
-                    }
                 }
 
                 println()
