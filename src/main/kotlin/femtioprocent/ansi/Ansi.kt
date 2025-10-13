@@ -1,5 +1,6 @@
-package femtioprocent.sundry
+package femtioprocent.ansi
 
+import femtioprocent.sundry.Sundry
 
 /**
  * Write escape sequences for colored output.
@@ -142,7 +143,7 @@ object Ansi {
         constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
     }
 
-    inline fun color5Num(r: Int, g: Int, b: Int): Int {
+    fun color5Num(r: Int, g: Int, b: Int): Int {
         return Color5Num(16 + b + 6 * g + 36 * r).rgb
     }
 
@@ -465,7 +466,7 @@ object Ansi {
 
             repeat(loops) {
                 val hsv2 = HSV((hsv.h + it * step + 360.0) % 360.0, hsv.s, hsv.v)
-                l += hsv.toRGB()
+                l += hsv2.toRGB()
             }
             return l
         }

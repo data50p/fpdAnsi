@@ -1,9 +1,9 @@
 package femtioprocent.ansi.appl
 
+import femtioprocent.ansi.Ansi
+import femtioprocent.ansi.Ansi.cvBg
+import femtioprocent.ansi.Ansi.cvFg
 import femtioprocent.ansi.Version
-import femtioprocent.sundry.Ansi
-import femtioprocent.sundry.Ansi.cvBg
-import femtioprocent.sundry.Ansi.cvFg
 import femtioprocent.sundry.Sundry
 import kotlin.random.Random
 import kotlin.time.measureTime
@@ -41,11 +41,11 @@ class AnsiDemo {
         return "${Sundry.padRight(cv.toCubeSize(256).toString(), w, ' ').cvBg(cv)}"
     }
 
-    fun prCS(cv: Ansi.CubeValue, cs: Int, n: Int, w: Int = 0): String {
-        return "${Sundry.padRight(cv.toCubeSize(n).toString(), w, ' ').cvBg(cv)}"
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 0): String {
+	return "${Sundry.padRight(cv.toCubeSize(cs).toString(), w, ' ').cvBg(cv)}"
     }
 
-    fun List<Any>.pr(delim: String = "") {
+    fun List<Any>.pri(delim: String = "") {
         println(map { " $it" }.joinToString(delim))
     }
 
@@ -114,12 +114,12 @@ class AnsiDemo {
                 ((4..16) + listOf(256))
                     .map { lightGreen.toCubeSize(it) }
                     .map { cv -> cv to cv.toCubeSize(4) }
-                    .map { (cv, cv2) -> listOf(pr(lightGreen), pr(cv), pr(cv2)).pr(" -> ") }
+                    .map { (cv, cv2) -> listOf(pr(lightGreen), pr(cv), pr(cv2)).pri(" -> ") }
 
                 ((4..16) + listOf(256))
                     .map { cv256.toCubeSize(it) }
                     .map { cv -> cv to cv.toCubeSize(256) }
-                    .map { (cv, cv2) -> listOf(pr(cv256), pr(cv), pr(cv2)).pr(" -> ") }
+                    .map { (cv, cv2) -> listOf(pr(cv256), pr(cv), pr(cv2)).pri(" -> ") }
 
                 ((4..16) + listOf(256)).forEach { cs ->
                     val cv = Ansi.CubeValue(cs, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
@@ -127,10 +127,10 @@ class AnsiDemo {
                     val hsv = cv256.toHsv()
                     val cv_256 = hsv.toRGB()
                     val cv_N = cv_256.toCubeSize(cs)
-                    listOf(pr(cv, 44), pr(cv256, 44), prHSV(cv256, 32), pr(cv_256, 44), pr(cv_N, 44)).pr(" -> ")
+                    listOf(pr(cv, 44), pr(cv256, 44), prHSV(cv256, 32), pr(cv_256, 44), pr(cv_N, 44)).pri(" -> ")
 
                     val hV = hsv.clone(v = 1.0)
-                    listOf(pr(hV.toRGB())).pr(" -> ")
+                    listOf(pr(hV.toRGB())).pri(" -> ")
 
                     println()
                 }

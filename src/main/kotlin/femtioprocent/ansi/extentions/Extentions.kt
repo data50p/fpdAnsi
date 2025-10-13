@@ -1,6 +1,6 @@
 package femtioprocent.ansi.extentions
 
-import femtioprocent.sundry.Ansi
+import femtioprocent.ansi.Ansi
 
 class Extentions
 
