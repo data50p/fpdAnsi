@@ -1,8 +1,8 @@
 package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Ansi.cvBg
-import femtioprocent.ansi.Ansi.cvFg
+import femtioprocent.ansi.Ansi.rgbBg
+import femtioprocent.ansi.Ansi.rgbFg
 import femtioprocent.ansi.Version
 import femtioprocent.sundry.Sundry
 import kotlin.random.Random
@@ -32,10 +32,10 @@ class AnsiDemo {
     fun String.pL(w: Int = 1) = "%${w}s".format(this)
     fun String.pC(w: Int = 1) = if (w <= length) this else pL(length + (w - length) / 2).pR(w)
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 40) = cv.toString().pR(w).cvBg(cv)
-    fun prHSV(cv: Ansi.CubeValue, w: Int = 32) = cv.toHsv().toString().pR(w).cvBg(cv)
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 40) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
-    fun pr256(cv: Ansi.CubeValue, w: Int = 40) = prCS(cv, 256, w)
+    fun pr(cv: Ansi.RGB, w: Int = 40) = cv.toString().pR(w).rgbBg(cv)
+    fun prHSV(cv: Ansi.RGB, w: Int = 32) = cv.toHsv().toString().pR(w).rgbBg(cv)
+    fun prCS(cv: Ansi.RGB, cs: Int, w: Int = 40) = cv.toCubeSize(cs).toString().pR(w).rgbBg(cv)
+    fun pr256(cv: Ansi.RGB, w: Int = 40) = prCS(cv, 256, w)
 
     fun List<Any>.pri(delim: String = "") {
         println(map { " $it" }.joinToString(delim))
@@ -92,16 +92,16 @@ class AnsiDemo {
                 println()
 
 
-                val cube4 = Ansi.csCv(4)
-                val cube5 = Ansi.csCv(5)
+                val cube4 = Ansi.csRgb(4)
+                val cube5 = Ansi.csRgb(5)
 
                 val magenta = cube4(3, 0, 3)
                 val yello = cube4(3, 3, 1)
                 val lightMagenta = cube4(3, 2, 3)
                 val lightGreen = cube4(1, 3, 2)
-                val cv256 = Ansi.csCv(256)(32, 155, 240)
+                val cv256 = Ansi.csRgb(256)(32, 155, 240)
 
-                val painter = cvBg(lightGreen)
+                val painter = rgbBg(lightGreen)
 
                 ((4..16) + listOf(256))
                     .map { lightGreen.toCubeSize(it) }
@@ -114,7 +114,7 @@ class AnsiDemo {
                     .map { (cv, cv2) -> listOf(pr(cv256), pr(cv), pr(cv2)).pri(" -> ") }
 
                 ((4..16) + listOf(256)).forEach { cs ->
-                    val cv = Ansi.CubeValue(cs, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    val cv = Ansi.RGB(cs, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     val cv256 = cv.toCubeSize(256)
                     val hsv = cv256.toHsv()
                     val cv_256 = hsv.toRGB()
@@ -129,7 +129,7 @@ class AnsiDemo {
 
                 println()
                 (2..256).forEach {
-                    val cv0 = Ansi.CubeValue(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
+                    val cv0 = Ansi.RGB(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
                     val cv1 = cv0.toCubeSize(256)
                     val cv2 = cv1.toCubeSize(it)
                     println(
@@ -148,37 +148,37 @@ class AnsiDemo {
                 val lightMagenta8 = lightMagenta256.toCubeSize(8)
                 val lightGreen8 = lightGreen256.toCubeSize(8)
 
-                println(Ansi.cvFgBg(yello, cube5(0, 0, 4), "${lorem(0, 4)}"))
+                println(Ansi.rgbFgBg(yello, cube5(0, 0, 4), "${lorem(0, 4)}"))
                 println(Ansi.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
                 println()
 
                 println(painter("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
-                println(cvBg(lightGreen256)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
-                println(cvBg(lightGreen4)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
-                println(cvBg(lightGreen8)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
+                println(rgbBg(lightGreen256)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
+                println(rgbBg(lightGreen4)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
+                println(rgbBg(lightGreen8)("ZZZZZZZZZZZZZ Ansi.cvBg( Ansi.csCv(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
 
-                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".cvFg(lightMagenta) + "   ${lightMagenta}")
-                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".cvFg(lightMagenta256) + "   ${lightMagenta256}")
-                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".cvFg(lightMagenta4) + "   ${lightMagenta4}")
-                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".cvFg(lightMagenta8) + "   ${lightMagenta8}")
+                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
+                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
+                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
+                println("ZZZZZZZZZZZZZ  String.cvFg(Ansi.csCv(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
 
                 println("${lightGreen} ${lightMagenta}   ${lightGreen256} ${lightMagenta256}")
                 println()
 
 
-                val red = Ansi.csCv(256)(255, 0, 0)
+                val red = Ansi.csRgb(256)(255, 0, 0)
 
                 val w = " 236,120,136 ".length
-                fun pr1(cv: Ansi.CubeValue): String = Sundry.padCenter(cv.toLaconicStringRGB(), w, ' ')
+                fun pr1(cv: Ansi.RGB): String = Sundry.padCenter(cv.toLaconicStringRGB(), w, ' ')
                 fun pr2(
-                    cv: Ansi.CubeValue
+                    cv: Ansi.RGB
 
                 )
                         : String = Sundry.padCenter("XX", 4, ' ')
 
                 println("RGB Gradient")
                 red.hueGradient(12).forEach { it2 ->
-                    print("${pr1(it2)} ".cvBg(it2))
+                    print("${pr1(it2)} ".rgbBg(it2))
                 }
                 println()
                 println()
@@ -186,9 +186,9 @@ class AnsiDemo {
 
                 println("RGB Gradient 180°")
                 repeat(8) {
-                    Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                         .hueGradient(36, 180.0).forEach { it2 ->
-                            print(" XX ".cvBg(it2))
+                            print(" XX ".rgbBg(it2))
                         }
                     println()
                 }
@@ -196,9 +196,9 @@ class AnsiDemo {
 
                 println("RGB Gradient -180°")
                 repeat(8) {
-                    Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                         .hueGradient(36, -180.0).forEach { it2 ->
-                            print(" XX ".cvBg(it2))
+                            print(" XX ".rgbBg(it2))
                         }
                     println()
                 }
@@ -206,9 +206,9 @@ class AnsiDemo {
 
                 println("RGB Gradient 45°")
                 repeat(8) {
-                    Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                         .hueGradient(36, 45.0).forEach { it2 ->
-                            print(" XX ".cvBg(it2))
+                            print(" XX ".rgbBg(it2))
                         }
                     println()
                 }
@@ -217,17 +217,17 @@ class AnsiDemo {
                 println("Gradient color1 -> color2")
                 repeat(8) {
                     val cvRandG1 =
-                        Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                        Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     val cvRandG2 =
-                        Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                        Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
 
                     cvRandG1.gradient(144, cvRandG2).forEach { it2 ->
-                        print("·".cvBg(it2))
+                        print("·".rgbBg(it2))
                     }
                     println()
 
                     cvRandG1.toHsv().gradient(144, cvRandG2.toHsv()).forEach { it2 ->
-                        print("·".cvBg(it2.toRGB()))
+                        print("·".rgbBg(it2.toRGB()))
                     }
                     println()
                 }
@@ -249,81 +249,81 @@ class AnsiDemo {
 
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
-                    val cvRand = Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                    println("            " + Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
+                    val cvRand = Ansi.RGB(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    println("            " + Sundry.padCenter("Base color $cvRand", ww, ' ').rgbBg(cvRand))
 
                     val www = ww / 4
                     print("            ")
-                    print(Sundry.padCenter("mxV ${cvRand.toMaxValue().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxValue()))
-                    print(Sundry.padCenter("mxS ${cvRand.toMaxSaturation().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxSaturation()))
-                    print(Sundry.padCenter("cmpl ${cvRand.complement().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complement()))
-                    print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", ww - 3 * www, ' ').cvBg(cvRand.complementRGB()))
+                    print(Sundry.padCenter("mxV ${cvRand.toMaxValue().toLaconicStringRGB()}", www, ' ').rgbBg(cvRand.toMaxValue()))
+                    print(Sundry.padCenter("mxS ${cvRand.toMaxSaturation().toLaconicStringRGB()}", www, ' ').rgbBg(cvRand.toMaxSaturation()))
+                    print(Sundry.padCenter("cmpl ${cvRand.complement().toLaconicStringRGB()}", www, ' ').rgbBg(cvRand.complement()))
+                    print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", ww - 3 * www, ' ').rgbBg(cvRand.complementRGB()))
                     println()
 
                     print("Hue    360° ")
                     cvRand.hueGradient(max2).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                        print("${pr(it2)}".rgbBg(it2))
                     }
                     println()
 
                     print("Satur  rgb  ")
                     cvRand.saturationGradient(max2).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                        print("${pr(it2)}".rgbBg(it2))
                     }
                     println()
 
                     print("SatMin hsv1 ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("SatMin hsv  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("SatMax hsv  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 1.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("Value  rgb  ")
                     cvRand.valueGradient(max2).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                        print("${pr(it2)}".rgbBg(it2))
                     }
                     println()
 
                     print("ValMax rgb  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 1.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("ValMax hsv  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 1.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("ValMin rbg  ")
                     val cvRand256 = cvRand.toCubeSize(256)
-                    cvRand.gradient(max2, Ansi.CubeValue(256, cvRand256.r / 128, cvRand256.g / 128, cvRand256.b / 128)).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                    cvRand.gradient(max2, Ansi.RGB(256, cvRand256.r / 128, cvRand256.g / 128, cvRand256.b / 128)).forEach { it2 ->
+                        print("${pr(it2)}".rgbBg(it2))
                     }
                     println()
 
                     print("ValMin hsv  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0)).forEach { it2 ->
-                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
                     }
                     println()
 
                     print("ValMin rbg0 ")
-                    cvRand.gradient(max2, Ansi.CubeValue(256, 0, 0, 0)).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                    cvRand.gradient(max2, Ansi.RGB(256, 0, 0, 0)).forEach { it2 ->
+                        print("${pr(it2)}".rgbBg(it2))
                     }
                     println()
                     println()
@@ -334,10 +334,10 @@ class AnsiDemo {
                 val cs = 5
 
                 val rgb = (0..<cs).shuffled().take(3)
-                val cvRand = Ansi.CubeValue(cs, rgb[0], rgb[1], rgb[2])
+                val cvRand = Ansi.RGB(cs, rgb[0], rgb[1], rgb[2])
                 cvRand.permutationGradient().forEach { it1 ->
                     it1.permutationGradient().forEach { it2 ->
-                        print("${pr1(it2)} ".cvBg(it2))
+                        print("${pr1(it2)} ".rgbBg(it2))
                     }
                     println()
                 }
@@ -565,36 +565,36 @@ class AnsiDemo {
                         listOf(Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1))
                     else
                         (0..<cubeSize).shuffled().take(3)
-                    val cvBase = Ansi.CubeValue(cubeSize, cvList[0], cvList[1], cvList[2])
+                    val cvBase = Ansi.RGB(cubeSize, cvList[0], cvList[1], cvList[2])
 
-                    cvBase.permutationGradient().forEach { cubeValue_ ->
-                        val cubeValue = if (cubeValue_.cs != cubeSize) cubeValue_.toCubeSize(cubeSize) else cubeValue_
+                    cvBase.permutationGradient().forEach { rgb_ ->
+                        val rgb = if (rgb_.cs != cubeSize) rgb_.toCubeSize(cubeSize) else rgb_
 
                         println("")
                         println(
-                            "Cube size ${cubeSize} -- gradients : " + cvFg(cubeValue)(" $cubeValue") + "    " + cvBg(
-                                cubeValue
+                            "Cube size ${cubeSize} -- gradients : " + rgbFg(rgb)(" $rgb") + "    " + rgbBg(
+                                rgb
                             )("  color  ")
                         )
                         println()
 
 
-                        val `+` = cubeValue::inc
-                        val `-` = cubeValue::dec
-                        val `=` = cubeValue::eq0
+                        val `+` = rgb::inc
+                        val `-` = rgb::dec
+                        val `=` = rgb::eq0
 
                         measureTime {
                             val r = Random.nextInt(loremList.size - 8)
                             val ss = listOf(0, 2, 4).map { lorem(r + it, 2) }
-                            val ll = cubeValue.toHsv().gradient(cubeSize + 1, Ansi.CubeValue(256, 0, 0, 1).toHsv())
-                            val lh = cubeValue.toHsv().gradient(cubeSize + 1, Ansi.CubeValue(256, 255, 255, 255).toHsv())
+                            val ll = rgb.toHsv().gradient(cubeSize + 1, Ansi.RGB(256, 0, 0, 1).toHsv())
+                            val lh = rgb.toHsv().gradient(cubeSize + 1, Ansi.RGB(256, 255, 255, 255).toHsv())
                             (0..cubeSize).forEach { n ->
                                 val nn = Sundry.padLeft(n.toString(), 2, ' ')
-                                print(" $nn " + cvBg(cubeValue.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
-                                print(" $nn " + cvBg(cubeValue.moreOrLess(n, `+`, `+`, `+`))(" ${ss[1]} +++ "))
-                                print(" $nn " + cvBg(lh[n].toRGB())(" ${ss[2]} ··· "))
-                                print(" $nn " + cvBg(cubeValue.moreOrLess(n, `-`, `-`, `-`))(" ${ss[2]} --- "))
-                                print(" $nn " + cvBg(ll[n].toRGB())(" ${ss[2]} ··· "))
+                                print(" $nn " + rgbBg(rgb.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
+                                print(" $nn " + rgbBg(rgb.moreOrLess(n, `+`, `+`, `+`))(" ${ss[1]} +++ "))
+                                print(" $nn " + rgbBg(lh[n].toRGB())(" ${ss[2]} ··· "))
+                                print(" $nn " + rgbBg(rgb.moreOrLess(n, `-`, `-`, `-`))(" ${ss[2]} --- "))
+                                print(" $nn " + rgbBg(ll[n].toRGB())(" ${ss[2]} ··· "))
                                 println()
                             }
                         }.also { println("$it") }
@@ -608,12 +608,12 @@ class AnsiDemo {
                                             val op = "$ch0$ch1$ch2"
                                             val ns = Sundry.padLeft(n.toString(), 2, ' ')
                                             op.let {
-                                                val cubeValue1 = cubeValue.moreOrLess(n, "$it")
+                                                val rgb1 = rgb.moreOrLess(n, "$it")
                                                 print(
-                                                    " $ns " + cvBg(cubeValue1)(
+                                                    " $ns " + rgbBg(rgb1)(
                                                         " ${
                                                             Sundry.padRight(
-                                                                cubeValue1.toLaconicStringRGB(),
+                                                                rgb1.toLaconicStringRGB(),
                                                                 8,
                                                                 ' '
                                                             )
@@ -636,14 +636,14 @@ class AnsiDemo {
                     repeat(3) {
                         listOf(2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256).forEach {
                             measureTime {
-                                val cvBase = Ansi.CubeValue(
+                                val cvBase = Ansi.RGB(
                                     it,
                                     Random.nextDouble(1.0),
                                     Random.nextDouble(1.0),
                                     Random.nextDouble(1.0)
                                 )
                                 (0..it).forEach { n ->
-                                    val xyz = cvBg(cvBase.moreOrLess(n, cvBase::inc, cvBase::eq0, cvBase::dec))
+                                    val xyz = rgbBg(cvBase.moreOrLess(n, cvBase::inc, cvBase::eq0, cvBase::dec))
                                 }
                             }.also { mt ->
                                 println("it took ${it}·$it : ${mt}")

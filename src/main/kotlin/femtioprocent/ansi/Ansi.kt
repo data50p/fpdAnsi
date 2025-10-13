@@ -275,16 +275,16 @@ object Ansi {
         return fgbg256(fr, fg, fb, br, bg, bb, s)
     }
 
-    fun cvFgBg(cubeValueFG: CubeValue, cubeValueBG: CubeValue, s: String): String {
+    fun rgbFgBg(rgbFG: RGB, rgbBG: RGB, s: String): String {
         return csFgBg(
-            cubeValueFG.cs,
-            cubeValueFG.r,
-            cubeValueFG.g,
-            cubeValueFG.b,
-            cubeValueBG.cs,
-            cubeValueBG.r,
-            cubeValueBG.g,
-            cubeValueBG.b,
+            rgbFG.cs,
+            rgbFG.r,
+            rgbFG.g,
+            rgbFG.b,
+            rgbBG.cs,
+            rgbBG.r,
+            rgbBG.g,
+            rgbBG.b,
             s
         )
     }
@@ -292,8 +292,8 @@ object Ansi {
 
     // ---------------------- higher ordered functions ---------------------------
 
-    fun csFg(cubeSize: Int, r: Int, g: Int, b: Int): (String) -> String = { s -> cvFg(CubeValue(cubeSize, r, g, b))(s) }
-    fun csBg(cubeSize: Int, r: Int, g: Int, b: Int): (String) -> String = { s -> cvBg(CubeValue(cubeSize, r, g, b))(s) }
+    fun csFg(cubeSize: Int, r: Int, g: Int, b: Int): (String) -> String = { s -> rgbFg(RGB(cubeSize, r, g, b))(s) }
+    fun csBg(cubeSize: Int, r: Int, g: Int, b: Int): (String) -> String = { s -> rgbBg(RGB(cubeSize, r, g, b))(s) }
 
     fun csFg(cubeSize: Int): (r: Int, g: Int, b: Int, String) -> String = { r, g, b, s -> csFg(cubeSize, r, g, b, s) }
     fun csBg(cubeSize: Int): (r: Int, g: Int, b: Int, String) -> String = { r, g, b, s -> csBg(cubeSize, r, g, b, s) }
@@ -304,16 +304,16 @@ object Ansi {
     fun csBgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String =
         { r, g, b -> { s -> csBg(cubeSize, r, g, b, s) } }
 
-    fun cvFg(cubeValue: CubeValue): (String) -> String =
-        { s -> csFg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+    fun rgbFg(rgb: RGB): (String) -> String =
+        { s -> csFg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
 
-    fun cvBg(cubeValue: CubeValue): (String) -> String =
-        { s -> csBg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+    fun rgbBg(rgb: RGB): (String) -> String =
+        { s -> csBg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
 
-    fun String.cvFg(cubeValue: CubeValue) = csFg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, this)
-    fun String.cvBg(cubeValue: CubeValue) = csBg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, this)
+    fun String.rgbFg(rgb: RGB) = csFg(rgb.cs, rgb.r, rgb.g, rgb.b, this)
+    fun String.rgbBg(rgb: RGB) = csBg(rgb.cs, rgb.r, rgb.g, rgb.b, this)
 
-    fun csCv(cubeSize: Int): (r: Int, g: Int, b: Int) -> CubeValue = { r, g, b -> CubeValue(cubeSize, r, g, b) }
+    fun csRgb(cubeSize: Int): (r: Int, g: Int, b: Int) -> RGB = { r, g, b -> RGB(cubeSize, r, g, b) }
 
     // ---------------------------------------------------- Legacy Color -----------------------------------------------------
 
@@ -388,16 +388,16 @@ object Ansi {
     }
 
 
-    data class CubeValue(val cs: Int, val r: Int, val g: Int, val b: Int) {
+    data class RGB(val cs: Int, val r: Int, val g: Int, val b: Int) {
         constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
                 this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
 
-        fun toCubeSize(cs: Int): CubeValue {
-            val f = (cs - 1).toDouble() / (this@CubeValue.cs - 1).toDouble()
+        fun toCubeSize(cs: Int): RGB {
+            val f = (cs - 1).toDouble() / (this@RGB.cs - 1).toDouble()
             val rr = r.toDouble() * f + 0.5
             val gg = g.toDouble() * f + 0.5
             val bb = b.toDouble() * f + 0.5
-            return CubeValue(cs, rr.toInt(), gg.toInt(), bb.toInt())
+            return RGB(cs, rr.toInt(), gg.toInt(), bb.toInt())
         }
 
         fun colorSpan(): Int {
@@ -413,23 +413,23 @@ object Ansi {
         }
 
 
-        fun rotR() = CubeValue(cs, b, r, g)
-        fun rotL() = CubeValue(cs, g, b, r)
+        fun rotR() = RGB(cs, b, r, g)
+        fun rotL() = RGB(cs, g, b, r)
 
-        fun complementRGB(): CubeValue = CubeValue(cs, cs - r - 1, cs - g - 1, cs - b - 1)
+        fun complementRGB(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
 
-        fun complement(): CubeValue {
+        fun complement(): RGB {
             val hsv = toHsv()
             val chsv = HSV((hsv.h + 180.0) % 360.0, hsv.s, hsv.v)
             return chsv.toRGB().toCubeSize(cs)
         }
 
-        fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cs, fr(r), fg(g), fb(b))
-        fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): CubeValue =
+        fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = RGB(cs, fr(r), fg(g), fb(b))
+        fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): RGB =
             if (n == 0) this else moreOrLess(fr, fg, fb).moreOrLess(n - 1, fr, fg, fb)
 
-        fun moreOrLess(opRGB: String) = CubeValue(cs, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
-        fun moreOrLess(n: Int, op: String): CubeValue = if (n == 0) this else moreOrLess(op).moreOrLess(n - 1, op)
+        fun moreOrLess(opRGB: String) = RGB(cs, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
+        fun moreOrLess(n: Int, op: String): RGB = if (n == 0) this else moreOrLess(op).moreOrLess(n - 1, op)
 
         fun opFun(ch: Char): (Int) -> Int {
             return when (ch) {
@@ -439,22 +439,22 @@ object Ansi {
             }
         }
 
-        fun toMaxSaturation(): CubeValue {
+        fun toMaxSaturation(): RGB {
             val hsv = toHsv()
             val maxHsv = HSV(hsv.h, 1.0, hsv.v)
             val ret = maxHsv.toRGB()
             return ret
         }
 
-        fun toMaxValue(): CubeValue {
+        fun toMaxValue(): RGB {
             val hsv = toHsv()
             val maxHsv = HSV(hsv.h, hsv.s, 1.0)
             val ret = maxHsv.toRGB()
             return ret
         }
 
-        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<CubeValue> {
-            val l = mutableListOf<CubeValue>()
+        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<RGB> {
+            val l = mutableListOf<RGB>()
 
             val step = degree / loops
             var hsv = toHsv()
@@ -466,8 +466,8 @@ object Ansi {
             return l
         }
 
-        fun saturationGradient(loops: Int = 6): List<CubeValue> {
-            val l = mutableListOf<CubeValue>()
+        fun saturationGradient(loops: Int = 6): List<RGB> {
+            val l = mutableListOf<RGB>()
 
             val step = 0.999999 / (loops - 1)
             var hsv = toHsv()
@@ -481,8 +481,8 @@ object Ansi {
             return l
         }
 
-        fun valueGradient(loops: Int = 6): List<CubeValue> {
-            val l = mutableListOf<CubeValue>()
+        fun valueGradient(loops: Int = 6): List<RGB> {
+            val l = mutableListOf<RGB>()
 
             val step = 0.999999 / (loops - 1)
             var hsv = toHsv()
@@ -497,18 +497,18 @@ object Ansi {
             return l
         }
 
-        fun gradient(loops: Int = 6, cubeValue: CubeValue): List<CubeValue> {
-            return toHsv().gradient(loops, cubeValue.toHsv()).map { it.toRGB() }
+        fun gradient(loops: Int = 6, rgb: RGB): List<RGB> {
+            return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB() }
         }
 
-        fun permutationGradient(): List<CubeValue> {
-            val l = mutableListOf<CubeValue>()
+        fun permutationGradient(): List<RGB> {
+            val l = mutableListOf<RGB>()
             l += this
-            l += CubeValue(cs, r, b, g)
-            l += CubeValue(cs, b, r, g)
-            l += CubeValue(cs, b, g, r)
-            l += CubeValue(cs, g, b, r)
-            l += CubeValue(cs, g, r, b)
+            l += RGB(cs, r, b, g)
+            l += RGB(cs, b, r, g)
+            l += RGB(cs, b, g, r)
+            l += RGB(cs, g, b, r)
+            l += RGB(cs, g, r, b)
 
             // 1 2 3
             // 1 3 2
@@ -605,7 +605,7 @@ object Ansi {
             return l
         }
 
-        fun toRGB(): CubeValue {
+        fun toRGB(): RGB {
             val hh =
                 if (h.isNaN())
                     0.0
@@ -629,7 +629,7 @@ object Ansi {
             val g = ((rgb.g + m) * 255 + 0.5).toInt()
             val b = ((rgb.b + m) * 255 + 0.5).toInt()
 
-            return CubeValue(256, r, g, b)
+            return RGB(256, r, g, b)
         }
 
         override fun toString(): String {
