@@ -389,20 +389,20 @@ object Ansi {
 
 
     data class CubeValue(val cs: Int, val r: Int, val g: Int, val b: Int) {
-        constructor(cubeSize: Int, rf: Double, gf: Double, bf: Double) :
+        constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
                 this(
-                    cubeSize,
-                    fromDouble(rf, cubeSize),
-                    fromDouble(gf, cubeSize),
-                    fromDouble(bf, cubeSize)
+                    cs,
+                    fromDouble(rf, cs),
+                    fromDouble(gf, cs),
+                    fromDouble(bf, cs)
                 )
 
-        fun toCubeSize(n: Int): CubeValue {
-            val f = (n - 1).toDouble() / (cs - 1).toDouble()
+        fun toCubeSize(cs: Int): CubeValue {
+            val f = (cs - 1).toDouble() / (this@CubeValue.cs - 1).toDouble()
             val rr = r.toDouble() * f + 0.5
             val gg = g.toDouble() * f + 0.5
             val bb = b.toDouble() * f + 0.5
-            return CubeValue(n, rr.toInt(), gg.toInt(), bb.toInt())
+            return CubeValue(cs, rr.toInt(), gg.toInt(), bb.toInt())
         }
 
         fun colorSpan(): Int {
@@ -577,9 +577,9 @@ object Ansi {
         fun toLaconicStringRGB() = "$r,$g,$b"
 
         companion object Companion {
-            private fun fromDouble(f: Double, cubeSize: Int): Int {
+            private fun fromDouble(f: Double, cs: Int): Int {
                 val ff = if (f >= 1.0) 0.999 else f
-                val v = cubeSize * ff
+                val v = cs * ff
                 return v.toInt()
             }
         }
