@@ -9,22 +9,18 @@ import kotlin.test.Test
 
 class Test1 {
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 0): String {
-	return "${Sundry.padRight(cv.toString(), w, ' ').cvBg(cv)}"
+    fun String.pR(w: Int = 1) = "%-${w}s".format(this)
+    fun String.pL(w: Int = 1) = "%${w}s".format(this)
+    fun String.pC(w: Int = 1): String {
+        val ww = w - length
+        return if (ww <= 0) this else pL(length + ww / 2).pR(w)
     }
 
-    fun prHSV(cv: Ansi.CubeValue, w: Int = 0): String {
-	return "${Sundry.padRight(cv.toHsv().toString(), w, ' ').cvBg(cv)}"
-	return "   ${cv.toHsv()} ".cvBg(cv)
-    }
+    fun pr(cv: Ansi.CubeValue, w: Int = 1) = cv.toString().pR(w).cvBg(cv)
+    fun prHSV(cv: Ansi.CubeValue, w: Int = 1) = cv.toHsv().toString().pR(w).cvBg(cv)
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 1) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
+    fun pr256(cv: Ansi.CubeValue, w: Int = 1) = prCS(cv, 256, w)
 
-    fun pr256(cv: Ansi.CubeValue, w: Int = 0): String {
-	return "${Sundry.padRight(cv.toCubeSize(256).toString(), w, ' ').cvBg(cv)}"
-    }
-
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 0): String {
-	return "${Sundry.padRight(cv.toCubeSize(cs).toString(), w, ' ').cvBg(cv)}"
-    }
 
     fun List<Any>.pri(delim: String = "") {
 	println(map { " $it" }.joinToString(delim))
@@ -202,7 +198,7 @@ class Test1 {
 	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
 	println()
 	cvBase.gradient(12, cvBase2).forEach {
-	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prCS(it.complementRGB(), 8)).pri()
+	    listOf(pr(it, 44), prHSV(it, 32), prHSV(it.complement(), 32), prCS(it.complementRGB(), 8, 40)).pri()
 	}
     }
 
@@ -215,7 +211,7 @@ class Test1 {
 	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
 	println()
 	cvBase.gradient(12, cvBase2).forEach {
-	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pri()
+	    listOf(pr(it, 48), prHSV(it,32), prHSV(it.complement(), 32), prHSV(it.complementRGB(), 32)).pri()
 	}
     }
 

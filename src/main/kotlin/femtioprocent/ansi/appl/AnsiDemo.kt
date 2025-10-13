@@ -28,22 +28,18 @@ class AnsiDemo {
         ansiColorDemo(arg)
     }
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 0): String {
-        return "${Sundry.padRight(cv.toString(), w, ' ').cvBg(cv)}"
+    fun String.pR(w: Int = 1) = "%-${w}s".format(this)
+    fun String.pL(w: Int = 1) = "%${w}s".format(this)
+    fun String.pC(w: Int = 1): String {
+        val ww = w - length
+        return if (ww <= 0) this else pL(length + ww / 2).pR(w)
     }
 
-    fun prHSV(cv: Ansi.CubeValue, w: Int = 0): String {
-        return "${Sundry.padRight(cv.toHsv().toString(), w, ' ').cvBg(cv)}"
-        return "   ${cv.toHsv()} ".cvBg(cv)
-    }
+    fun pr(cv: Ansi.CubeValue, w: Int = 1) = cv.toString().pR(w).cvBg(cv)
+    fun prHSV(cv: Ansi.CubeValue, w: Int = 1) = cv.toHsv().toString().pR(w).cvBg(cv)
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 1) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
+    fun pr256(cv: Ansi.CubeValue, w: Int = 1) = prCS(cv, 256, w)
 
-    fun pr256(cv: Ansi.CubeValue, w: Int = 0): String {
-        return "${Sundry.padRight(cv.toCubeSize(256).toString(), w, ' ').cvBg(cv)}"
-    }
-
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 0): String {
-	return "${Sundry.padRight(cv.toCubeSize(cs).toString(), w, ' ').cvBg(cv)}"
-    }
 
     fun List<Any>.pri(delim: String = "") {
         println(map { " $it" }.joinToString(delim))
@@ -114,7 +110,7 @@ class AnsiDemo {
                 ((4..16) + listOf(256))
                     .map { lightGreen.toCubeSize(it) }
                     .map { cv -> cv to cv.toCubeSize(4) }
-                    .map { (cv, cv2) -> listOf(pr(lightGreen), pr(cv), pr(cv2)).pri(" -> ") }
+                    .map { (cv, cv2) -> listOf(pr(lightGreen, 44), pr(cv, 33), pr(cv2)).pri(" -> ") }
 
                 ((4..16) + listOf(256))
                     .map { cv256.toCubeSize(it) }
@@ -582,8 +578,8 @@ class AnsiDemo {
                         measureTime {
                             val r = Random.nextInt(loremList.size - 8)
                             val ss = listOf(0, 2, 4).map { lorem(r + it, 2) }
-                            val ll = cubeValue.toHsv().gradient(cubeSize+1, Ansi.CubeValue(256, 0, 0, 1).toHsv())
-                            val lh = cubeValue.toHsv().gradient(cubeSize+1, Ansi.CubeValue(256, 255, 255, 255).toHsv())
+                            val ll = cubeValue.toHsv().gradient(cubeSize + 1, Ansi.CubeValue(256, 0, 0, 1).toHsv())
+                            val lh = cubeValue.toHsv().gradient(cubeSize + 1, Ansi.CubeValue(256, 255, 255, 255).toHsv())
                             (0..cubeSize).forEach { n ->
                                 val nn = Sundry.padLeft(n.toString(), 2, ' ')
                                 print(" $nn " + cvBg(cubeValue.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
