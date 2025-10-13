@@ -16,10 +16,10 @@ class Test1 {
         return if (ww <= 0) this else pL(length + ww / 2).pR(w)
     }
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 1) = cv.toString().pR(w).cvBg(cv)
-    fun prHSV(cv: Ansi.CubeValue, w: Int = 1) = cv.toHsv().toString().pR(w).cvBg(cv)
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 1) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
-    fun pr256(cv: Ansi.CubeValue, w: Int = 1) = prCS(cv, 256, w)
+    fun pr(cv: Ansi.CubeValue, w: Int = 48) = cv.toString().pR(w).cvBg(cv)
+    fun prHSV(cv: Ansi.CubeValue, w: Int = 32) = cv.toHsv().toString().pR(w).cvBg(cv)
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 44) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
+    fun pr256(cv: Ansi.CubeValue, w: Int = 48) = prCS(cv, 256, w)
 
 
     fun List<Any>.pri(delim: String = "") {
@@ -198,7 +198,7 @@ class Test1 {
 	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
 	println()
 	cvBase.gradient(12, cvBase2).forEach {
-	    listOf(pr(it, 44), prHSV(it, 32), prHSV(it.complement(), 32), prCS(it.complementRGB(), 8, 40)).pri()
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prCS(it.complementRGB(), 8)).pri()
 	}
     }
 
@@ -211,7 +211,7 @@ class Test1 {
 	println("    ${" $cvBase2 ".cvBg(cvBase2)} ${" ${cvBase2.toHsv()} ".cvBg(cvBase2)}")
 	println()
 	cvBase.gradient(12, cvBase2).forEach {
-	    listOf(pr(it, 48), prHSV(it,32), prHSV(it.complement(), 32), prHSV(it.complementRGB(), 32)).pri()
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pri()
 	}
     }
 
@@ -226,7 +226,7 @@ class Test1 {
 	val g3 = cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0)).map {it.toRGB()}
 
 	(0..<max2).forEach { n ->
-	    println("${pr(g1[n], 44)} ${pr(g2[n], 44)} ${pr(g3[n], 44)}")
+	    println("${pr(g1[n])} ${pr(g2[n])} ${pr(g3[n])}")
 	}
 
 	println()

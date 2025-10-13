@@ -35,11 +35,10 @@ class AnsiDemo {
         return if (ww <= 0) this else pL(length + ww / 2).pR(w)
     }
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 1) = cv.toString().pR(w).cvBg(cv)
-    fun prHSV(cv: Ansi.CubeValue, w: Int = 1) = cv.toHsv().toString().pR(w).cvBg(cv)
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 1) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
-    fun pr256(cv: Ansi.CubeValue, w: Int = 1) = prCS(cv, 256, w)
-
+    fun pr(cv: Ansi.CubeValue, w: Int = 48) = cv.toString().pR(w).cvBg(cv)
+    fun prHSV(cv: Ansi.CubeValue, w: Int = 32) = cv.toHsv().toString().pR(w).cvBg(cv)
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 44) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
+    fun pr256(cv: Ansi.CubeValue, w: Int = 48) = prCS(cv, 256, w)
 
     fun List<Any>.pri(delim: String = "") {
         println(map { " $it" }.joinToString(delim))
@@ -110,7 +109,7 @@ class AnsiDemo {
                 ((4..16) + listOf(256))
                     .map { lightGreen.toCubeSize(it) }
                     .map { cv -> cv to cv.toCubeSize(4) }
-                    .map { (cv, cv2) -> listOf(pr(lightGreen, 44), pr(cv, 33), pr(cv2)).pri(" -> ") }
+                    .map { (cv, cv2) -> listOf(pr(lightGreen), pr(cv), pr(cv2)).pri(" -> ") }
 
                 ((4..16) + listOf(256))
                     .map { cv256.toCubeSize(it) }
@@ -123,7 +122,7 @@ class AnsiDemo {
                     val hsv = cv256.toHsv()
                     val cv_256 = hsv.toRGB()
                     val cv_N = cv_256.toCubeSize(cs)
-                    listOf(pr(cv, 44), pr(cv256, 44), prHSV(cv256, 32), pr(cv_256, 44), pr(cv_N, 44)).pri(" -> ")
+                    listOf(pr(cv), pr(cv256), prHSV(cv256), pr(cv_256), pr(cv_N)).pri(" -> ")
 
                     val hV = hsv.clone(v = 1.0)
                     listOf(pr(hV.toRGB())).pri(" -> ")
@@ -138,7 +137,7 @@ class AnsiDemo {
                     val cv2 = cv1.toCubeSize(it)
                     println(
                         Sundry.padLeft(it.toString(), 3, ' ') +
-                                listOf(pr(cv0, 44), pr(cv1, 46), pr(cv2, 44)).frm(" -> ") +
+                                listOf(pr(cv0), pr(cv1), pr(cv2)).frm(" -> ") +
                                 " ∆ ${cv0.r - cv2.r},${cv0.g - cv2.g},${cv0.b - cv2.b}"
                     )
                 }
