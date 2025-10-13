@@ -352,9 +352,9 @@ object Ansi {
     }
 
     /** Make sure to handle subtile rounding effect */
-    fun Double.modSpecial(d: Double) : Double {
+    fun Double.modSpecial(d: Double): Double {
 
-        val m = (this-0.0000000001) % d
+        val m = (this - 0.0000000001) % d
         //println("mod: $this $d -> $m")
         return m
     }
@@ -390,12 +390,7 @@ object Ansi {
 
     data class CubeValue(val cs: Int, val r: Int, val g: Int, val b: Int) {
         constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
-                this(
-                    cs,
-                    fromDouble(rf, cs),
-                    fromDouble(gf, cs),
-                    fromDouble(bf, cs)
-                )
+                this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
 
         fun toCubeSize(cs: Int): CubeValue {
             val f = (cs - 1).toDouble() / (this@CubeValue.cs - 1).toDouble()
@@ -502,8 +497,8 @@ object Ansi {
             return l
         }
 
-        fun gradient(loops: Int = 6, c2: CubeValue): List<CubeValue> {
-	    return toHsv().gradient(loops, c2.toHsv()).map {it.toRGB()}
+        fun gradient(loops: Int = 6, cubeValue: CubeValue): List<CubeValue> {
+            return toHsv().gradient(loops, cubeValue.toHsv()).map { it.toRGB() }
         }
 
         fun permutationGradient(): List<CubeValue> {
@@ -587,7 +582,7 @@ object Ansi {
 
     data class HSV(val h: Double, val s: Double, val v: Double) {
 
-        fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v) : HSV {
+        fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v): HSV {
             return HSV(h, s, v)
         }
 

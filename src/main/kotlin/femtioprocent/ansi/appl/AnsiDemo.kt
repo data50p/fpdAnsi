@@ -220,8 +220,14 @@ class AnsiDemo {
                         Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     val cvRandG2 =
                         Ansi.CubeValue(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+
                     cvRandG1.gradient(144, cvRandG2).forEach { it2 ->
                         print("·".cvBg(it2))
+                    }
+                    println()
+
+                    cvRandG1.toHsv().gradient(144, cvRandG2.toHsv()).forEach { it2 ->
+                        print("·".cvBg(it2.toRGB()))
                     }
                     println()
                 }
@@ -244,77 +250,92 @@ class AnsiDemo {
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
                     val cvRand = Ansi.CubeValue(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                    println("       " + Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
+                    println("            " + Sundry.padCenter("Base color $cvRand", ww, ' ').cvBg(cvRand))
 
                     val www = ww / 4
-                    print("       ")
+                    print("            ")
                     print(Sundry.padCenter("mxV ${cvRand.toMaxValue().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxValue()))
                     print(Sundry.padCenter("mxS ${cvRand.toMaxSaturation().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.toMaxSaturation()))
                     print(Sundry.padCenter("cmpl ${cvRand.complement().toLaconicStringRGB()}", www, ' ').cvBg(cvRand.complement()))
                     print(Sundry.padCenter("comp ${cvRand.complementRGB().toLaconicStringRGB()}", ww - 3 * www, ' ').cvBg(cvRand.complementRGB()))
                     println()
 
-                    print("Hue    ")
+                    print("Hue    360° ")
                     cvRand.hueGradient(max2).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
-                    print("Satur  ")
+                    print("Satur  rgb  ")
                     cvRand.saturationGradient(max2).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
-                    print("SatMin ")
+                    print("SatMin hsv1 ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
                         print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
-                    print("SatMin ")
+                    print("SatMin hsv  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 0.0)).forEach { it2 ->
                         print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
-                    print("SatMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(s = 1.0).toRGB()).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
+                    print("SatMax hsv  ")
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(s = 1.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
-                    print("Value  ")
+                    print("Value  rgb  ")
                     cvRand.valueGradient(max2).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
-                    print("ValMax ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
-                        print("${pr(it2)}".cvBg(it2))
-                    }
-                    println()
-
-                    print("ValMax ")
+                    print("ValMax rgb  ")
                     cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 1.0)).forEach { it2 ->
                         print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
-                    print("ValMin ")
-                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 0.0)).forEach { it2 ->
+                    print("ValMax hsv  ")
+                    cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = 1.0)).forEach { it2 ->
                         print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
                     }
                     println()
 
-                    print("ValMin ")
-                    cvRand.gradient(max2, cvRand.toHsv().clone(v = 0.01).toRGB()).forEach { it2 ->
+                    print("ValMin rbg  ")
+                    val cvRand256 = cvRand.toCubeSize(256)
+                    cvRand.gradient(max2, Ansi.CubeValue(256, cvRand256.r/128, cvRand256.g/128, cvRand256.b/128)).forEach { it2 ->
                         print("${pr(it2)}".cvBg(it2))
                     }
                     println()
 
+                    print("ValMin rbg0 ")
+                    cvRand.gradient(max2, Ansi.CubeValue(256, 0, 0, 0)).forEach { it2 ->
+                        print("${pr(it2)}".cvBg(it2))
+                    }
                     println()
+
+                    listOf(
+                        0.0, 0.1,
+                        0.03, 0.01,
+                        0.003, 0.001,
+//                        0.0003, 0.0001,
+//                        0.00003, 0.00001,
+//                        0.000003, 0.000001,
+//                        0.0000003, 0.0000001,
+                    ).forEach { val0 ->
+                        print("ValMin hsv  ")
+                        cvRand.toHsv().gradient(max2, cvRand.toHsv().clone(v = val0)).forEach { it2 ->
+                            print("${pr(it2.toRGB())}".cvBg(it2.toRGB()))
+                        }
+                        println(" $val0")
+                    }
                 }
 
                 println()
