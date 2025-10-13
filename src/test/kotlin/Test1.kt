@@ -11,10 +11,7 @@ class Test1 {
 
     fun String.pR(w: Int = 1) = "%-${w}s".format(this)
     fun String.pL(w: Int = 1) = "%${w}s".format(this)
-    fun String.pC(w: Int = 1): String {
-        val ww = w - length
-        return if (ww <= 0) this else pL(length + ww / 2).pR(w)
-    }
+    fun String.pC(w: Int = 1) = if (w <= length) this else pL(length + (w - length) / 2).pR(w)
 
     fun pr(cv: Ansi.CubeValue, w: Int = 48) = cv.toString().pR(w).cvBg(cv)
     fun prHSV(cv: Ansi.CubeValue, w: Int = 32) = cv.toHsv().toString().pR(w).cvBg(cv)
