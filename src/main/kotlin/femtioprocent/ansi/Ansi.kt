@@ -645,8 +645,6 @@ object Ansi {
 
 fun main() {
 
-    //  ./runJava femtioprocent.sundry.AnsiKt
-
     println(Ansi.clear())
     (1..30).forEach { xy ->
         println(Ansi.goto(xy, xy) + "I'm at ($xy $xy)")
