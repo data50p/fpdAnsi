@@ -399,9 +399,9 @@ object Ansi {
 
         fun toCubeSize(n: Int): CubeValue {
             val f = (n - 1).toDouble() / (cubeSize - 1).toDouble()
-            val rr = r.toDouble() * f
-            val gg = g.toDouble() * f
-            val bb = b.toDouble() * f
+            val rr = r.toDouble() * f + 0.5
+            val gg = g.toDouble() * f + 0.5
+            val bb = b.toDouble() * f + 0.5
             return CubeValue(n, rr.toInt(), gg.toInt(), bb.toInt())
         }
 
