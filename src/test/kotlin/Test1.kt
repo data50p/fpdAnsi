@@ -13,10 +13,10 @@ class Test1 {
     fun String.pL(w: Int = 1) = "%${w}s".format(this)
     fun String.pC(w: Int = 1) = if (w <= length) this else pL(length + (w - length) / 2).pR(w)
 
-    fun pr(cv: Ansi.CubeValue, w: Int = 48) = cv.toString().pR(w).cvBg(cv)
+    fun pr(cv: Ansi.CubeValue, w: Int = 40) = cv.toString().pR(w).cvBg(cv)
     fun prHSV(cv: Ansi.CubeValue, w: Int = 32) = cv.toHsv().toString().pR(w).cvBg(cv)
-    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 44) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
-    fun pr256(cv: Ansi.CubeValue, w: Int = 48) = prCS(cv, 256, w)
+    fun prCS(cv: Ansi.CubeValue, cs: Int, w: Int = 40) = cv.toCubeSize(cs).toString().pR(w).cvBg(cv)
+    fun pr256(cv: Ansi.CubeValue, w: Int = 40) = prCS(cv, 256, w)
 
 
     fun List<Any>.pri(delim: String = "") {

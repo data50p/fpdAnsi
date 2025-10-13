@@ -277,11 +277,11 @@ object Ansi {
 
     fun cvFgBg(cubeValueFG: CubeValue, cubeValueBG: CubeValue, s: String): String {
         return csFgBg(
-            cubeValueFG.cubeSize,
+            cubeValueFG.cs,
             cubeValueFG.r,
             cubeValueFG.g,
             cubeValueFG.b,
-            cubeValueBG.cubeSize,
+            cubeValueBG.cs,
             cubeValueBG.r,
             cubeValueBG.g,
             cubeValueBG.b,
@@ -305,13 +305,13 @@ object Ansi {
         { r, g, b -> { s -> csBg(cubeSize, r, g, b, s) } }
 
     fun cvFg(cubeValue: CubeValue): (String) -> String =
-        { s -> csFg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+        { s -> csFg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, s) }
 
     fun cvBg(cubeValue: CubeValue): (String) -> String =
-        { s -> csBg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, s) }
+        { s -> csBg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, s) }
 
-    fun String.cvFg(cubeValue: CubeValue) = csFg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, this)
-    fun String.cvBg(cubeValue: CubeValue) = csBg(cubeValue.cubeSize, cubeValue.r, cubeValue.g, cubeValue.b, this)
+    fun String.cvFg(cubeValue: CubeValue) = csFg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, this)
+    fun String.cvBg(cubeValue: CubeValue) = csBg(cubeValue.cs, cubeValue.r, cubeValue.g, cubeValue.b, this)
 
     fun csCv(cubeSize: Int): (r: Int, g: Int, b: Int) -> CubeValue = { r, g, b -> CubeValue(cubeSize, r, g, b) }
 
@@ -388,7 +388,7 @@ object Ansi {
     }
 
 
-    data class CubeValue(val cubeSize: Int, val r: Int, val g: Int, val b: Int) {
+    data class CubeValue(val cs: Int, val r: Int, val g: Int, val b: Int) {
         constructor(cubeSize: Int, rf: Double, gf: Double, bf: Double) :
                 this(
                     cubeSize,
@@ -398,7 +398,7 @@ object Ansi {
                 )
 
         fun toCubeSize(n: Int): CubeValue {
-            val f = (n - 1).toDouble() / (cubeSize - 1).toDouble()
+            val f = (n - 1).toDouble() / (cs - 1).toDouble()
             val rr = r.toDouble() * f + 0.5
             val gg = g.toDouble() * f + 0.5
             val bb = b.toDouble() * f + 0.5
@@ -406,7 +406,7 @@ object Ansi {
         }
 
         fun colorSpan(): Int {
-            return Math.max(cubeSize - Math.min(r, Math.min(g, b)) - 1, Math.max(r, Math.max(g, b)))
+            return Math.max(cs - Math.min(r, Math.min(g, b)) - 1, Math.max(r, Math.max(g, b)))
         }
 
         fun min(): Int {
@@ -418,22 +418,22 @@ object Ansi {
         }
 
 
-        fun rotR() = CubeValue(cubeSize, b, r, g)
-        fun rotL() = CubeValue(cubeSize, g, b, r)
+        fun rotR() = CubeValue(cs, b, r, g)
+        fun rotL() = CubeValue(cs, g, b, r)
 
-        fun complementRGB(): CubeValue = CubeValue(cubeSize, cubeSize - r - 1, cubeSize - g - 1, cubeSize - b - 1)
+        fun complementRGB(): CubeValue = CubeValue(cs, cs - r - 1, cs - g - 1, cs - b - 1)
 
         fun complement(): CubeValue {
             val hsv = toHsv()
             val chsv = HSV((hsv.h + 180.0) % 360.0, hsv.s, hsv.v)
-            return chsv.toRGB().toCubeSize(cubeSize)
+            return chsv.toRGB().toCubeSize(cs)
         }
 
-        fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cubeSize, fr(r), fg(g), fb(b))
+        fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = CubeValue(cs, fr(r), fg(g), fb(b))
         fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): CubeValue =
             if (n == 0) this else moreOrLess(fr, fg, fb).moreOrLess(n - 1, fr, fg, fb)
 
-        fun moreOrLess(opRGB: String) = CubeValue(cubeSize, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
+        fun moreOrLess(opRGB: String) = CubeValue(cs, opFun(opRGB[0])(r), opFun(opRGB[1])(g), opFun(opRGB[2])(b))
         fun moreOrLess(n: Int, op: String): CubeValue = if (n == 0) this else moreOrLess(op).moreOrLess(n - 1, op)
 
         fun opFun(ch: Char): (Int) -> Int {
@@ -509,11 +509,11 @@ object Ansi {
         fun permutationGradient(): List<CubeValue> {
             val l = mutableListOf<CubeValue>()
             l += this
-            l += CubeValue(cubeSize, r, b, g)
-            l += CubeValue(cubeSize, b, r, g)
-            l += CubeValue(cubeSize, b, g, r)
-            l += CubeValue(cubeSize, g, b, r)
-            l += CubeValue(cubeSize, g, r, b)
+            l += CubeValue(cs, r, b, g)
+            l += CubeValue(cs, b, r, g)
+            l += CubeValue(cs, b, g, r)
+            l += CubeValue(cs, g, b, r)
+            l += CubeValue(cs, g, r, b)
 
             // 1 2 3
             // 1 3 2
@@ -528,8 +528,8 @@ object Ansi {
 
         fun inc(v: Int): Int {
             val v1 = v + 1
-            if (v1 >= cubeSize)
-                return cubeSize - 1
+            if (v1 >= cs)
+                return cs - 1
             else
                 return v1
         }
@@ -545,10 +545,10 @@ object Ansi {
         fun eq0(v: Int): Int = v
 
 
-        fun toHsv(): HSV = (if (cubeSize == 256) this else toCubeSize(256)).toHsv256()
+        fun toHsv(): HSV = (if (cs == 256) this else toCubeSize(256)).toHsv256()
 
         private fun toHsv256(): HSV {
-            require(cubeSize == 256) { "Only 256 bits color" }
+            require(cs == 256) { "Only 256 bits color" }
 
             val rd = r / 255.0
             val gd = g / 255.0
