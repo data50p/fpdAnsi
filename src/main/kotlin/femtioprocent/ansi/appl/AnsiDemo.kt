@@ -20,17 +20,21 @@ val lorem =
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
 
-fun pr(rgb: Ansi.RGB, w: Int = 34) = rgb.toString().pR(w).rgbBg(rgb)
-fun prHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-fun prCS(rgb: Ansi.RGB, cs: Int, w: Int = 34) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
-fun pr256(rgb: Ansi.RGB, w: Int = 34) = prCS(rgb, 256, w)
+fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.toString().pR(w).rgbBg(rgb)
+fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
+fun frmCS(rgb: Ansi.RGB, cs: Int, w: Int = 34) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
+fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
+fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.toRGB().toHsv().toString().pR(w).rgbBg(hsv.toRGB())
 
-fun List<Any>.frmList(delim: String = ""): String {
-    return map { " $it" }.joinToString(delim)
+fun Ansi.RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
+fun Ansi.HSV.show(w: Int = 34) = toString().pR(w).rgbBg(this.toRGB())
+
+fun List<Any>.frmList(delim: String = "", suffix: String = ""): String {
+    return map { it }.joinToString(delim) + suffix
 }
 
-fun List<Any>.prList(delim: String = "") {
-    println(frmList())
+fun List<Any>.prList(delim: String = "", suffix: String = "") {
+    println(frmList(delim) + suffix)
 }
 
 class AnsiDemo {
@@ -39,15 +43,6 @@ class AnsiDemo {
 	println(Version.info())
 	ansiColorDemo(arg)
     }
-
-    fun List<Any>.pri(delim: String = "", suf: String = "") {
-	println(map { " $it" }.joinToString(delim) + suf)
-    }
-
-    fun List<Any>.frm(delim: String = ""): String {
-	return map { " $it" }.joinToString(delim)
-    }
-
 
     private fun ansiColorDemo(arg: String) {
 
@@ -108,12 +103,12 @@ class AnsiDemo {
 		((4..16) + listOf(256))
 		    .map { lightGreen.toCubeSize(it) }
 		    .map { rgb -> rgb to rgb.toCubeSize(4) }
-		    .map { (rgb, rgb2) -> listOf(pr(lightGreen), pr(rgb), pr(rgb2)).pri(" -> ") }
+		    .forEach { (rgb, rgb2) -> listOf(showRGB(lightGreen), showRGB(rgb), showRGB(rgb2)).prList(" -> ") }
 
 		((4..16) + listOf(256))
 		    .map { rgb256.toCubeSize(it) }
 		    .map { rgb -> rgb to rgb.toCubeSize(256) }
-		    .map { (rgb, rgb2) -> listOf(pr(rgb256), pr(rgb), pr(rgb2)).pri(" -> ") }
+		    .forEach { (rgb, rgb2) -> listOf(showRGB(rgb256), showRGB(rgb), showRGB(rgb2)).prList(" -> ") }
 		println()
 
 		((4..16) + listOf(256)).forEach { cs ->
@@ -123,7 +118,7 @@ class AnsiDemo {
 		    val rgb_256 = hsv.toRGB()
 		    val rgb_N = rgb_256.toCubeSize(cs)
 		    val d = " ∆ ${rgb_N.r - rgb.r},${rgb_N.g - rgb.g},${rgb_N.b - rgb.b}"
-		    listOf(pr(hsv.clone(v = 1.0).toRGB()), pr(rgb), pr(rgb256), prHSV(rgb256), pr(rgb_256), pr(rgb_N)).pri(" -> ", d)
+		    listOf(showRGB(hsv.clone(v = 1.0).toRGB()), showRGB(rgb), showRGB(rgb256), showHSV(rgb256), showRGB(rgb_256), showRGB(rgb_N)).prList(" -> ", d)
 		}
 
 		println()
@@ -131,9 +126,7 @@ class AnsiDemo {
 		    val rgb0 = Ansi.RGB(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
 		    val rgb1 = rgb0.toCubeSize(256)
 		    val rgb2 = rgb1.toCubeSize(it)
-		    println(
-			listOf(pr(rgb0), pr(rgb1), pr(rgb2)).frm(" -> ") + " ∆ ${rgb0.r - rgb2.r},${rgb0.g - rgb2.g},${rgb0.b - rgb2.b}"
-		    )
+                    listOf(showRGB(rgb0), showRGB(rgb1), showRGB(rgb2)).prList(" -> ", " ∆ ${rgb0.r - rgb2.r},${rgb0.g - rgb2.g},${rgb0.b - rgb2.b}")
 		}
 
 
@@ -159,25 +152,34 @@ class AnsiDemo {
 		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
 		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
 
-		println("${lightGreen} ${lightMagenta}   ${lightGreen256} ${lightMagenta256}")
+                listOf(lightGreen, lightMagenta, lightGreen256, lightMagenta256).prList(" ")
 		println()
 
-
-		val red = Ansi.csRgb(256)(255, 0, 0)
 
 		val w = " 236,120,136 ".length
 		fun pr1(rgb: Ansi.RGB) = rgb.toLaconicStringRGB().pC(w)
 		fun pr2(_rgb: Ansi.RGB) = "XX".pC(4)
 
-		println("RGB Gradient")
-		red.hueGradient(12).forEach { it2 ->
-		    print("${pr1(it2)} ".rgbBg(it2))
-		}
-		println()
-		println()
+                val red = Ansi.csRgb(256)(255, 0, 0)
+                println("RGB Gradient")
+                red.hueGradient(12).forEach { it2 ->
+                    print("${pr1(it2)} ".rgbBg(it2))
+                }
+                println()
+                println()
+
+                println("RGB Gradients")
+                red.hueGradient(6).forEach { it1 ->
+                    it1.hueGradient(6).forEach { it2 ->
+                        print("${pr1(it2)} ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+                println()
 
 
-		println("RGB Gradient 180°")
+                println("RGB Gradient 180°")
 		repeat(8) {
 		    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
 			.hueGradient(36, 180.0).forEach { it2 ->
