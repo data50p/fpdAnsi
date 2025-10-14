@@ -10,7 +10,6 @@ import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
-import femtioprocent.ansi.showRGB
 import kotlin.random.Random
 import kotlin.time.measureTime
 
@@ -33,6 +32,13 @@ fun List<Any>.frmList(delim: String = "", suffix: String = ""): String {
 fun List<Any>.prList(delim: String = "", suffix: String = "") {
     println(frmList(delim) + suffix)
 }
+
+private fun randomRGB(cubeSize: Int): RGB = RGB(
+    cubeSize,
+    Random.nextInt(cubeSize),
+    Random.nextInt(cubeSize),
+    Random.nextInt(cubeSize)
+)
 
 class AnsiDemo {
 
@@ -109,7 +115,7 @@ class AnsiDemo {
                 println()
 
                 ((4..16) + listOf(256)).forEach { cs ->
-                    val rgb = Ansi.RGB(cs, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    val rgb = randomRGB(cs)
                     val rgb256 = rgb.toCubeSize(256)
                     val hsv = rgb256.toHsv()
                     val rgb_256 = hsv.toRGB()
@@ -129,7 +135,7 @@ class AnsiDemo {
 
                 println()
                 (2..256).forEach {
-                    val rgb0 = Ansi.RGB(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
+                    val rgb0 = randomRGB(it)
                     val rgb1 = rgb0.toCubeSize(256)
                     val rgb2 = rgb1.toCubeSize(it)
                     listOf(
@@ -191,40 +197,35 @@ class AnsiDemo {
 
                 println("RGB Gradient 180°")
                 repeat(8) {
-                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                        .hueGradient(36, 180.0).forEach { it2 ->
-                            print(" XX ".rgbBg(it2))
-                        }
+                    randomRGB(256).hueGradient(36, 180.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
                     println()
                 }
                 println()
 
                 println("RGB Gradient -180°")
                 repeat(8) {
-                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                        .hueGradient(36, -180.0).forEach { it2 ->
-                            print(" XX ".rgbBg(it2))
-                        }
+                    randomRGB(256).hueGradient(36, -180.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
                     println()
                 }
                 println()
 
                 println("RGB Gradient 45°")
                 repeat(8) {
-                    Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                        .hueGradient(36, 45.0).forEach { it2 ->
-                            print(" XX ".rgbBg(it2))
-                        }
+                    randomRGB(256).hueGradient(36, 45.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
                     println()
                 }
                 println()
 
                 println("Gradient color1 -> color2")
                 repeat(8) {
-                    val rgbRandG1 =
-                        Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
-                    val rgbRandG2 =
-                        Ansi.RGB(256, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    val rgbRandG1 = randomRGB(256)
+                    val rgbRandG2 = randomRGB(256)
 
                     rgbRandG1.gradient(144, rgbRandG2).forEach { it2 ->
                         print("·".rgbBg(it2))
@@ -254,7 +255,7 @@ class AnsiDemo {
 
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
-                    val rgbRand = Ansi.RGB(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
+                    val rgbRand = randomRGB(cubSiz)
                     println("            " + "Base color $rgbRand".pC(ww).rgbBg(rgbRand))
 
                     val tL = RGB::toLaconicStringRGB
@@ -643,12 +644,7 @@ class AnsiDemo {
                     repeat(3) {
                         listOf(2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256).forEach {
                             measureTime {
-                                val rgbBase = Ansi.RGB(
-                                    it,
-                                    Random.nextDouble(1.0),
-                                    Random.nextDouble(1.0),
-                                    Random.nextDouble(1.0)
-                                )
+                                val rgbBase = randomRGB(it)
                                 (0..it).forEach { n ->
                                     val xyz = rgbBg(rgbBase.moreOrLess(n, rgbBase::inc, rgbBase::eq0, rgbBase::dec))
                                 }
@@ -673,3 +669,4 @@ class AnsiDemo {
         }
     }
 }
+
