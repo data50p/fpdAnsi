@@ -3,9 +3,9 @@ import femtioprocent.ansi.extentions.ansiColor
 import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Ansi.rgbBg
 import femtioprocent.ansi.appl.showRGB
-import femtioprocent.ansi.appl.frmCS
 import femtioprocent.ansi.appl.showHSV
 import femtioprocent.ansi.appl.prList
+import femtioprocent.ansi.appl.show
 import kotlin.random.Random
 import kotlin.test.Test
 
@@ -177,7 +177,7 @@ class Test1 {
 	println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
 	println()
 	rgbBase.gradient(12, rgbBase2).forEach {
-	    listOf(showRGB(it), showHSV(it), showHSV(it.complement()), frmCS(it.complementRGB(), 8)).prList()
+	    listOf(showRGB(it), showHSV(it), showHSV(it.complement()), it.complementRGB().toCubeSize(8).show()).prList()
 	}
     }
 

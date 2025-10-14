@@ -20,14 +20,12 @@ val lorem =
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
 
-fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.toString().pR(w).rgbBg(rgb)
-fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-fun frmCS(rgb: Ansi.RGB, cs: Int, w: Int = 34) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
-fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
-fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.toRGB().toHsv().toString().pR(w).rgbBg(hsv.toRGB())
-
 fun Ansi.RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
 fun Ansi.HSV.show(w: Int = 32) = toString().pR(w).rgbBg(this.toRGB())
+fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.show()
+fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
+fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
+fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.show()
 
 fun List<Any>.frmList(delim: String = "", suffix: String = ""): String {
     return map { it }.joinToString(delim) + suffix
