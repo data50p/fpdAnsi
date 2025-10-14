@@ -2,7 +2,8 @@ package femtioprocent.ansi
 
 import femtioprocent.ansi.Ansi.RGB
 import femtioprocent.ansi.Ansi.rgbBg
-import femtioprocent.ansi.Ansi.show
+import femtioprocent.ansi.Ansi.showC
+import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
 
@@ -16,10 +17,10 @@ import femtioprocent.ansi.extentions.pR
  * @author larsno
  */
 
-fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.show()
+fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.showC()
 fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
 fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
-fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.show()
+fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.showC()
 
 object Ansi {
 
@@ -323,8 +324,13 @@ object Ansi {
 
     fun csRgb(cubeSize: Int): (r: Int, g: Int, b: Int) -> RGB = { r, g, b -> RGB(cubeSize, r, g, b) }
 
-    fun RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
-    fun HSV.show(w: Int = 32) = toString().pR(w).rgbBg(this.toRGB())
+    fun RGB.showC(w: Int = 34, prfx: String = "", f: (RGB) -> String = { it.toString() }) = (prfx + f(this)).pC(w).rgbBg(this)
+    fun RGB.showL(w: Int = 34, prfx: String = "", f: (RGB) -> String = { it.toString() }) = (prfx + f(this)).pR(w).rgbBg(this)
+    fun RGB.showR(w: Int = 34, prfx: String = "", f: (RGB) -> String = { it.toString() }) = (prfx + f(this)).pL(w).rgbBg(this)
+
+    fun HSV.showC(w: Int = 32, prfx: String = "") = (prfx + toString()).pC(w).rgbBg(this.toRGB())
+    fun HSV.showL(w: Int = 32, prfx: String = "") = (prfx + toString()).pR(w).rgbBg(this.toRGB())
+    fun HSV.showR(w: Int = 32, prfx: String = "") = (prfx + toString()).pL(w).rgbBg(this.toRGB())
 
     // ---------------------------------------------------- Legacy Color -----------------------------------------------------
 

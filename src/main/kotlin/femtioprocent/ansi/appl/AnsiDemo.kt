@@ -1,9 +1,11 @@
 package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
+import femtioprocent.ansi.Ansi.RGB
 import femtioprocent.ansi.Ansi.rgbBg
 import femtioprocent.ansi.Ansi.rgbFg
-import femtioprocent.ansi.Ansi.show
+import femtioprocent.ansi.Ansi.showC
+import femtioprocent.ansi.Ansi.showL
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
@@ -98,12 +100,12 @@ class AnsiDemo {
                 ((4..16) + listOf(256))
                     .map { lightGreen.toCubeSize(it) }
                     .map { rgb -> rgb to rgb.toCubeSize(4) }
-                    .forEach { (rgb, rgb2) -> listOf(lightGreen.show(), rgb.show(), rgb2.show()).prList(" -> ") }
+                    .forEach { (rgb, rgb2) -> listOf(lightGreen.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
 
                 ((4..16) + listOf(256))
                     .map { rgb256.toCubeSize(it) }
                     .map { rgb -> rgb to rgb.toCubeSize(256) }
-                    .forEach { (rgb, rgb2) -> listOf(rgb256.show(), rgb.show(), rgb2.show()).prList(" -> ") }
+                    .forEach { (rgb, rgb2) -> listOf(rgb256.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
                 println()
 
                 ((4..16) + listOf(256)).forEach { cs ->
@@ -117,12 +119,11 @@ class AnsiDemo {
                     val d256 = " ∆ ${rgbDelta256.toLaconicStringRGB()}"
                     val d = " ∆ ${rgbDelta.toLaconicStringRGB()}"
                     listOf(
-                        showRGB(hsv.clone(v = 1.0).toRGB()),
-                        rgb.show(),
-                        rgb256.show(),
-                        rgb256.toHsv().show(),
-                        rgb_256.show(),
-                        rgb_N.show()
+                        rgb.showL(),
+                        rgb256.showL(),
+                        rgb256.toHsv().showL(),
+                        rgb_256.showL(),
+                        rgb_N.showL()
                     ).prList(" -> ", "$d256  $d")
                 }
 
@@ -132,9 +133,9 @@ class AnsiDemo {
                     val rgb1 = rgb0.toCubeSize(256)
                     val rgb2 = rgb1.toCubeSize(it)
                     listOf(
-                        rgb0.show(),
-                        rgb1.show(),
-                        rgb2.show()
+                        rgb0.showL(),
+                        rgb1.showL(),
+                        rgb2.showL()
                     ).prList(" -> ", " ∆ ${rgb0.minus(rgb2).toLaconicStringRGB()}")
                 }
 
@@ -256,12 +257,16 @@ class AnsiDemo {
                     val rgbRand = Ansi.RGB(cubSiz, Random.nextDouble(1.0), Random.nextDouble(1.0), Random.nextDouble(1.0))
                     println("            " + "Base color $rgbRand".pC(ww).rgbBg(rgbRand))
 
-                    val www = ww / 4
+                    val tL = RGB::toLaconicStringRGB
+                    val col = 6
+                    val www = ww / col
                     print("            ")
-                    print("mxV ${rgbRand.toMaxValue().toLaconicStringRGB()}".pC(www).rgbBg(rgbRand.toMaxValue()))
-                    print("mxS ${rgbRand.toMaxSaturation().toLaconicStringRGB()}".pC(www).rgbBg(rgbRand.toMaxSaturation()))
-                    print("cmpl ${rgbRand.complement().toLaconicStringRGB()}".pC(www).rgbBg(rgbRand.complement()))
-                    print("comp ${rgbRand.complementRGB().toLaconicStringRGB()}".pC(ww - 3 * www).rgbBg(rgbRand.complementRGB()))
+                    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
+                    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
+                    print(rgbRand.complement().showC(www, "cmpl ", tL))
+                    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
+                    print(rgbRand.rotR().showC(www, "rotR ", tL))
+                    print(rgbRand.rotL().showC(ww - (col - 1) * www, "rotL ", tL))
                     println()
 
 
