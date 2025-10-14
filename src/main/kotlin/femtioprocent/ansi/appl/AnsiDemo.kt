@@ -27,7 +27,7 @@ fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv
 fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.toRGB().toHsv().toString().pR(w).rgbBg(hsv.toRGB())
 
 fun Ansi.RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
-fun Ansi.HSV.show(w: Int = 34) = toString().pR(w).rgbBg(this.toRGB())
+fun Ansi.HSV.show(w: Int = 32) = toString().pR(w).rgbBg(this.toRGB())
 
 fun List<Any>.frmList(delim: String = "", suffix: String = ""): String {
     return map { it }.joinToString(delim) + suffix
@@ -103,12 +103,12 @@ class AnsiDemo {
 		((4..16) + listOf(256))
 		    .map { lightGreen.toCubeSize(it) }
 		    .map { rgb -> rgb to rgb.toCubeSize(4) }
-		    .forEach { (rgb, rgb2) -> listOf(showRGB(lightGreen), showRGB(rgb), showRGB(rgb2)).prList(" -> ") }
+		    .forEach { (rgb, rgb2) -> listOf(lightGreen.show(), rgb.show(), rgb2.show()).prList(" -> ") }
 
 		((4..16) + listOf(256))
 		    .map { rgb256.toCubeSize(it) }
 		    .map { rgb -> rgb to rgb.toCubeSize(256) }
-		    .forEach { (rgb, rgb2) -> listOf(showRGB(rgb256), showRGB(rgb), showRGB(rgb2)).prList(" -> ") }
+		    .forEach { (rgb, rgb2) -> listOf(rgb256.show(), rgb.show(), rgb2.show()).prList(" -> ") }
 		println()
 
 		((4..16) + listOf(256)).forEach { cs ->
@@ -118,7 +118,7 @@ class AnsiDemo {
 		    val rgb_256 = hsv.toRGB()
 		    val rgb_N = rgb_256.toCubeSize(cs)
 		    val d = " ∆ ${rgb_N.r - rgb.r},${rgb_N.g - rgb.g},${rgb_N.b - rgb.b}"
-		    listOf(showRGB(hsv.clone(v = 1.0).toRGB()), showRGB(rgb), showRGB(rgb256), showHSV(rgb256), showRGB(rgb_256), showRGB(rgb_N)).prList(" -> ", d)
+		    listOf(showRGB(hsv.clone(v = 1.0).toRGB()), rgb.show(), rgb256.show(), showHSV(rgb256), rgb_256.show(), rgb_N.show()).prList(" -> ", d)
 		}
 
 		println()
