@@ -410,6 +410,10 @@ object Ansi {
             return listOf(r, g, b).max()
         }
 
+        fun minus(other: RGB) : RGB {
+            require(cs == other.cs)
+            return RGB(cs, r - other.r, g - other.g, b - other.b)
+        }
 
         fun rotR() = RGB(cs, b, r, g)
         fun rotL() = RGB(cs, g, b, r)
