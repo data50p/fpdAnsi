@@ -1,5 +1,6 @@
 package femtioprocent.ansi
 
+import femtioprocent.ansi.Ansi.RGB
 import femtioprocent.ansi.extentions.pL
 
 /**
@@ -410,7 +411,7 @@ object Ansi {
             return listOf(r, g, b).max()
         }
 
-        fun minus(other: RGB) : RGB {
+        fun minus(other: RGB): RGB {
             require(cs == other.cs)
             return RGB(cs, r - other.r, g - other.g, b - other.b)
         }
@@ -483,9 +484,9 @@ object Ansi {
             return l
         }
 
-	/**
-	 * A problem when reaching black target (value == 0)
-	 */
+        /**
+         * A problem when reaching black target (value == 0)
+         */
         fun valueGradient(loops: Int = 12): List<RGB> {
             val l = mutableListOf<RGB>()
 
