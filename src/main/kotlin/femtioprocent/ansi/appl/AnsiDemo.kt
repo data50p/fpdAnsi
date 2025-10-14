@@ -33,13 +33,6 @@ fun List<Any>.prList(delim: String = "", suffix: String = "") {
     println(frmList(delim) + suffix)
 }
 
-private fun randomRGB(cubeSize: Int): RGB = RGB(
-    cubeSize,
-    Random.nextInt(cubeSize),
-    Random.nextInt(cubeSize),
-    Random.nextInt(cubeSize)
-)
-
 class AnsiDemo {
 
     fun main(arg: String) {
@@ -114,35 +107,20 @@ class AnsiDemo {
                     .forEach { (rgb, rgb2) -> listOf(rgb256.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
                 println()
 
-                ((4..16) + listOf(256)).forEach { cs ->
+                ((2..256)).forEach { cs ->
                     val rgb = randomRGB(cs)
                     val rgb256 = rgb.toCubeSize(256)
                     val hsv = rgb256.toHsv()
                     val rgb_256 = hsv.toRGB()
                     val rgb_N = rgb_256.toCubeSize(cs)
-                    val rgbDelta256 = rgb_256.minus(rgb256)
-                    val rgbDelta = rgb_N.minus(rgb)
-                    val d256 = " ∆ ${rgbDelta256.toLaconicStringRGB()}"
-                    val d = " ∆ ${rgbDelta.toLaconicStringRGB()}"
+
                     listOf(
                         rgb.showL(),
                         rgb256.showL(),
                         rgb256.toHsv().showL(),
                         rgb_256.showL(),
                         rgb_N.showL()
-                    ).prList(" -> ", "$d256  $d")
-                }
-
-                println()
-                (2..256).forEach {
-                    val rgb0 = randomRGB(it)
-                    val rgb1 = rgb0.toCubeSize(256)
-                    val rgb2 = rgb1.toCubeSize(it)
-                    listOf(
-                        rgb0.showL(),
-                        rgb1.showL(),
-                        rgb2.showL()
-                    ).prList(" -> ", " ∆ ${rgb0.minus(rgb2).toLaconicStringRGB()}")
+                    ).prList(" -> ")
                 }
 
 
@@ -197,7 +175,7 @@ class AnsiDemo {
 
                 println("RGB Gradient 180°")
                 repeat(8) {
-                    randomRGB(256).hueGradient(36, 180.0).forEach { it2 ->
+                    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
                         print(" XX ".rgbBg(it2))
                     }
                     println()
@@ -206,7 +184,7 @@ class AnsiDemo {
 
                 println("RGB Gradient -180°")
                 repeat(8) {
-                    randomRGB(256).hueGradient(36, -180.0).forEach { it2 ->
+                    randomRGB().hueGradient(36, -180.0).forEach { it2 ->
                         print(" XX ".rgbBg(it2))
                     }
                     println()
@@ -215,7 +193,7 @@ class AnsiDemo {
 
                 println("RGB Gradient 45°")
                 repeat(8) {
-                    randomRGB(256).hueGradient(36, 45.0).forEach { it2 ->
+                    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
                         print(" XX ".rgbBg(it2))
                     }
                     println()
@@ -224,8 +202,8 @@ class AnsiDemo {
 
                 println("Gradient color1 -> color2")
                 repeat(8) {
-                    val rgbRandG1 = randomRGB(256)
-                    val rgbRandG2 = randomRGB(256)
+                    val rgbRandG1 = randomRGB()
+                    val rgbRandG2 = randomRGB()
 
                     rgbRandG1.gradient(144, rgbRandG2).forEach { it2 ->
                         print("·".rgbBg(it2))
@@ -659,6 +637,14 @@ class AnsiDemo {
     }
 
     companion object {
+
+        fun randomRGB(cubeSize: Int = 256): RGB = RGB(
+            cubeSize,
+            Random.nextInt(cubeSize),
+            Random.nextInt(cubeSize),
+            Random.nextInt(cubeSize)
+        )
+
         fun main() {
             AnsiDemo().main("G3")
         }
