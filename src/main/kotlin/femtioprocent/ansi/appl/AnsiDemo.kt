@@ -253,6 +253,7 @@ class AnsiDemo {
 		    print("comp ${rgbRand.complementRGB().toLaconicStringRGB()}".pC(ww - 3 * www).rgbBg(rgbRand.complementRGB()))
 		    println()
 
+
 		    print("Hue    360° ")
 		    rgbRand.hueGradient(max2).forEach { it2 ->
 			print("${pr(it2)}".rgbBg(it2))
