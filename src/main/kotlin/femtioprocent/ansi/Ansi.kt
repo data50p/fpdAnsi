@@ -1,7 +1,10 @@
 package femtioprocent.ansi
 
 import femtioprocent.ansi.Ansi.RGB
+import femtioprocent.ansi.Ansi.rgbBg
+import femtioprocent.ansi.Ansi.show
 import femtioprocent.ansi.extentions.pL
+import femtioprocent.ansi.extentions.pR
 
 /**
  * Write escape sequences for colored output.
@@ -12,6 +15,12 @@ import femtioprocent.ansi.extentions.pL
  *
  * @author larsno
  */
+
+fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.show()
+fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
+fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
+fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.show()
+
 object Ansi {
 
     fun CSI(suffix: String = ""): String {
@@ -313,6 +322,9 @@ object Ansi {
     fun String.rgbBg(rgb: RGB) = csBg(rgb.cs, rgb.r, rgb.g, rgb.b, this)
 
     fun csRgb(cubeSize: Int): (r: Int, g: Int, b: Int) -> RGB = { r, g, b -> RGB(cubeSize, r, g, b) }
+
+    fun RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
+    fun HSV.show(w: Int = 32) = toString().pR(w).rgbBg(this.toRGB())
 
     // ---------------------------------------------------- Legacy Color -----------------------------------------------------
 

@@ -3,10 +3,12 @@ package femtioprocent.ansi.appl
 import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Ansi.rgbBg
 import femtioprocent.ansi.Ansi.rgbFg
+import femtioprocent.ansi.Ansi.show
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
+import femtioprocent.ansi.showRGB
 import kotlin.random.Random
 import kotlin.time.measureTime
 
@@ -21,13 +23,6 @@ val lorem =
 
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
-
-fun Ansi.RGB.show(w: Int = 34) = toString().pR(w).rgbBg(this)
-fun Ansi.HSV.show(w: Int = 32) = toString().pR(w).rgbBg(this.toRGB())
-fun showRGB(rgb: Ansi.RGB, w: Int = 34) = rgb.show()
-fun showHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-fun showRGB(hsv: Ansi.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
-fun showHSV(hsv: Ansi.HSV, w: Int = 32) = hsv.show()
 
 fun List<Any>.frmList(delim: String = "", suffix: String = ""): String {
     return map { it }.joinToString(delim) + suffix
