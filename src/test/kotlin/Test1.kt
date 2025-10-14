@@ -2,27 +2,14 @@ import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
 import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Ansi.rgbBg
-import femtioprocent.ansi.extentions.pR
+import femtioprocent.ansi.appl.pr
+import femtioprocent.ansi.appl.prCS
+import femtioprocent.ansi.appl.prHSV
+import femtioprocent.ansi.appl.prList
 import kotlin.random.Random
 import kotlin.test.Test
 
 class Test1 {
-
-    fun pr(rgb: Ansi.RGB, w: Int = 40) = rgb.toString().pR(w).rgbBg(rgb)
-    fun prHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-    fun prCS(rgb: Ansi.RGB, cs: Int, w: Int = 40) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
-    fun pr256(rgb: Ansi.RGB, w: Int = 40) = prCS(rgb, 256, w)
-
-
-    fun List<Any>.pri(delim: String = "") {
-	println(map { " $it" }.joinToString(delim))
-    }
-
-    fun List<Any>.frm(delim: String = ""): String {
-	return map { " $it" }.joinToString(delim)
-    }
-
-
 
     @Test
     fun testM1() {
@@ -80,11 +67,11 @@ class Test1 {
 	println("testHueGradientRed")
 	val rgbBase = Ansi.RGB(256, 255, 0, 0)
 	val rgb256 = rgbBase.toCubeSize(256)
-	rgbBase.also { listOf(pr(it), prHSV(it)).pri() }
+	rgbBase.also { listOf(pr(it), prHSV(it)).prList() }
 	println()
 	val g1 = rgb256.hueGradient(18)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it)).pri()
+	    listOf(pr(it), prHSV(it)).prList()
 	}
     }
 
@@ -93,11 +80,11 @@ class Test1 {
 	println("testHueGradient")
 	val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
 	val rgb256 = rgbBase.toCubeSize(256)
-	rgbBase.also { listOf(pr(it), prHSV(it)).pri() }
+	rgbBase.also { listOf(pr(it), prHSV(it)).prList() }
 	println()
 	val g1 = rgb256.hueGradient(18)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it)).pri()
+	    listOf(pr(it), prHSV(it)).prList()
 	}
     }
 
@@ -105,13 +92,13 @@ class Test1 {
     fun testHueGradient2() {
 	println("testHueGradient2")
 	val rgbBase = Ansi.RGB(8, 1, 2, 6)
-	rgbBase.also { listOf(pr(it), prHSV(it)).pri() }
+	rgbBase.also { listOf(pr(it), prHSV(it)).prList() }
 	val rgb256 = rgbBase.toCubeSize(256)
-	rgb256.also { listOf(pr(it), prHSV(it)).pri() }
+	rgb256.also { listOf(pr(it), prHSV(it)).prList() }
 	println()
 	val g1 = rgbBase.hueGradient(12)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it)).pri()
+	    listOf(pr(it), prHSV(it)).prList()
 	}
     }
 
@@ -120,24 +107,24 @@ class Test1 {
     fun testSaturationGradient6() {
 	println("testSaturationGradient6")
 	val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-	rgbBase.also { listOf(pr(it), prHSV(it)).pri() }
+	rgbBase.also { listOf(pr(it), prHSV(it)).prList() }
 	println()
 	val g1 = rgbBase.saturationGradient(12)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it)).pri()
+	    listOf(pr(it), prHSV(it)).prList()
 	}
 	println()
 
 	val hsvBase = rgbBase.toHsv()
 	val g2 = hsvBase.gradient(12, hsvBase.clone(s = 1.0))
 	g2.reversed().forEach {
-	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).pri()
+	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).prList()
 	}
 	println()
 
 	val g3 = hsvBase.gradient(12, hsvBase.clone(s = 0.0))
 	g3.forEach {
-	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).pri()
+	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).prList()
 	}
     }
 
@@ -145,25 +132,25 @@ class Test1 {
     fun testValueGradient6() {
 	println("testValueGradient6")
 	val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-	rgbBase.also { listOf(pr(it), prHSV(it)).pri() }
+	rgbBase.also { listOf(pr(it), prHSV(it)).prList() }
 	println()
 
 	val g1 = rgbBase.valueGradient(12)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it)).pri()
+	    listOf(pr(it), prHSV(it)).prList()
 	}
 	println()
 
 	val hsvBase = rgbBase.toHsv()
 	val g2 = hsvBase.gradient(12, hsvBase.clone(v = 1.0))
 	g2.reversed().forEach {
-	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).pri()
+	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).prList()
 	}
 	println()
 
 	val g3 = hsvBase.gradient(12, hsvBase.clone(v = 0.0))
 	g3.forEach {
-	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).pri()
+	    listOf(pr(it.toRGB()), prHSV(it.toRGB())).prList()
 	}
     }
 
@@ -177,7 +164,7 @@ class Test1 {
 	println()
 	val g1 = rgbBase.gradient(12, rgbBase2)
 	g1.forEach {
-	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pri()
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).prList()
 	}
     }
 
@@ -190,7 +177,7 @@ class Test1 {
 	println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
 	println()
 	rgbBase.gradient(12, rgbBase2).forEach {
-	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prCS(it.complementRGB(), 8)).pri()
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prCS(it.complementRGB(), 8)).prList()
 	}
     }
 
@@ -203,7 +190,7 @@ class Test1 {
 	println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
 	println()
 	rgbBase.gradient(12, rgbBase2).forEach {
-	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).pri()
+	    listOf(pr(it), prHSV(it), prHSV(it.complement()), prHSV(it.complementRGB())).prList()
 	}
     }
 

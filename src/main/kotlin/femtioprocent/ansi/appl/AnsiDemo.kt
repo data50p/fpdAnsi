@@ -20,6 +20,18 @@ val lorem =
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
 
+fun pr(rgb: Ansi.RGB, w: Int = 34) = rgb.toString().pR(w).rgbBg(rgb)
+fun prHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
+fun prCS(rgb: Ansi.RGB, cs: Int, w: Int = 34) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
+fun pr256(rgb: Ansi.RGB, w: Int = 34) = prCS(rgb, 256, w)
+
+fun List<Any>.frmList(delim: String = ""): String {
+    return map { " $it" }.joinToString(delim)
+}
+
+fun List<Any>.prList(delim: String = "") {
+    println(frmList())
+}
 
 class AnsiDemo {
 
@@ -27,11 +39,6 @@ class AnsiDemo {
 	println(Version.info())
 	ansiColorDemo(arg)
     }
-
-    fun pr(rgb: Ansi.RGB, w: Int = 34) = rgb.toString().pR(w).rgbBg(rgb)
-    fun prHSV(rgb: Ansi.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-    fun prCS(rgb: Ansi.RGB, cs: Int, w: Int = 34) = rgb.toCubeSize(cs).toString().pR(w).rgbBg(rgb)
-    fun pr256(rgb: Ansi.RGB, w: Int = 34) = prCS(rgb, 256, w)
 
     fun List<Any>.pri(delim: String = "", suf: String = "") {
 	println(map { " $it" }.joinToString(delim) + suf)
