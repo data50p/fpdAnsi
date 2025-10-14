@@ -136,7 +136,11 @@ class AnsiDemo {
                     val rgb0 = Ansi.RGB(it, Random.nextInt(it), Random.nextInt(it), Random.nextInt(it))
                     val rgb1 = rgb0.toCubeSize(256)
                     val rgb2 = rgb1.toCubeSize(it)
-                    listOf(rgb0.show(), rgb1.show(), rgb2.show()).prList(" -> ", " ∆ ${rgb0.minus(rgb2).toLaconicStringRGB()}")
+                    listOf(
+                        rgb0.show(),
+                        rgb1.show(),
+                        rgb2.show()
+                    ).prList(" -> ", " ∆ ${rgb0.minus(rgb2).toLaconicStringRGB()}")
                 }
 
 
