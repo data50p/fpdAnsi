@@ -1,6 +1,6 @@
 package femtioprocent.ansi
 
-import femtioprocent.sundry.Sundry
+import femtioprocent.ansi.extentions.pL
 
 /**
  * Write escape sequences for colored output.
@@ -167,7 +167,7 @@ object Ansi {
         val list = mutableListOf<String>()
 
         Color.entries.forEach { acc ->
-            list += "ColorSamples: ${Sundry.padLeft(acc.name, 2, ' ')} :: ${
+            list += "ColorSamples: ${acc.name.pL(2)} :: ${
                 fg(
                     acc,
                     "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name
@@ -304,11 +304,9 @@ object Ansi {
     fun csBgRGB(cubeSize: Int): (r: Int, g: Int, b: Int) -> (String) -> String =
         { r, g, b -> { s -> csBg(cubeSize, r, g, b, s) } }
 
-    fun rgbFg(rgb: RGB): (String) -> String =
-        { s -> csFg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
+    fun rgbFg(rgb: RGB): (String) -> String = { s -> csFg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
 
-    fun rgbBg(rgb: RGB): (String) -> String =
-        { s -> csBg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
+    fun rgbBg(rgb: RGB): (String) -> String = { s -> csBg(rgb.cs, rgb.r, rgb.g, rgb.b, s) }
 
     fun String.rgbFg(rgb: RGB) = csFg(rgb.cs, rgb.r, rgb.g, rgb.b, this)
     fun String.rgbBg(rgb: RGB) = csBg(rgb.cs, rgb.r, rgb.g, rgb.b, this)
@@ -453,7 +451,7 @@ object Ansi {
             return ret
         }
 
-        fun hueGradient(loops: Int = 6, degree: Double = 360.0): List<RGB> {
+        fun hueGradient(loops: Int = 12, degree: Double = 360.0): List<RGB> {
             val l = mutableListOf<RGB>()
 
             val step = degree / loops
@@ -466,7 +464,7 @@ object Ansi {
             return l
         }
 
-        fun saturationGradient(loops: Int = 6): List<RGB> {
+        fun saturationGradient(loops: Int = 12): List<RGB> {
             val l = mutableListOf<RGB>()
 
             val step = 0.999999 / (loops - 1)
@@ -481,7 +479,10 @@ object Ansi {
             return l
         }
 
-        fun valueGradient(loops: Int = 6): List<RGB> {
+	/**
+	 * A problem when reaching black target (value == 0)
+	 */
+        fun valueGradient(loops: Int = 12): List<RGB> {
             val l = mutableListOf<RGB>()
 
             val step = 0.999999 / (loops - 1)
@@ -497,7 +498,7 @@ object Ansi {
             return l
         }
 
-        fun gradient(loops: Int = 6, rgb: RGB): List<RGB> {
+        fun gradient(loops: Int = 12, rgb: RGB): List<RGB> {
             return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB() }
         }
 
