@@ -271,19 +271,25 @@ class AnsiDemo {
 		    }
 		    println()
 
-		    print("SatMin hsv  ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
-			print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
-		    }
-		    println()
+                    print("SatMin hsv  ")
+                    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
+                    }
+                    println()
 
-		    print("SatMax hsv  ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
-			print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
-		    }
-		    println()
+                    print("SatMax hsv  ")
+                    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
+                    }
+                    println()
 
-		    print("Value  rgb  ")
+                    print("SatMax hsv1 ")
+                    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { it2 ->
+                        print("${pr(it2.toRGB())}".rgbBg(it2.toRGB()))
+                    }
+                    println()
+
+                    print("Value  rgb  ")
 		    rgbRand.valueGradient(max2).forEach { it2 ->
 			print("${pr(it2)}".rgbBg(it2))
 		    }
