@@ -212,7 +212,7 @@ class AnsiDemo {
                 }
                 println()
 
-                if (true) {
+                true.let {
                     val max2 = 8
                     val cubeSize = 100
 
@@ -650,7 +650,7 @@ class AnsiDemo {
                     }
                 }
 
-                if (!false) {
+                true.let {
                     repeat(3) {
                         listOf(2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256).forEach {
                             measureTime {
