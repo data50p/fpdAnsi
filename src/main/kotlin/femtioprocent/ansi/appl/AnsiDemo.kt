@@ -151,13 +151,13 @@ class AnsiDemo {
 
 
 		val cellWidth = " 236,120,136 ".length
-		fun pr1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth)
-		fun pr2(_rgb: RGB) = "·".pC(3)
+		fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth)
+		fun formatter2(_rgb: RGB) = "·".pC(3)
 
 		val red = Ansi.csRgb(256)(255, 0, 0)
 		println("RGB Gradient")
 		red.hueGradient(12).forEach { it2 ->
-		    print("${pr1(it2)} ".rgbBg(it2))
+		    print("${formatter1(it2)} ".rgbBg(it2))
 		}
 		println()
 		println()
@@ -165,7 +165,7 @@ class AnsiDemo {
 		println("RGB Gradients")
 		red.hueGradient(6).forEach { it1 ->
 		    it1.hueGradient(6).forEach { it2 ->
-			print("${pr1(it2)} ".rgbBg(it2))
+			print("${formatter1(it2)} ".rgbBg(it2))
 		    }
 		    println()
 		}
@@ -261,15 +261,15 @@ class AnsiDemo {
 		    val defaultLoops = 10
 		    val lastItem = repeatIx == maxRepeat - 1
 
-		    val (loops, pr, cellWidth) =
+		    val (loops: Int, formatter: (RGB) -> String, cellWidth: Int) =
 			if (lastItem)
-			    Triple<Int, (RGB) -> String, Int>(defaultLoops * 4 + 3, ::pr2, 3 * defaultLoops)
+			    Triple(defaultLoops * 4 + 3, ::formatter2, 3 * defaultLoops)
 			else
-			    Triple<Int, (RGB) -> String, Int>(defaultLoops, ::pr1, cellWidth * defaultLoops)
+			    Triple(defaultLoops, ::formatter1, cellWidth * defaultLoops)
 
-		    val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
+		    val cubeSize = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
-		    val rgbRand = randomRGB(cubSiz)
+		    val rgbRand = randomRGB(cubeSize)
 		    println("            " + "Base color $rgbRand".pC(cellWidth).rgbBg(rgbRand))
 
 		    val tL = RGB::toLaconicStringRGB
@@ -284,77 +284,78 @@ class AnsiDemo {
 		    print(rgbRand.rotL().showC(cellWidth - (col - 1) * www, "rotL ", tL))
 		    println()
 
+		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
 
 		    print("Hue    360° ")
 		    rgbRand.hueGradient(loops).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 
 		    print("Satur  rgb  ")
 		    rgbRand.saturationGradient(loops).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 
 		    print("Sat Min v1  ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Sat Min     ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Sat Max     ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Sat Max v1  ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Value  rgb  ")
 		    rgbRand.valueGradient(loops).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 
 		    print("Val Max rgb ")
 		    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 
 		    print("Val Max hsv ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Val Min rgb ")
 		    val rgbRand256 = rgbRand.toCubeSize(256)
 		    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 
 		    print("Val Min hsv ")
 		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { it2 ->
-			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
+			printForm(it2.toRGB())
 		    }
 		    println()
 
 		    print("Val Min rgb0")
 		    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { it2 ->
-			print(pr(it2).rgbBg(it2))
+			printForm(it2)
 		    }
 		    println()
 		    println()
@@ -368,7 +369,7 @@ class AnsiDemo {
 		val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
 		rgbRand.permutationGradient().forEach { it1 ->
 		    it1.permutationGradient().forEach { it2 ->
-			print("${pr1(it2)} ".rgbBg(it2))
+			print("${formatter1(it2)} ".rgbBg(it2))
 		    }
 		    println()
 		}
