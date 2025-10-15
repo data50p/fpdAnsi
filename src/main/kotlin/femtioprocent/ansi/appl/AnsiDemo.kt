@@ -212,6 +212,36 @@ class AnsiDemo {
                 }
                 println()
 
+                if (true) {
+                    val max2 = 8
+                    val cubeSize = 100
+
+                    fun avg(i1: Int, i2: Int) = ((i1 + i2) / 2.0 + 0.5).toInt()
+
+                    repeat(max2) {
+                        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+                        (0..<max2).forEach { n ->
+                            val rgbRand2 = rgbRand.similarRandom(0.85)
+
+                            val rgbAv = rgbRand.average(rgbRand2)
+                            val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+                            println(
+                                "Avg ${
+                                    rgbRand.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                }  ${
+                                    rgbAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                } ${
+                                    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                }  ${
+                                    rgbRand2.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                }"
+                            )
+                        }
+                    }
+                    println()
+                }
+
 
                 val max2_ = 10
                 val maxR = 8

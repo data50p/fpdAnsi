@@ -6,6 +6,7 @@ import femtioprocent.ansi.Ansi.showC
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
+import kotlin.random.Random
 
 /**
  * Write escape sequences for colored output.
@@ -417,6 +418,13 @@ object Ansi {
             return RGB(cs, rr.toInt(), gg.toInt(), bb.toInt())
         }
 
+        fun similarRandom(factor: Double = 1.0): RGB = Ansi.RGB(
+            cs,
+            avg(r, Random.nextInt(cs), factor),
+            avg(g, Random.nextInt(cs), factor),
+            avg(b, Random.nextInt(cs), factor)
+        )
+
         fun colorSpan(): Int {
             return Math.max(cs - Math.min(r, Math.min(g, b)) - 1, Math.max(r, Math.max(g, b)))
         }
@@ -438,7 +446,7 @@ object Ansi {
             return minus(other.toCubeSize(cs))
         }
 
-        private fun avg(i1: Int, i2: Int) = ((i1 + i2) / 2.0 + 0.5).toInt()
+        private fun avg(i1: Int, i2: Int, factor: Double = 1.0) = ((i1 + factor * i2) / (factor+1).toDouble() + 0.5).toInt()
 
         fun average(other: RGB): RGB {
             require(cs == other.cs)
@@ -658,7 +666,8 @@ object Ansi {
             return HSV(
                 avg(h, other.h),
                 avg(s, other.s),
-                avg(v, other.v))
+                avg(v, other.v)
+            )
         }
 
         fun toRGB(): RGB {
