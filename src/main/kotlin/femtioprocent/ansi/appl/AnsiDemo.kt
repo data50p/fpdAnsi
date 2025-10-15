@@ -255,118 +255,105 @@ class AnsiDemo {
 		println()
 
 
-		val maxR = 8
-		repeat(maxR) { repeatIx ->
+		val maxRepeat = 8
+		repeat(maxRepeat) { repeatIx ->
 
-		    data class Param(val max2: Int, val pr: (Ansi.RGB) -> String, val width: Int)
+		    val defaultLoops = 10
+		    val lastItem = repeatIx == maxRepeat - 1
 
-		    val max2_ = 10
-		    val lastItem = repeatIx == maxR - 1
-
-		    val (max2,
-			pr,
-			ww) =
+		    val (loops, pr, cellWidth) =
 			if (lastItem)
-			    Param(
-				max2_ * 4 + 3,
-				::pr2,
-				3 * max2_
-			    )
+			    Triple<Int, (RGB) -> String, Int>(defaultLoops * 4 + 3, ::pr2, 3 * defaultLoops)
 			else
-			    Param(
-				max2_,
-				::pr1,
-				cellWidth * max2_
-			    )
-
+			    Triple<Int, (RGB) -> String, Int>(defaultLoops, ::pr1, cellWidth * defaultLoops)
 
 		    val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
 		    val rgbRand = randomRGB(cubSiz)
-		    println("            " + "Base color $rgbRand".pC(ww).rgbBg(rgbRand))
+		    println("            " + "Base color $rgbRand".pC(cellWidth).rgbBg(rgbRand))
 
 		    val tL = RGB::toLaconicStringRGB
 		    val col = 6
-		    val www = ww / col
+		    val www = cellWidth / col
 		    print("            ")
 		    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
 		    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
 		    print(rgbRand.complement().showC(www, "cmpl ", tL))
 		    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
 		    print(rgbRand.rotR().showC(www, "rotR ", tL))
-		    print(rgbRand.rotL().showC(ww - (col - 1) * www, "rotL ", tL))
+		    print(rgbRand.rotL().showC(cellWidth - (col - 1) * www, "rotL ", tL))
 		    println()
 
 
 		    print("Hue    360° ")
-		    rgbRand.hueGradient(max2).forEach { it2 ->
+		    rgbRand.hueGradient(loops).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
 
 		    print("Satur  rgb  ")
-		    rgbRand.saturationGradient(max2).forEach { it2 ->
+		    rgbRand.saturationGradient(loops).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
 
 		    print("Sat Min v1  ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Sat Min     ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Sat Max     ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Sat Max v1  ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Value  rgb  ")
-		    rgbRand.valueGradient(max2).forEach { it2 ->
+		    rgbRand.valueGradient(loops).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
 
 		    print("Val Max rgb ")
-		    rgbRand.gradient(max2, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
+		    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
 
 		    print("Val Max hsv ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(v = 1.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Val Min rgb ")
 		    val rgbRand256 = rgbRand.toCubeSize(256)
-		    rgbRand.gradient(max2, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
+		    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
 
 		    print("Val Min hsv ")
-		    rgbRand.toHsv().gradient(max2, rgbRand.toHsv().clone(v = 0.0)).forEach { it2 ->
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { it2 ->
 			print(pr(it2.toRGB()).rgbBg(it2.toRGB()))
 		    }
 		    println()
 
 		    print("Val Min rgb0")
-		    rgbRand.gradient(max2, RGB(256, 0, 0, 0)).forEach { it2 ->
+		    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { it2 ->
 			print(pr(it2).rgbBg(it2))
 		    }
 		    println()
