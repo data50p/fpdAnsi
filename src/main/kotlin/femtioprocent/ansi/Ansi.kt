@@ -409,7 +409,7 @@ object Ansi {
         constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
                 this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
 
-        fun toCubeSize(cs: Int): RGB {
+        fun toCubeSize(cs: Int = 256): RGB {
             val f = (cs - 1).toDouble() / (this@RGB.cs - 1).toDouble()
             val rr = r.toDouble() * f + 0.5
             val gg = g.toDouble() * f + 0.5
@@ -429,9 +429,20 @@ object Ansi {
             return listOf(r, g, b).max()
         }
 
+        /**
+         * Generally not used for color calculations
+         */
         fun minus(other: RGB): RGB {
+            if (cs == other.cs)
+                return RGB(cs, r - other.r, g - other.g, b - other.b)
+            return minus(other.toCubeSize(cs))
+        }
+
+        private fun avg(i1: Int, i2: Int) = ((i1 + i2) / 2.0 + 0.5).toInt()
+
+        fun average(other: RGB): RGB {
             require(cs == other.cs)
-            return RGB(cs, r - other.r, g - other.g, b - other.b)
+            return RGB(cs, avg(r, other.r), avg(g, other.g), avg(b, other.b))
         }
 
         fun rotR() = RGB(cs, b, r, g)
@@ -627,6 +638,27 @@ object Ansi {
                 l += hsv2
             }
             return l
+        }
+
+        private fun avg(d1: Double, d2: Double) = (d1 + d2) / 2.0
+
+        fun averageHue(other: HSV): HSV {
+            return HSV(avg(h, other.h), s, v)
+        }
+
+        fun averageSaturation(other: HSV): HSV {
+            return HSV(h, avg(s, other.s), v)
+        }
+
+        fun averageValue(other: HSV): HSV {
+            return HSV(h, s, avg(v, other.v))
+        }
+
+        fun average(other: HSV): HSV {
+            return HSV(
+                avg(h, other.h),
+                avg(s, other.s),
+                avg(v, other.v))
         }
 
         fun toRGB(): RGB {

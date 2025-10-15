@@ -257,4 +257,120 @@ class Test1 {
 
         println()
     }
+
+    @Test
+    fun testAverage() {
+        println("testAverage rgb")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.average(rgbRand2)
+
+            println("${showRGB(rgbRand)} ${showRGB(rgbAv)} ${showRGB(rgbRand2)}")
+        }
+
+        println()
+    }
+
+    @Test
+    fun testAverageHue() {
+        println("testAverage Hue")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.toHsv().averageHue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+            println("${showRGB(rgbRand)} ${showRGB(rgbAv)} ${showRGB(rgbRand2)}")
+        }
+
+        println()
+    }
+
+    @Test
+    fun testAverageSaturation() {
+        println("testAverage Saturation")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.toHsv().averageSaturation(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+            println("${showRGB(rgbRand)} ${showRGB(rgbAv)} ${showRGB(rgbRand2)}")
+        }
+
+        println()
+    }
+
+    @Test
+    fun testAverageValue() {
+        println("testAverage Value")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.toHsv().averageValue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+            println("${showRGB(rgbRand)} ${showRGB(rgbAv)} ${showRGB(rgbRand2)}")
+        }
+        println()
+    }
+
+    @Test
+    fun testAverageHSV() {
+        println("testAverage HSV")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+            println("${showRGB(rgbRand)} ${showRGB(rgbAv)} ${showRGB(rgbRand2)}")
+        }
+        println()
+    }
+
+    @Test
+    fun testAverageRGBHSV() {
+        println("testAverage RGB HSV")
+        val max2 = 12
+        val cubeSize = 100
+
+        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        (0..<max2).forEach { n ->
+            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+
+            val rgbAv = rgbRand.average(rgbRand2)
+            val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+            println(
+                "${
+                    rgbRand.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                } ${
+                    rgbAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                }  ${
+                    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                } ${
+                    rgbRand2.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                }"
+            )
+        }
+        println()
+    }
 }
