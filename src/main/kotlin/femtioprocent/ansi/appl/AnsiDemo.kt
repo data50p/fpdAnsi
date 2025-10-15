@@ -150,11 +150,15 @@ class AnsiDemo {
 		println()
 
 
-		val cellWidth = " 236,120,136 ".length
-		fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth)
-		fun formatter2(_rgb: RGB) = "·".pC(3)
 
-		val red = Ansi.csRgb(256)(255, 0, 0)
+                val cellSample1 = "236,120,136"
+                val cellSample2 = "·"
+                val cellWidth1 = cellSample1.length + 2
+                val cellWidth2 = cellSample2.length + 0
+                fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
+                fun formatter2(_rgb: RGB) = "·".pC(cellWidth2)
+
+                val red = Ansi.csRgb(256)(255, 0, 0)
 		println("RGB Gradient")
 		red.hueGradient(12).forEach { it2 ->
 		    print("${formatter1(it2)} ".rgbBg(it2))
@@ -216,7 +220,7 @@ class AnsiDemo {
 		    val max2 = 8
 		    val cubeSize = 100
 
-		    println("        color-1               RGB                  HSV                  Hue                  Saturation           Value                 color-2")
+		    println("        color-1           RGB              HSV              Hue              Saturation       Value             color-2")
 		    repeat(max2) {
 			val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 			(0..<max2).forEach {
@@ -230,19 +234,19 @@ class AnsiDemo {
 
 			    println(
 				"Avg ${
-				    rgbRand.showC(20, f = RGB::toLaconicStringRGB)
+				    rgbRand.showC(16, f = RGB::toLaconicStringRGB)
 				}  ${
-				    rgbAv.showC(20, f = RGB::toLaconicStringRGB)
+				    rgbAv.showC(16, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvAv.showC(20, f = RGB::toLaconicStringRGB)
+				    hsvAv.showC(16, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvHAv.showC(20, f = RGB::toLaconicStringRGB)
+				    hsvHAv.showC(16, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvSAv.showC(20, f = RGB::toLaconicStringRGB)
+				    hsvSAv.showC(16, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvVAv.showC(20, f = RGB::toLaconicStringRGB)
+				    hsvVAv.showC(16, f = RGB::toLaconicStringRGB)
 				}  ${
-				    rgbRand2.showC(20, f = RGB::toLaconicStringRGB)
+				    rgbRand2.showC(16, f = RGB::toLaconicStringRGB)
 				}"
 			    )
 			}
@@ -263,25 +267,26 @@ class AnsiDemo {
 
 		    val (loops: Int, formatter: (RGB) -> String, cellWidth: Int) =
 			if (lastItem)
-			    Triple(defaultLoops * 4 + 3, ::formatter2, 3 * defaultLoops)
+			    Triple(defaultLoops * cellWidth1, ::formatter2, cellWidth2)
 			else
-			    Triple(defaultLoops, ::formatter1, cellWidth * defaultLoops)
+			    Triple(defaultLoops, ::formatter1, cellWidth1)
 
+                    val tableWidth = cellWidth * loops
 		    val cubeSize = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
 		    val rgbRand = randomRGB(cubeSize)
-		    println("            " + "Base color $rgbRand".pC(cellWidth).rgbBg(rgbRand))
+		    println("            " + "Base color $rgbRand".pC(tableWidth).rgbBg(rgbRand))
 
 		    val tL = RGB::toLaconicStringRGB
 		    val col = 6
-		    val www = cellWidth / col
+		    val www = tableWidth / col
 		    print("            ")
 		    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
 		    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
 		    print(rgbRand.complement().showC(www, "cmpl ", tL))
 		    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
 		    print(rgbRand.rotR().showC(www, "rotR ", tL))
-		    print(rgbRand.rotL().showC(cellWidth - (col - 1) * www, "rotL ", tL))
+		    print(rgbRand.rotL().showC(tableWidth - (col - 1) * www, "rotL ", tL))
 		    println()
 
 		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
