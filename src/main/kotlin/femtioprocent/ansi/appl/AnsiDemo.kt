@@ -285,78 +285,55 @@ class AnsiDemo {
 		    println()
 
 		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
+		    fun printForm(hsv: Ansi.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 		    print("Hue    360° ")
-		    rgbRand.hueGradient(loops).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.hueGradient(loops).forEach { printForm(it) }
 		    println()
 
 		    print("Satur  rgb  ")
-		    rgbRand.saturationGradient(loops).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.saturationGradient(loops).forEach { printForm(it) }
 		    println()
 
 		    print("Sat Min v1  ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Sat Min     ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Sat Max     ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Sat Max v1  ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Value  rgb  ")
-		    rgbRand.valueGradient(loops).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.valueGradient(loops).forEach { printForm(it) }
 		    println()
 
 		    print("Val Max rgb ")
-		    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { printForm(it) }
 		    println()
 
 		    print("Val Max hsv ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Val Min rgb ")
 		    val rgbRand256 = rgbRand.toCubeSize(256)
-		    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { printForm(it) }
 		    println()
 
 		    print("Val Min hsv ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { it2 ->
-			printForm(it2.toRGB())
-		    }
+		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { printForm(it) }
 		    println()
 
 		    print("Val Min rgb0")
-		    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { it2 ->
-			printForm(it2)
-		    }
+		    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
 		    println()
 		    println()
 		}
