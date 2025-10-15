@@ -218,21 +218,31 @@ class AnsiDemo {
 
                     fun avg(i1: Int, i2: Int) = ((i1 + i2) / 2.0 + 0.5).toInt()
 
+		    println("        color-1               RGB                  HSV                  Hue                  Saturation           Value                 color-2")
                     repeat(max2) {
                         val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
                         (0..<max2).forEach { n ->
                             val rgbRand2 = rgbRand.similarRandom(0.85)
 
                             val rgbAv = rgbRand.average(rgbRand2)
-                            val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+			    val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+			    val hsvHAv = rgbRand.toHsv().averageHue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+			    val hsvSAv = rgbRand.toHsv().averageSaturation(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+			    val hsvVAv = rgbRand.toHsv().averageValue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
                             println(
                                 "Avg ${
                                     rgbRand.showC(20, f = Ansi.RGB::toLaconicStringRGB)
                                 }  ${
                                     rgbAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
-                                } ${
-                                    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				} ${
+				    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				} ${
+				    hsvHAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				} ${
+				    hsvSAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				} ${
+				    hsvVAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
                                 }  ${
                                     rgbRand2.showC(20, f = Ansi.RGB::toLaconicStringRGB)
                                 }"
