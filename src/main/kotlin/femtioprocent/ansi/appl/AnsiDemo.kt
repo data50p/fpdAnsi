@@ -250,6 +250,7 @@ class AnsiDemo {
 				}"
 			    )
 			}
+                        println()
 		    }
 		    println()
 		}
