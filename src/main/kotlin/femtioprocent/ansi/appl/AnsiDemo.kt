@@ -151,8 +151,8 @@ class AnsiDemo {
 
 
                 val w = " 236,120,136 ".length
-                fun pr1(rgb: Ansi.RGB) = rgb.toLaconicStringRGB().pC(w)
-                fun pr2(_rgb: Ansi.RGB) = "XX".pC(4)
+                fun pr1(rgb: RGB) = rgb.toLaconicStringRGB().pC(w)
+                fun pr2(_rgb: RGB) = "·".pC(3)
 
                 val red = Ansi.csRgb(256)(255, 0, 0)
                 println("RGB Gradient")
@@ -216,12 +216,10 @@ class AnsiDemo {
                     val max2 = 8
                     val cubeSize = 100
 
-                    fun avg(i1: Int, i2: Int) = ((i1 + i2) / 2.0 + 0.5).toInt()
-
 		    println("        color-1               RGB                  HSV                  Hue                  Saturation           Value                 color-2")
                     repeat(max2) {
-                        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
-                        (0..<max2).forEach { n ->
+                        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+                        (0..<max2).forEach {
                             val rgbRand2 = rgbRand.similarRandom(0.85)
 
                             val rgbAv = rgbRand.average(rgbRand2)
@@ -232,19 +230,19 @@ class AnsiDemo {
 
                             println(
                                 "Avg ${
-                                    rgbRand.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                    rgbRand.showC(20, f = RGB::toLaconicStringRGB)
                                 }  ${
-                                    rgbAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                    rgbAv.showC(20, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				    hsvAv.showC(20, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvHAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				    hsvHAv.showC(20, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvSAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				    hsvSAv.showC(20, f = RGB::toLaconicStringRGB)
 				} ${
-				    hsvVAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+				    hsvVAv.showC(20, f = RGB::toLaconicStringRGB)
                                 }  ${
-                                    rgbRand2.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                                    rgbRand2.showC(20, f = RGB::toLaconicStringRGB)
                                 }"
                             )
                         }
@@ -252,19 +250,18 @@ class AnsiDemo {
                     println()
                 }
 
-
-                val max2_ = 10
-                val maxR = 8
-
                 println()
                 println()
                 println()
 
+
+		val maxR = 8
                 repeat(maxR) { repeatIx ->
 
-                    val max2 = if (repeatIx == maxR - 1) max2_ * 3 + 3 else max2_
+		    val max2_ = 10
+                    val max2 = if (repeatIx == maxR - 1) max2_ * 4 + 3 else max2_
                     val pr = if (repeatIx == maxR - 1) ::pr2 else ::pr1
-                    val ww = if (repeatIx == maxR - 1) 4 * max2 else w * max2
+                    val ww = if (repeatIx == maxR - 1) 3 * max2 else w * max2
 
                     val cubSiz = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
@@ -340,7 +337,7 @@ class AnsiDemo {
 
                     print("Val Min rgb ")
                     val rgbRand256 = rgbRand.toCubeSize(256)
-                    rgbRand.gradient(max2, Ansi.RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
+                    rgbRand.gradient(max2, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { it2 ->
                         print(pr(it2).rgbBg(it2))
                     }
                     println()
@@ -352,7 +349,7 @@ class AnsiDemo {
                     println()
 
                     print("Val Min rgb0")
-                    rgbRand.gradient(max2, Ansi.RGB(256, 0, 0, 0)).forEach { it2 ->
+                    rgbRand.gradient(max2, RGB(256, 0, 0, 0)).forEach { it2 ->
                         print(pr(it2).rgbBg(it2))
                     }
                     println()
@@ -364,7 +361,7 @@ class AnsiDemo {
                 val cs = 5
 
                 val rgb = (0..<cs).shuffled().take(3)
-                val rgbRand = Ansi.RGB(cs, rgb[0], rgb[1], rgb[2])
+                val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
                 rgbRand.permutationGradient().forEach { it1 ->
                     it1.permutationGradient().forEach { it2 ->
                         print("${pr1(it2)} ".rgbBg(it2))
@@ -596,7 +593,7 @@ class AnsiDemo {
                         listOf(Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1))
                     else
                         (0..<cubeSize).shuffled().take(3)
-                    val rgbBase = Ansi.RGB(cubeSize, rgbList[0], rgbList[1], rgbList[2])
+                    val rgbBase = RGB(cubeSize, rgbList[0], rgbList[1], rgbList[2])
 
                     rgbBase.permutationGradient().forEach { rgb_ ->
                         val rgb = if (rgb_.cs != cubeSize) rgb_.toCubeSize(cubeSize) else rgb_
@@ -617,8 +614,8 @@ class AnsiDemo {
                         measureTime {
                             val r = Random.nextInt(loremList.size - 8)
                             val ss = listOf(0, 2, 4).map { lorem(r + it, 2) }
-                            val ll = rgb.toHsv().gradient(cubeSize + 1, Ansi.RGB(256, 0, 0, 1).toHsv())
-                            val lh = rgb.toHsv().gradient(cubeSize + 1, Ansi.RGB(256, 255, 255, 255).toHsv())
+                            val ll = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 0, 0, 1).toHsv())
+                            val lh = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 255, 255, 255).toHsv())
                             (0..cubeSize).forEach { n ->
                                 val nn = n.toString().pL(2)
                                 print(" $nn " + rgbBg(rgb.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
@@ -639,7 +636,7 @@ class AnsiDemo {
                                             val op = "$ch0$ch1$ch2"
                                             val ns = n.toString().pL(2)
                                             op.let {
-                                                val rgb1 = rgb.moreOrLess(n, "$it")
+                                                val rgb1 = rgb.moreOrLess(n, it)
                                                 print(" $ns " + rgbBg(rgb1)(" ${rgb1.toLaconicStringRGB().pR(8)} $it "))
                                             }
                                         }
@@ -662,7 +659,7 @@ class AnsiDemo {
                                     val xyz = rgbBg(rgbBase.moreOrLess(n, rgbBase::inc, rgbBase::eq0, rgbBase::dec))
                                 }
                             }.also { mt ->
-                                println("it took ${it}·$it : ${mt}")
+                                println("it took $it·$it : $mt")
                             }
                         }
                     }
