@@ -118,11 +118,12 @@ public class Demo {
         Function2<String, Ansi.RGB, String> bg = Ansi.INSTANCE::rgbBg;
 
         System.out.println();
-        for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
-            if ( ix > 0 )
+        var cnt = 0;
+        for (Ansi.HSV hsv : list) {
+            Ansi.RGB c2 = hsv.toRGB();
+            if ( cnt > 0 )
                 System.out.print(" -> ");
-            System.out.print(bg.invoke(" " + ix + " ", c2.rotL()));
+            System.out.print(bg.invoke(" " + cnt++ + " ", c2.rotL()));
             System.out.print(fg.invoke(" XXXXX", c2.rotR()));
         }
         System.out.println();
