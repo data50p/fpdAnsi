@@ -2,6 +2,9 @@ package femtioprocent.demo;
 
 import femtioprocent.ansi.Ansi;
 import femtioprocent.ansi.appl.AnsiDemo;
+import kotlin.jvm.functions.Function2;
+import kotlin.jvm.functions.Function3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -110,13 +113,17 @@ public class Demo {
             System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c2));
         }
 
+
+        Function2<String, Ansi.RGB, String> fg = Ansi.INSTANCE::rgbFg;
+        Function2<String, Ansi.RGB, String> bg = Ansi.INSTANCE::rgbBg;
+
         System.out.println();
         for (int ix = 0; ix < list.size(); ix++) {
             Ansi.RGB c2 = list2.get(ix).toRGB();
             if ( ix > 0 )
                 System.out.print(" -> ");
-            System.out.print(Ansi.INSTANCE.rgbBg(" " + ix + " ", c2.rotL()));
-            System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c2.rotR()));
+            System.out.print(bg.invoke(" " + ix + " ", c2.rotL()));
+            System.out.print(fg.invoke(" XXXXX", c2.rotR()));
         }
         System.out.println();
     }
