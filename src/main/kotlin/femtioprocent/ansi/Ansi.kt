@@ -461,7 +461,7 @@ object Ansi {
                     avg(g, other.g, factor),
                     avg(b, other.b, factor)
                 )
-            return average(other.toCubeSize(cs))
+            return average(other.toCubeSize(cs), factor)
         }
 
         fun rotR() = RGB(cs, b, r, g)
