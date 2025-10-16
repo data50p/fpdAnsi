@@ -88,17 +88,36 @@ public class Demo {
 
 	Ansi.RGB fromCol = AnsiDemo.Companion.randomRGB(100).toSaturation(0.2).toValue(0.5);
 	Ansi.RGB toCol = fromCol.complement().toMaxSaturation().toMaxValue();
-
-	System.out.println("From " + fromCol + "  to " + toCol);
 	List<Ansi.HSV> list = fromCol.toHsv().gradient(12, toCol.toHsv());
 
-	for (int ix = 0; ix < list.size(); ix++) {
-	    Ansi.RGB c = list.get(ix).toRGB();
-	    if ( ix > 0 )
-		System.out.print(" -> ");
-	    System.out.print(Ansi.INSTANCE.rgbBg(" index " + ix + " ", c));
-	    System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c));
-	}
-	System.out.println();
+	System.out.println("From " + fromCol + "  to " + toCol);
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c = list.get(ix).toRGB();
+            if ( ix > 0 )
+                System.out.print(" -> ");
+            System.out.print(Ansi.INSTANCE.rgbBg(" " + ix + " ", c));
+            System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c));
+        }
+        System.out.println();
+
+        var list2 = list.reversed();
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if ( ix > 0 )
+                System.out.print(" -> ");
+            System.out.print(Ansi.INSTANCE.rgbBg(" " + ix + " ", c2));
+            System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c2));
+        }
+
+        System.out.println();
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if ( ix > 0 )
+                System.out.print(" -> ");
+            System.out.print(Ansi.INSTANCE.rgbBg(" " + ix + " ", c2.rotL()));
+            System.out.print(Ansi.INSTANCE.rgbFg(" XXXXX", c2.rotR()));
+        }
+        System.out.println();
     }
 }
