@@ -377,9 +377,9 @@ class AnsiDemo {
                 true.let {
                     val rgbRand0 = randomRGB(256).average(RGB(3, 2, 1, 0))
                     repeat(N) { n ->
-                        val rgbRand = rgbRand0.gradient(N, rgbRand0.toSaturation(n.toDouble() / 24))
+                        val rgbRand = rgbRand0.gradient(N, rgbRand0.toSaturation(n.toDouble() / 54))
                         var rgb2 = rgbRand[n]
-                        (1..12*N/4).forEach {
+                        (1..2*N).forEach {
                             rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
                             print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
                         }
