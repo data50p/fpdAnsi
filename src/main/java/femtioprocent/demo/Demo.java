@@ -79,15 +79,18 @@ public class Demo {
 
 	// Create a random color in a specified color cube size
 
-	Ansi.RGB randColor = AnsiDemo.Companion.randomRGB(8);
-
 	System.out.println("");
 	System.out.println("" + rgb.toString() + " -> " + Ansi.INSTANCE.rgbBg(" Hello ", rgb));
 
 
 	System.out.println("");
-	Ansi.HSV hsv = rgb.toHsv();
-	List<Ansi.HSV> list = hsv.gradient(12, randColor.toHsv());
+
+	Ansi.RGB fromCol = AnsiDemo.Companion.randomRGB(100).toSaturation(0.2).toValue(0.5);
+	Ansi.RGB toCol = fromCol.complement().toMaxSaturation().toMaxValue();
+
+	System.out.println("From " + fromCol + "  to " + toCol);
+	List<Ansi.HSV> list = fromCol.toHsv().gradient(12, toCol.toHsv());
+
 	for (int ix = 0; ix < list.size(); ix++) {
 	    Ansi.RGB c = list.get(ix).toRGB();
 	    System.out.println(Ansi.INSTANCE.csBg(c.getCs(), c.getR(), c.getG(), c.getB(), "index " + ix));

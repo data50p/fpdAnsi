@@ -411,7 +411,8 @@ object Ansi {
 
 
     data class RGB(val cs: Int, val r: Int, val g: Int, val b: Int) {
-        constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
+
+	constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
                 this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
 
         fun toCubeSize(cs: Int = 256): RGB {
@@ -461,12 +462,7 @@ object Ansi {
         fun rotL() = RGB(cs, g, b, r)
 
         fun complementRGB(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
-
-        fun complement(): RGB {
-            val hsv = toHsv()
-            val chsv = HSV((hsv.h + 180.0) % 360.0, hsv.s, hsv.v)
-            return chsv.toRGB().toCubeSize(cs)
-        }
+        fun complement() = toHsv().let {it.clone(h = (it.h + 180.0) % 360.0).toRGB()}.toCubeSize(cs)
 
         fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = RGB(cs, fr(r), fg(g), fb(b))
         fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): RGB =
@@ -483,19 +479,12 @@ object Ansi {
             }
         }
 
-        fun toMaxSaturation(): RGB {
-            val hsv = toHsv()
-            val maxHsv = HSV(hsv.h, 1.0, hsv.v)
-            val ret = maxHsv.toRGB()
-            return ret
-        }
+	fun toHue(value: Double) = toHsv().clone(h = value).toRGB().toCubeSize(cs)
+	fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
+	fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
 
-        fun toMaxValue(): RGB {
-            val hsv = toHsv()
-            val maxHsv = HSV(hsv.h, hsv.s, 1.0)
-            val ret = maxHsv.toRGB()
-            return ret
-        }
+	fun toMaxValue() = toValue(1.0)
+	fun toMaxSaturation() = toSaturation(1.0)
 
         fun hueGradient(loops: Int = 12, degree: Double = 360.0): List<RGB> {
             val l = mutableListOf<RGB>()
