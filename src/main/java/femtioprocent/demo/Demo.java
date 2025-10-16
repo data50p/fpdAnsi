@@ -160,7 +160,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixRG()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixRG()));
+            System.out.print(fg.invoke(" XXXXX", c2.mixRG()));
         }
         System.out.println();
 
@@ -169,7 +169,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixRB()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixRB()));
+            System.out.print(fg.invoke(" XXXXX", c2.mixRB()));
         }
         System.out.println();
 
@@ -178,7 +178,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixGB()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixGB()));
+            System.out.print(fg.invoke(" XXXXX", c2.mixGB()));
         }
         System.out.println();
 
@@ -187,7 +187,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.rotL()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().rotL()));
+            System.out.print(fg.invoke(" XXXXX", c2.rotL()));
         }
         System.out.println();
 
@@ -196,7 +196,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.rotR()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().rotR()));
+            System.out.print(fg.invoke(" XXXXX", c2.rotR()));
         }
         System.out.println();
 
@@ -205,7 +205,7 @@ public class Demo {
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.complementRGB()));
-            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().complementRGB()));
+            System.out.print(fg.invoke(" XXXXX", c2.complementRGB()));
         }
         System.out.println();
     }
