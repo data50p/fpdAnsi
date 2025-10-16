@@ -2,5 +2,6 @@
 
 ./gradlew install
 
-build/install/ansi/ansi "$@"
+# build/install/ansi/ansi "$@"
 
+java -cp build/install/ansi/lib/'*'    femtioprocent.ansi.appl.AnsiDemo
