@@ -136,7 +136,80 @@ public class Demo {
             System.out.print(fg.invoke(" XXXXX", c2.toMaxValue()));
         }
         System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.toValue(0.6)));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().toValue(0.6)));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.toSaturation(0.1)));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().toSaturation(0.1)));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.mixRG()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixRG()));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.mixRB()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixRB()));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.mixGB()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().mixGB()));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.rotL()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().rotL()));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.rotR()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().rotR()));
+        }
+        System.out.println();
+
+        for (int ix = 0; ix < list.size(); ix++) {
+            Ansi.RGB c2 = list2.get(ix).toRGB();
+            if (ix > 0)
+                System.out.print(" -> ");
+            System.out.print(bg.invoke(" " + ix + " ", c2.complementRGB()));
+            System.out.print(fg.invoke(" XXXXX", c2.toMaxValue().complementRGB()));
+        }
+        System.out.println();
     }
+
 
     static <T> List<T> mix(List<T> list) {
         List<T> list0 = new ArrayList<T>();
