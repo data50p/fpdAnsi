@@ -211,7 +211,7 @@ class Test1 {
         println()
         val g1 = rgbBase.gradient(12, rgbBase2)
         g1.forEach {
-            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.complementRGB().toHsv().showC()).prList()
+            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.inverse().toHsv().showC()).prList()
         }
     }
 
@@ -224,7 +224,7 @@ class Test1 {
         println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
         println()
         rgbBase.gradient(12, rgbBase2).forEach {
-            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.complementRGB().toCubeSize(8).showC()).prList()
+            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.inverse().toCubeSize(8).showC()).prList()
         }
     }
 
@@ -237,7 +237,7 @@ class Test1 {
         println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
         println()
         rgbBase.gradient(12, rgbBase2).forEach {
-            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.complementRGB().toHsv().showC()).prList()
+            listOf(showRGB(it), it.toHsv().showC(), it.complement().toHsv().showC(), it.inverse().toHsv().showC()).prList()
         }
     }
 

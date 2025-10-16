@@ -85,7 +85,7 @@ public class Demo {
         System.out.println("");
         System.out.println("" + rgb.toString() + " -> " + Ansi.INSTANCE.rgbBg(" Hello ", rgb));
         System.out.println(Ansi.INSTANCE.showC(rgb, 48, "Some blue: ", Ansi.RGB::toString));
-        System.out.println(Ansi.INSTANCE.showC(rgb.complementRGB(), 32, "complement: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
+        System.out.println(Ansi.INSTANCE.showC(rgb.inverse(), 32, "inverse: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
 
         System.out.println("");
 
@@ -204,8 +204,8 @@ public class Demo {
             Ansi.RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
-            System.out.print(bg.invoke(" " + ix + " ", c2.complementRGB()));
-            System.out.print(fg.invoke(" XXXXX", c2.complementRGB()));
+            System.out.print(bg.invoke(" " + ix + " ", c2.inverse()));
+            System.out.print(fg.invoke(" XXXXX", c2.inverse()));
         }
         System.out.println();
     }

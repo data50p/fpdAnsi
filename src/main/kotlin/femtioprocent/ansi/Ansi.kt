@@ -464,7 +464,7 @@ object Ansi {
         fun mixGB() = RGB(cs, r, b, g)
         fun mixRB() = RGB(cs, b, g, r)
 
-        fun complementRGB(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
+        fun inverse(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
         fun complement() = toHsv().let {it.clone(h = (it.h + 180.0) % 360.0).toRGB()}.toCubeSize(cs)
 
         fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = RGB(cs, fr(r), fg(g), fb(b))
