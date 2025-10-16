@@ -82,7 +82,7 @@ public class Demo {
 	System.out.println("");
 	System.out.println("" + rgb.toString() + " -> " + Ansi.INSTANCE.rgbBg(" Hello ", rgb));
 	System.out.println(Ansi.INSTANCE.showC(rgb, 48, "Some blue: ", Ansi.RGB::toString));
-	System.out.println(Ansi.INSTANCE.showC(rgb.complementRGB(), 32, "complement: ", rgb1 -> rgb1.toLaconicStringRGB()));
+	System.out.println(Ansi.INSTANCE.showC(rgb.complementRGB(), 32, "complement: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
 
 	System.out.println("");
 
