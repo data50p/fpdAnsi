@@ -164,11 +164,11 @@ object Ansi {
     }
 
     fun fg(color: Color, s: String): String {
-	return fg5(color.cr, color.cg, color.cb, s)
+        return fg5(color.cr, color.cg, color.cb, s)
     }
 
     fun bg(color: Color, s: String): String {
-	return bg5(color.cr, color.cg, color.cb, s)
+        return bg5(color.cr, color.cg, color.cb, s)
     }
 
     private fun fg(num: Int, s: String): String {
@@ -412,7 +412,7 @@ object Ansi {
 
     data class RGB(val cs: Int, val r: Int, val g: Int, val b: Int) {
 
-	constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
+        constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
                 this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
 
         fun toCubeSize(cs: Int = 256): RGB {
@@ -451,14 +451,17 @@ object Ansi {
             return minus(other.toCubeSize(cs))
         }
 
-        private fun avg(i1: Int, i2: Int, factor: Double = 1.0) = ((i1 + factor * i2) / (factor+1).toDouble() + 0.5).toInt()
+        private fun avg(i1: Int, i2: Int, factor: Double = 1.0) = ((i1 + factor * i2) / (factor + 1).toDouble() + 0.5).toInt()
 
         fun average(other: RGB, factor: Double = 1.0): RGB {
-            require(cs == other.cs)
-            return RGB(cs,
-                avg(r, other.r, factor),
-                avg(g, other.g, factor),
-                avg(b, other.b, factor))
+            if (cs == other.cs)
+                return RGB(
+                    cs,
+                    avg(r, other.r, factor),
+                    avg(g, other.g, factor),
+                    avg(b, other.b, factor)
+                )
+            return average(other.toCubeSize(cs))
         }
 
         fun rotR() = RGB(cs, b, r, g)
@@ -468,7 +471,7 @@ object Ansi {
         fun mixRB() = RGB(cs, b, g, r)
 
         fun inverse(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
-        fun complement() = toHsv().let {it.clone(h = (it.h + 180.0) % 360.0).toRGB()}.toCubeSize(cs)
+        fun complement() = toHsv().let { it.clone(h = (it.h + 180.0) % 360.0).toRGB() }.toCubeSize(cs)
 
         fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = RGB(cs, fr(r), fg(g), fb(b))
         fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): RGB =
@@ -485,12 +488,12 @@ object Ansi {
             }
         }
 
-	fun toHue(value: Double) = toHsv().clone(h = value).toRGB().toCubeSize(cs)
-	fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
-	fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
+        fun toHue(value: Double) = toHsv().clone(h = value).toRGB().toCubeSize(cs)
+        fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
+        fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
 
-	fun toMaxValue() = toValue(1.0)
-	fun toMaxSaturation() = toSaturation(1.0)
+        fun toMaxValue() = toValue(1.0)
+        fun toMaxSaturation() = toSaturation(1.0)
 
         fun hueGradient(loops: Int = 12, degree: Double = 360.0): List<RGB> {
             val l = mutableListOf<RGB>()
