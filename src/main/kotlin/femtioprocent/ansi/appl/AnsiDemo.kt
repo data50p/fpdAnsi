@@ -281,16 +281,26 @@ class AnsiDemo {
 		    val tL = RGB::toLaconicStringRGB
 		    val col = 6
 		    val www = tableWidth / col
-		    print("            ")
-		    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
-		    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
-		    print(rgbRand.complement().showC(www, "cmpl ", tL))
-		    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
-		    print(rgbRand.rotR().showC(www, "rotR ", tL))
-		    print(rgbRand.rotL().showC(tableWidth - (col - 1) * www, "rotL ", tL))
-		    println()
 
-		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
+                    print("            ")
+                    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
+                    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
+                    print(rgbRand.complement().showC(www, "cmpl ", tL))
+                    print(rgbRand.toSaturation(0.5).showC(www, "smid ", tL))
+                    print(rgbRand.toValue(0.5).showC(tableWidth - (col - 1) * www, "vmid ", tL))
+                    print(rgbRand.toSaturation(0.5).toValue(0.5).showC(www, "svmid ", tL))
+                    println()
+
+                    print("            ")
+                    print(rgbRand.rotL().showC(www, "rotL ", tL))
+                    print(rgbRand.rotR().showC(www, "rotR ", tL))
+                    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
+                    print(rgbRand.mixRG().showC(www, "mixRG ", tL))
+                    print(rgbRand.mixRB().showC(www, "mixRB ", tL))
+                    print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
+                    println()
+
+                    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
 		    fun printForm(hsv: Ansi.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 		    print("Hue    360° ")
