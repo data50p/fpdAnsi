@@ -294,10 +294,10 @@ class AnsiDemo {
                     print("            ")
                     print(rgbRand.rotL().showC(www, "rotL ", tL))
                     print(rgbRand.rotR().showC(www, "rotR ", tL))
-                    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
                     print(rgbRand.mixRG().showC(www, "mixRG ", tL))
                     print(rgbRand.mixRB().showC(www, "mixRB ", tL))
                     print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
+                    print(rgbRand.complementRGB().showC(www, "crgb ", tL))
                     println()
 
                     fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
