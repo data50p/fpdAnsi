@@ -90,7 +90,8 @@ public class Demo {
 	List<Ansi.HSV> list = hsv.gradient(12, randColor.toHsv());
 	for (int ix = 0; ix < list.size(); ix++) {
 	    Ansi.RGB c = list.get(ix).toRGB();
-		System.out.println(Ansi.INSTANCE.csBg(c.getCs(), c.getR(), c.getG(), c.getB(), "index " + ix));
+	    System.out.println(Ansi.INSTANCE.csBg(c.getCs(), c.getR(), c.getG(), c.getB(), "index " + ix));
+	    System.out.println(Ansi.INSTANCE.rgbFg(" XXXXX", c));
 	}
     }
 }
