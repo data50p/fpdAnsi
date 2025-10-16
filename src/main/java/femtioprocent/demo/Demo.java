@@ -4,7 +4,9 @@ import femtioprocent.ansi.Ansi;
 import femtioprocent.ansi.appl.AnsiDemo;
 import kotlin.jvm.functions.Function2;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Demo {
     public static void main(String[] args) {
@@ -116,8 +118,8 @@ public class Demo {
         System.out.println();
 
 
-        var list2 = list.reversed();
-        for (int ix = 0; ix < list.size(); ix++) {
+        var list2 = rev(list);//.reversed();
+        for (int ix = 0; ix < list2.size(); ix++) {
             Ansi.RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
@@ -134,5 +136,26 @@ public class Demo {
             System.out.print(fg.invoke(" XXXXX", c2.toMaxValue()));
         }
         System.out.println();
+    }
+
+    static <T> List<T> mix(List<T> list) {
+        List<T> list0 = new ArrayList<T>();
+        list0.addAll(list);
+        List<T> list2 = new ArrayList<T>(list.size());
+        Random r = new Random();
+        while (list0.size() > 0) {
+            int ix = r.nextInt(list0.size());
+            list2.add(list0.get(ix));
+            list0.remove(ix);
+        }
+        return list2;
+    }
+
+    static <T> List<T> rev(List<T> list) {
+        List<T> list2 = new ArrayList<T>(list.size());
+        for(int ix = 0; ix < list.size(); ix++) {
+            list2.add(list.get(list.size() - ix - 1));
+        }
+        return list2;
     }
 }
