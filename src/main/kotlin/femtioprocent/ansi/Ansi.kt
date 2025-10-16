@@ -160,11 +160,15 @@ object Ansi {
     }
 
     private fun fgBg5(num: Int, s: String): String {
-        return "\u001b[1;${num + 10};37m${s}\u001b[00m"
+        return "\u001b[1;${num + 10};30m${s}\u001b[00m"
     }
 
     fun fg(color: Color, s: String): String {
-        return fg5(color.cr, color.cg, color.cb, s)
+	return fg5(color.cr, color.cg, color.cb, s)
+    }
+
+    fun bg(color: Color, s: String): String {
+	return bg5(color.cr, color.cg, color.cb, s)
     }
 
     private fun fg(num: Int, s: String): String {
