@@ -453,9 +453,12 @@ object Ansi {
 
         private fun avg(i1: Int, i2: Int, factor: Double = 1.0) = ((i1 + factor * i2) / (factor+1).toDouble() + 0.5).toInt()
 
-        fun average(other: RGB): RGB {
+        fun average(other: RGB, factor: Double = 1.0): RGB {
             require(cs == other.cs)
-            return RGB(cs, avg(r, other.r), avg(g, other.g), avg(b, other.b))
+            return RGB(cs,
+                avg(r, other.r, factor),
+                avg(g, other.g, factor),
+                avg(b, other.b, factor))
         }
 
         fun rotR() = RGB(cs, b, r, g)

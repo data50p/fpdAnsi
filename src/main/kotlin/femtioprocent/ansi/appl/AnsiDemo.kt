@@ -157,6 +157,7 @@ class AnsiDemo {
                 val cellWidth2 = cellSample2.length + 0
                 fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
                 fun formatter2(_rgb: RGB) = "·".pC(cellWidth2)
+                fun formatter3(_rgb: RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
 
                 val red = Ansi.csRgb(256)(255, 0, 0)
 		println("RGB Gradient")
@@ -354,19 +355,37 @@ class AnsiDemo {
 		    println()
 		}
 
-		println()
-		println("Permutation Gradient")
-		val cs = 5
+                println()
+                println("Permutation Gradient")
+                val cs = 5
 
-		val rgb = (0..<cs).shuffled().take(3)
-		val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
-		rgbRand.permutationGradient().forEach { it1 ->
-		    it1.permutationGradient().forEach { it2 ->
-			print("${formatter1(it2)} ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
+                val rgb = (0..<cs).shuffled().take(3)
+                val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
+                rgbRand.permutationGradient().forEach { it1 ->
+                    it1.permutationGradient().forEach { it2 ->
+                        print("${formatter1(it2)} ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+
+                println()
+                println("---")
+
+                val N = 24
+                true.let {
+                    val rgbRand0 = randomRGB(256)
+                    repeat(N) {
+                        val rgbRand = rgbRand0.gradient(N, rgbRand0.toSaturation(7.1 / it))
+                        var rgb2 = rgbRand[it]
+                        (1..12*N/4).forEach {
+                            rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
+                            print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
+                        }
+                        println()
+                    }
+                }
 	    }
 
 	    Am("ca")           -> {
