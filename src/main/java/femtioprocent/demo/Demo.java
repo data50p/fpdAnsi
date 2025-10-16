@@ -3,6 +3,8 @@ package femtioprocent.demo;
 import femtioprocent.ansi.Ansi;
 import femtioprocent.ansi.appl.AnsiDemo;
 
+import java.util.List;
+
 public class Demo {
     public static void main(String[] args) {
 	if (args.length > 0 && args.equals("AnsiDemo")) {
@@ -81,5 +83,14 @@ public class Demo {
 
 	System.out.println("");
 	System.out.println("" + rgb.toString() + " -> " + Ansi.INSTANCE.rgbBg(" Hello ", rgb));
+
+
+	System.out.println("");
+	Ansi.HSV hsv = rgb.toHsv();
+	List<Ansi.HSV> list = hsv.gradient(12, randColor.toHsv());
+	for (int ix = 0; ix < list.size(); ix++) {
+	    Ansi.RGB c = list.get(ix).toRGB();
+		System.out.println(Ansi.INSTANCE.csBg(c.getCs(), c.getR(), c.getG(), c.getB(), "index " + ix));
+	}
     }
 }
