@@ -382,16 +382,15 @@ class AnsiDemo {
                     repeat(N) { n ->
                         val value = n.toDouble() / 54
                         val hsv = rgbRand0.toHsv()
-                        val rgbSat = rgbRand0.toSaturation(value)
-                        val rgbRand = rgbRand0.toHsv().gradient(N, rgbSat.toHsv())
-                        var rgb2 = rgbRand[n]
-                        if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbSat.showC()} ${rgbSat.toHsv()} ${rgb2.showC()}")
+                        val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
+                        var rgb2 = rgbRand[n].toRGB()
+                        //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
                         //rgbRand.forEach { println("  " + it.showR()) }
                         (1..2*N).forEach {
-                           // rgb2 = rgb2.toRGB().average(rgb2.toRGB().toValue(0.2), 0.1 + 0.3 / it.toDouble())
-                            //print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
+                           rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
+                            print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
                         }
-                        //println()
+                        println()
                     }
                 }
 	    }
