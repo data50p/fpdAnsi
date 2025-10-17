@@ -377,7 +377,7 @@ class AnsiDemo {
                 val verb = true
                 val N = 24
                 true.let {
-                    val rgbRand0 = RGB(cs=256, r=204, g=67, b=68) // randomRGB(256).average(RGB(3, 2, 1, 0))
+                    val rgbRand0 = RGB(cs=256, r=203, g=107, b=108) // randomRGB(256).average(RGB(3, 2, 1, 0))
                     println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}")
                     repeat(N) { n ->
                         val value = n.toDouble() / 54

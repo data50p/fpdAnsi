@@ -598,10 +598,10 @@ object Ansi {
             val delta = cmax - cmin
 
             val h = 60.0 * when (cmax) {
-                rd -> ((gd - bd) / delta + 6.0) % 6.0
-                gd -> ((bd - rd) / delta) + 2.0
-                bd -> ((rd - gd) / delta) + 4.0
-                else -> 1.0
+                rd if delta != 0.0 -> ((gd - bd) / delta + 6.0) % 6.0
+                gd if delta != 0.0 -> ((bd - rd) / delta) + 2.0
+                bd if delta != 0.0 -> ((rd - gd) / delta) + 4.0
+                else -> 0.0
             }
 
             val s = when (cmax) {
@@ -611,7 +611,7 @@ object Ansi {
 
             val v = cmax
 
-            return HSV(if (h.isNaN()) 0.0 else h, s, v)
+            return HSV(h, s, v)
         }
 
         fun toLaconicStringRGB() = "$r,$g,$b"
@@ -673,23 +673,17 @@ object Ansi {
         }
 
         fun toRGB(): RGB {
-            val hh =
-                if (h.isNaN())
-                    0.0
-                else
-                    h
-
             data class RGB(val r: Double, val g: Double, val b: Double)
 
             val c = v * s
-            val x = c * (1 - Math.abs((hh / 60.0) % 2.0 - 1))
+            val x = c * (1 - Math.abs((h / 60.0) % 2.0 - 1))
             val m = v - c
             val rgb = when {
-                hh < 60 -> RGB(c, x, 0.0)
-                hh < 120 -> RGB(x, c, 0.0)
-                hh < 180 -> RGB(0.0, c, x)
-                hh < 240 -> RGB(0.0, x, c)
-                hh < 300 -> RGB(x, 0.0, c)
+                h < 60 -> RGB(c, x, 0.0)
+                h < 120 -> RGB(x, c, 0.0)
+                h < 180 -> RGB(0.0, c, x)
+                h < 240 -> RGB(0.0, x, c)
+                h < 300 -> RGB(x, 0.0, c)
                 else -> RGB(c, 0.0, x)
             }
             val r = ((rgb.r + m) * 255 + 0.5).toInt()
