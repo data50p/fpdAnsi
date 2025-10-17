@@ -543,7 +543,7 @@ object Ansi {
         }
 
         fun gradient(loops: Int = 12, rgb: RGB): List<RGB> {
-            return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB() }
+            return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
         }
 
         fun permutationGradient(): List<RGB> {
