@@ -6,6 +6,7 @@ import femtioprocent.ansi.Ansi.rgbBg
 import femtioprocent.ansi.Ansi.rgbFg
 import femtioprocent.ansi.Ansi.showC
 import femtioprocent.ansi.Ansi.showL
+import femtioprocent.ansi.Ansi.showR
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
@@ -373,17 +374,24 @@ class AnsiDemo {
                 println()
                 println("---")
 
+                val verb = true
                 val N = 24
                 true.let {
-                    val rgbRand0 = randomRGB(256).average(RGB(3, 2, 1, 0))
+                    val rgbRand0 = RGB(cs=256, r=204, g=67, b=68) // randomRGB(256).average(RGB(3, 2, 1, 0))
+                    println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}")
                     repeat(N) { n ->
-                        val rgbRand = rgbRand0.gradient(N, rgbRand0.toSaturation(n.toDouble() / 54))
+                        val value = n.toDouble() / 54
+                        val hsv = rgbRand0.toHsv()
+                        val rgbSat = rgbRand0.toSaturation(value)
+                        val rgbRand = rgbRand0.toHsv().gradient(N, rgbSat.toHsv())
                         var rgb2 = rgbRand[n]
+                        if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbSat.showC()} ${rgbSat.toHsv()} ${rgb2.showC()}")
+                        //rgbRand.forEach { println("  " + it.showR()) }
                         (1..2*N).forEach {
-                            rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
-                            print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
+                           // rgb2 = rgb2.toRGB().average(rgb2.toRGB().toValue(0.2), 0.1 + 0.3 / it.toDouble())
+                            //print(" ${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
                         }
-                        println()
+                        //println()
                     }
                 }
 	    }
