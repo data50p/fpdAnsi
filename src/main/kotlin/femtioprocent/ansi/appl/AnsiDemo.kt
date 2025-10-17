@@ -375,13 +375,13 @@ class AnsiDemo {
                 println("---")
 
                 val verb = true
-                val N = 24
+                val N = 24*3
                 true.let {
-		    val other = randomRGB(256).toSaturation(Random.nextDouble(1.0))
+		    val other = randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
                     val rgbRand0 = randomRGB(256).average(other)
                     println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
                     repeat(N) { n ->
-                        val value = n.toDouble() / 54
+                        val value = n.toDouble() / N
                         val hsv = rgbRand0.toHsv()
                         val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
                         var rgb2 = rgbRand[n].toRGB()
@@ -389,7 +389,7 @@ class AnsiDemo {
                         //rgbRand.forEach { println("  " + it.showR()) }
                         (1..2*N).forEach {
                            rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
-                            print("${formatter3(rgb2, ' ')} ".rgbBg(rgb2))
+                            print("${formatter3(rgb2, ' ')}".rgbBg(rgb2))
                         }
                         println()
                     }
