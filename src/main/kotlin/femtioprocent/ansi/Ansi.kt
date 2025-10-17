@@ -722,13 +722,14 @@ object Ansi {
         }
 
         fun print() {
-            print(Ansi.goto(0, 0))
+            print(Ansi.hideCursor() + Ansi.goto(0, 0))
             (0..<h).forEach {y ->
                 (0..<w).forEach {x ->
                     print(Ansi.rgbFgBg(grid[y * w + x].fg, grid[y * w + x].bg, grid[y * w + x].ch.toString()))
                 }
                 println()
             }
+            println(Ansi.showCursor())
         }
     }
 }
