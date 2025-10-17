@@ -400,11 +400,11 @@ class AnsiDemo {
                 val display = Ansi.Display(150, 50)
 
                 val rgbRand00 = randomRGB(256)
-                repeat(1000) {nn ->
+                repeat(100) {nn ->
                     val verb = true
                     val N = 50
                     true.let {
-                        val other = rgbRand00.toValue(nn/1000.0) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
+                        val other = rgbRand00.toValue(nn/100.0) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
                         val rgbRand0 = rgbRand00.toMaxValue().average(other)
                         println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
                         repeat(N) { n ->
