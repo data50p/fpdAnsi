@@ -4,4 +4,4 @@
 
 # build/install/ansi/ansi "$@"
 
-java -cp build/install/ansi/lib/'*'    femtioprocent.ansi.appl.AnsiDemo
+java -cp build/install/ansi/lib/'*'    femtioprocent.ansi.appl.AnsiDemo "$@"

@@ -396,6 +396,31 @@ class AnsiDemo {
                 }
 	    }
 
+            Am("Z") -> {
+                val display = Ansi.Display(150, 50)
+
+                val verb = true
+                val N = 50
+                true.let {
+                    val other = randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
+                    val rgbRand0 = randomRGB(256).average(other)
+                    println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
+                    repeat(N) { n ->
+                        val value = n.toDouble() / N
+                        val hsv = rgbRand0.toHsv()
+                        val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
+                        var rgb2 = rgbRand[n].toRGB()
+                        //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
+                        //rgbRand.forEach { println("  " + it.showR()) }
+                        (0..<150).forEach {
+                            rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1+it.toDouble()))
+                            display.set(it, n, rgbRand0, rgb2, '·')
+                        }
+                    }
+                }
+                display.print()
+            }
+
 	    Am("ca")           -> {
 		println("\ncolor5s calling: Ansi.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")

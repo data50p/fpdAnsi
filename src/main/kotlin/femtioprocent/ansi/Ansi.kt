@@ -697,6 +697,40 @@ object Ansi {
             return "HSV{%7.3f,%7.3f,%7.3f}".format(h, s, v)
         }
     }
+
+    class Display(val w: Int, val h: Int) {
+        data class Cell(val fg: RGB, val bg: RGB, val ch: Char)
+
+        val grid = Array<Cell>(w * h) {
+            val fg = RGB(2, 1, 1, 1)
+            val bg = RGB(2, 0, 0, 0)
+            Cell(fg, bg, ' ')
+        }
+
+        init {
+/*            val fg = RGB(2, 1, 0, 1)
+            val bg = RGB(2, 0, 0, 0)
+            (0..<h).forEach {y ->
+                (0..<w).forEach {x ->
+                    set(x, y, fg, bg, '·')
+                }
+            }
+  */      }
+
+        fun set(x: Int, y: Int, fg: RGB, bg: RGB, ch: Char) {
+            grid[x + y * w] = Cell(fg, bg, ch)
+        }
+
+        fun print() {
+            print(Ansi.goto(0, 0))
+            (0..<h).forEach {y ->
+                (0..<w).forEach {x ->
+                    print(Ansi.rgbFgBg(grid[y * w + x].fg, grid[y * w + x].bg, grid[y * w + x].ch.toString()))
+                }
+                println()
+            }
+        }
+    }
 }
 
 fun main() {
