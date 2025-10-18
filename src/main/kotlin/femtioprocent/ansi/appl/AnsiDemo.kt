@@ -406,25 +406,27 @@ class AnsiDemo {
 
 		val MAX = 100
 		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
-		repeat(1000) { nn ->
+		repeat(MAX) { nn ->
 		    val verb = true
 		    val N = 50
 		    true.let {
 			val other = rgbRand00.toValue(nn / MAX.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
-			val rgbRand0 = rgbRand00.toMaxValue().average(other)
+			val rgbRand0 = rgbRand00.toMaxValue().rotL().average(other)
 			print(Ansi.hideCursor() + Ansi.goto(0, N + 1))
 			println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
 			repeat(N) { n ->
-			    val value = n.toDouble() / N
-			    val hsv = rgbRand0.toHsv()
-			    val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
-			    var rgb2 = rgbRand[n].toRGB()
-			    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-			    //rgbRand.forEach { println("  " + it.showR()) }
-			    (0..<150).forEach {
-				rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + it.toDouble()))
-				display.set(it, n, rgbRand0, rgb2, ' ')
-			    }
+                            if ( nn % 2 == 1 ) {
+                                val value = n.toDouble() / N
+                                val hsv = rgbRand0.toHsv()
+                                val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
+                                var rgb2 = rgbRand[n].toRGB()
+                                //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
+                                //rgbRand.forEach { println("  " + it.showR()) }
+                                (0..<150).forEach {
+                                    rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + it.toDouble()))
+                                    display.set(it, n, rgbRand0, rgb2, ' ')
+                                }
+                            }
 			}
 		    }
 		    val s = "Hello world"
@@ -437,7 +439,7 @@ class AnsiDemo {
 			veloy *= -1
 		    xx += velox
 		    yy += veloy
-		    Thread.sleep(20)
+		    Thread.sleep(10)
 		    if (!display.hitWall(xx, yy, s))
 			display.setText(xx, yy, "           ")
 
