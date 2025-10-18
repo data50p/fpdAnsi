@@ -406,6 +406,7 @@ class AnsiDemo {
                     true.let {
                         val other = rgbRand00.toValue(nn/100.0) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
                         val rgbRand0 = rgbRand00.toMaxValue().average(other)
+			print(Ansi.hideCursor() + Ansi.goto(0, N+1))
                         println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
                         repeat(N) { n ->
                             val value = n.toDouble() / N
