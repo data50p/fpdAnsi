@@ -6,7 +6,6 @@ import femtioprocent.ansi.Ansi.rgbBg
 import femtioprocent.ansi.Ansi.rgbFg
 import femtioprocent.ansi.Ansi.showC
 import femtioprocent.ansi.Ansi.showL
-import femtioprocent.ansi.Ansi.showR
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
@@ -151,16 +150,15 @@ class AnsiDemo {
 		println()
 
 
+		val cellSample1 = "236,120,136"
+		val cellSample2 = "·"
+		val cellWidth1 = cellSample1.length + 2
+		val cellWidth2 = cellSample2.length + 0
+		fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
+		fun formatter2(_rgb: RGB) = "·".pC(cellWidth2)
+		fun formatter3(_rgb: RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
 
-                val cellSample1 = "236,120,136"
-                val cellSample2 = "·"
-                val cellWidth1 = cellSample1.length + 2
-                val cellWidth2 = cellSample2.length + 0
-                fun formatter1(rgb: RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
-                fun formatter2(_rgb: RGB) = "·".pC(cellWidth2)
-                fun formatter3(_rgb: RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
-
-                val red = Ansi.csRgb(256)(255, 0, 0)
+		val red = Ansi.csRgb(256)(255, 0, 0)
 		println("RGB Gradient")
 		red.hueGradient(12).forEach { it2 ->
 		    print("${formatter1(it2)} ".rgbBg(it2))
@@ -252,7 +250,7 @@ class AnsiDemo {
 				}"
 			    )
 			}
-                        println()
+			println()
 		    }
 		    println()
 		}
@@ -274,7 +272,7 @@ class AnsiDemo {
 			else
 			    Triple(defaultLoops, ::formatter1, cellWidth1)
 
-                    val tableWidth = cellWidth * loops
+		    val tableWidth = cellWidth * loops
 		    val cubeSize = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
 
 		    val rgbRand = randomRGB(cubeSize)
@@ -284,25 +282,25 @@ class AnsiDemo {
 		    val col = 6
 		    val www = tableWidth / col
 
-                    print("            ")
-                    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
-                    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
-                    print(rgbRand.complement().showC(www, "cmpl ", tL))
-                    print(rgbRand.toSaturation(0.5).showC(www, "smid ", tL))
-                    print(rgbRand.toValue(0.5).showC(tableWidth - (col - 1) * www, "vmid ", tL))
-                    print(rgbRand.toSaturation(0.5).toValue(0.5).showC(www, "svmid ", tL))
-                    println()
+		    print("            ")
+		    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
+		    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
+		    print(rgbRand.complement().showC(www, "cmpl ", tL))
+		    print(rgbRand.toSaturation(0.5).showC(www, "smid ", tL))
+		    print(rgbRand.toValue(0.5).showC(tableWidth - (col - 1) * www, "vmid ", tL))
+		    print(rgbRand.toSaturation(0.5).toValue(0.5).showC(www, "svmid ", tL))
+		    println()
 
-                    print("            ")
-                    print(rgbRand.rotL().showC(www, "rotL ", tL))
-                    print(rgbRand.rotR().showC(www, "rotR ", tL))
-                    print(rgbRand.mixRG().showC(www, "mixRG ", tL))
-                    print(rgbRand.mixRB().showC(www, "mixRB ", tL))
-                    print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
-                    print(rgbRand.inverse().showC(www, "inv ", tL))
-                    println()
+		    print("            ")
+		    print(rgbRand.rotL().showC(www, "rotL ", tL))
+		    print(rgbRand.rotR().showC(www, "rotR ", tL))
+		    print(rgbRand.mixRG().showC(www, "mixRG ", tL))
+		    print(rgbRand.mixRB().showC(www, "mixRB ", tL))
+		    print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
+		    print(rgbRand.inverse().showC(www, "inv ", tL))
+		    println()
 
-                    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
+		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
 		    fun printForm(hsv: Ansi.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 		    print("Hue    360° ")
@@ -356,74 +354,95 @@ class AnsiDemo {
 		    println()
 		}
 
-                println()
-                println("Permutation Gradient")
-                val cs = 5
+		println()
+		println("Permutation Gradient")
+		val cs = 5
 
-                val rgb = (0..<cs).shuffled().take(3)
-                val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
-                rgbRand.permutationGradient().forEach { it1 ->
-                    it1.permutationGradient().forEach { it2 ->
-                        print("${formatter1(it2)} ".rgbBg(it2))
-                    }
-                    println()
-                }
-                println()
+		val rgb = (0..<cs).shuffled().take(3)
+		val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
+		rgbRand.permutationGradient().forEach { it1 ->
+		    it1.permutationGradient().forEach { it2 ->
+			print("${formatter1(it2)} ".rgbBg(it2))
+		    }
+		    println()
+		}
+		println()
 
 
-                println()
-                println("---")
+		println()
+		println("---")
 
-                val verb = true
-                val N = 24*3
-                true.let {
+		val verb = true
+		val N = 24 * 3
+		true.let {
 		    val other = randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
-                    val rgbRand0 = randomRGB(256).average(other)
-                    println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
-                    repeat(N) { n ->
-                        val value = n.toDouble() / N
-                        val hsv = rgbRand0.toHsv()
-                        val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
-                        var rgb2 = rgbRand[n].toRGB()
-                        //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-                        //rgbRand.forEach { println("  " + it.showR()) }
-                        (1..2*N).forEach {
-                           rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
-                            print("${formatter3(rgb2, ' ')}".rgbBg(rgb2))
-                        }
-                        println()
-                    }
-                }
+		    val rgbRand0 = randomRGB(256).average(other)
+		    println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
+		    repeat(N) { n ->
+			val value = n.toDouble() / N
+			val hsv = rgbRand0.toHsv()
+			val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
+			var rgb2 = rgbRand[n].toRGB()
+			//if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
+			//rgbRand.forEach { println("  " + it.showR()) }
+			(1..2 * N).forEach {
+			    rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
+			    print("${formatter3(rgb2, ' ')}".rgbBg(rgb2))
+			}
+			println()
+		    }
+		}
 	    }
 
-            Am("Z") -> {
-                val display = Ansi.Display(150, 50)
+	    Am("Z")            -> {
+		val display = Ansi.Display(150, 50)
 
-                val rgbRand00 = randomRGB(256)
-                repeat(100) {nn ->
-                    val verb = true
-                    val N = 50
-                    true.let {
-                        val other = rgbRand00.toValue(nn/100.0) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
-                        val rgbRand0 = rgbRand00.toMaxValue().average(other)
-			print(Ansi.hideCursor() + Ansi.goto(0, N+1))
-                        println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
-                        repeat(N) { n ->
-                            val value = n.toDouble() / N
-                            val hsv = rgbRand0.toHsv()
-                            val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
-                            var rgb2 = rgbRand[n].toRGB()
-                            //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-                            //rgbRand.forEach { println("  " + it.showR()) }
-                            (0..<150).forEach {
-                                rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + it.toDouble()))
-                                display.set(it, n, rgbRand0, rgb2, '·')
-                            }
-                        }
-                    }
-                    display.print()
-                }
-            }
+		val rgbRand00 = randomRGB(256)
+
+		var xx = 0
+		var yy = 0
+		var velox = 1
+		var veloy = 1
+
+		val MAX = 100
+		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
+		repeat(1000) { nn ->
+		    val verb = true
+		    val N = 50
+		    true.let {
+			val other = rgbRand00.toValue(nn / MAX.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
+			val rgbRand0 = rgbRand00.toMaxValue().average(other)
+			print(Ansi.hideCursor() + Ansi.goto(0, N + 1))
+			println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
+			repeat(N) { n ->
+			    val value = n.toDouble() / N
+			    val hsv = rgbRand0.toHsv()
+			    val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
+			    var rgb2 = rgbRand[n].toRGB()
+			    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
+			    //rgbRand.forEach { println("  " + it.showR()) }
+			    (0..<150).forEach {
+				rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + it.toDouble()))
+				display.set(it, n, rgbRand0, rgb2, ' ')
+			    }
+			}
+		    }
+		    val s = "Hello world"
+		    if (!display.hitWall(xx, yy, s))
+			display.setText(xx, yy, s)
+		    display.print()
+		    if ( display.hitWallX(xx, yy, s) )
+			velox *= -1
+		    if ( display.hitWallY(xx, yy, s) )
+			veloy *= -1
+		    xx += velox
+		    yy += veloy
+		    Thread.sleep(20)
+		    if (!display.hitWall(xx, yy, s))
+			display.setText(xx, yy, "           ")
+
+		}
+	    }
 
 	    Am("ca")           -> {
 		println("\ncolor5s calling: Ansi.color5(ix1, ix2, string)")

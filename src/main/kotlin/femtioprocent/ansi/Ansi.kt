@@ -699,7 +699,7 @@ object Ansi {
     }
 
     class Display(val w: Int, val h: Int) {
-        data class Cell(val fg: RGB, val bg: RGB, val ch: Char)
+        data class Cell(var fg: RGB, var bg: RGB, var ch: Char)
 
         val grid = Array<Cell>(w * h) {
             val fg = RGB(2, 1, 1, 1)
@@ -708,18 +708,29 @@ object Ansi {
         }
 
         init {
-/*            val fg = RGB(2, 1, 0, 1)
-            val bg = RGB(2, 0, 0, 0)
-            (0..<h).forEach {y ->
-                (0..<w).forEach {x ->
-                    set(x, y, fg, bg, '·')
-                }
-            }
-  */      }
+	}
 
-        fun set(x: Int, y: Int, fg: RGB, bg: RGB, ch: Char) {
-            grid[x + y * w] = Cell(fg, bg, ch)
-        }
+	fun set(x: Int, y: Int, fg: RGB, bg: RGB, ch: Char) {
+	    grid[x + y * w] = Cell(fg, bg, ch)
+	}
+
+	fun setText(x: Int, y: Int, s: String) {
+	    s.forEachIndexed { ix, ch ->
+		grid[ix + x + y * w].ch = ch
+	    }
+	}
+
+	fun hitWall(x: Int, y: Int, s: String) : Boolean {
+	    return  y < 0 || y >= h || x < 0 || (x + s.length) >= w
+	}
+
+	fun hitWallX(x: Int, y: Int, s: String) : Boolean {
+	    return  x < 0 || (x + s.length) >= w
+	}
+
+	fun hitWallY(x: Int, y: Int, s: String) : Boolean {
+	    return  y < 0 || y >= h
+	}
 
         fun print() {
             print(Ansi.hideCursor() + Ansi.goto(0, 0))
