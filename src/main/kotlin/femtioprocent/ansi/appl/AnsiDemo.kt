@@ -57,6 +57,7 @@ class AnsiDemo {
 	}
 
 	when {
+//<editor-fold desc="empty arg">
 	    arg.isEmpty()
 		    || Am("h") -> {
 		println("--ansi=D      ->  Dump legacy colors")
@@ -70,6 +71,7 @@ class AnsiDemo {
 		println("--ansi=h      ->  https://en.wikipedia.org/wiki/Help!")
 		System.exit(2)
 	    }
+//</editor-fold>
 
 	    Am("D")            -> {
 		Ansi.dumpColor5().forEach { println(it) }
@@ -176,7 +178,6 @@ class AnsiDemo {
 		println()
 		println()
 
-//<editor-fold desc="FFF">
 		println("RGB Gradient 180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
@@ -194,7 +195,7 @@ class AnsiDemo {
 		    println()
 		}
 		println()
-//</editor-fold>
+
 		println("RGB Gradient 45°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
