@@ -176,7 +176,7 @@ class AnsiDemo {
 		println()
 		println()
 
-
+//<editor-fold desc="FFF">
 		println("RGB Gradient 180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
@@ -194,7 +194,7 @@ class AnsiDemo {
 		    println()
 		}
 		println()
-
+//</editor-fold>
 		println("RGB Gradient 45°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
