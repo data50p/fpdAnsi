@@ -416,9 +416,9 @@ class AnsiDemo {
 			print(Ansi.hideCursor() + Ansi.goto(0, rows + 1))
 			println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
 
-			val mt = measureTime {
+			val mt1 = measureTime {
 			    repeat(rows) { row ->
-				if (frame % 2 == 1) {
+				if (frame % 2 != 999) {
 				    val value = row.toDouble() / rows
 				    val hsv = rgbRand0.toHsv()
 				    val rgbRand = rgbRand0.toHsv().gradient(rows, rgbRand0.toHsv().clone(s = value))
@@ -432,7 +432,7 @@ class AnsiDemo {
 				}
 			    }
 			}
-			println(" mt $mt")
+			println(" mt1 $mt1")
 		    }
 		    items.forEach { it.step() }
 		    val mt2 = measureTime {
