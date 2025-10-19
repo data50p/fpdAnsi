@@ -11,6 +11,7 @@ import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random
+import kotlin.time.Duration
 import kotlin.time.measureTime
 
 const val lorem =
@@ -405,6 +406,7 @@ class AnsiDemo {
                 item2.velox = 2
 		val items = listOf(item, item2)
 
+		var mt1 = Duration.ZERO
 		val frames = 1250
 		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
 		repeat(frames) { frame ->
@@ -416,7 +418,7 @@ class AnsiDemo {
 			print(Ansi.hideCursor() + Ansi.goto(0, rows + 1))
 			println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
 
-			val mt1 = measureTime {
+			mt1 = measureTime {
 			    repeat(rows) { row ->
 				if (frame % 1 == 0) {
 				    val value = row.toDouble() / rows
@@ -432,13 +434,13 @@ class AnsiDemo {
 				}
 			    }
 			}
-			println(" mt1 $mt1")
 		    }
 		    items.forEach { it.step() }
 		    val mt2 = measureTime {
 			display.print()
 		    }
-		    println(" mt2 $mt2")
+		    //print(Ansi.hideCursor() + Ansi.goto(0, display.h + 1) + Ansi.clear())
+		    //println(" mt $mt1 $mt2")
 		}
 	    }
 
