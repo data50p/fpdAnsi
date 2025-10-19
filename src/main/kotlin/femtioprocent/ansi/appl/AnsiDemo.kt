@@ -396,54 +396,48 @@ class AnsiDemo {
 	    }
 
 	    Am("Z")            -> {
-		val display = Ansi.Display(150, 50)
+		val display = Ansi.Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
 
-		var xx = 0
-		var yy = 0
-		var velox = 1
-		var veloy = 1
+		val item = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
+		val item2 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
+		val items = listOf(item, item2)
 
-		val MAX = 100
+		val frames = 250
 		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
-		repeat(MAX) { nn ->
+		repeat(frames) { frame ->
 		    val verb = true
-		    val N = 50
+		    val rows = display.h
 		    true.let {
-			val other = rgbRand00.toValue(nn / MAX.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
+			val other = rgbRand00.toValue(frame / frames.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
 			val rgbRand0 = rgbRand00.toMaxValue().rotL().average(other)
-			print(Ansi.hideCursor() + Ansi.goto(0, N + 1))
+			print(Ansi.hideCursor() + Ansi.goto(0, rows + 1))
 			println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
-			repeat(N) { n ->
-                            if ( nn % 2 == 1 ) {
-                                val value = n.toDouble() / N
-                                val hsv = rgbRand0.toHsv()
-                                val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
-                                var rgb2 = rgbRand[n].toRGB()
-                                //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-                                //rgbRand.forEach { println("  " + it.showR()) }
-                                (0..<150).forEach {
-                                    rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + it.toDouble()))
-                                    display.set(it, n, rgbRand0, rgb2, ' ')
-                                }
-                            }
-			}
-		    }
-		    val s = "Hello world"
-		    if (!display.hitWall(xx, yy, s))
-			display.setText(xx, yy, s)
-		    display.print()
-		    if ( display.hitWallX(xx, yy, s) )
-			velox *= -1
-		    if ( display.hitWallY(xx, yy, s) )
-			veloy *= -1
-		    xx += velox
-		    yy += veloy
-		    Thread.sleep(10)
-		    if (!display.hitWall(xx, yy, s))
-			display.setText(xx, yy, "           ")
 
+			val mt = measureTime {
+			    repeat(rows) { row ->
+				if (frame % 2 == 1) {
+				    val value = row.toDouble() / rows
+				    val hsv = rgbRand0.toHsv()
+				    val rgbRand = rgbRand0.toHsv().gradient(rows, rgbRand0.toHsv().clone(s = value))
+				    var rgb2 = rgbRand[row].toRGB()
+				    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
+				    //rgbRand.forEach { println("  " + it.showR()) }
+				    (0..<display.w).forEach { col ->
+					rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + col.toDouble()))
+					display.set(col, row, rgbRand0, rgb2, ' ')
+				    }
+				}
+			    }
+			}
+			println(" mt $mt")
+		    }
+		    items.forEach { it.step() }
+		    val mt2 = measureTime {
+			display.print()
+		    }
+		    println(" mt2 $mt2")
 		}
 	    }
 
