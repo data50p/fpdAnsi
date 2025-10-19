@@ -394,6 +394,21 @@ class AnsiDemo {
 			println()
 		    }
 		}
+
+		if ( true) {
+		    println()
+		    println()
+		    val rgb = randomRGB(256)
+		    println("${rgb.showC()} ${rgb.byName("rotL").showC()} ${rgb.byNames(listOf("rotL", "compl")).showC()} ${rgb.byNames(listOf("rotL", "compl", "val+")).showC()}")
+
+		    println()
+		    var c1 = rgb.toValue(0.3)
+		    repeat(10) {
+			c1 = c1.byName("val+")
+			print(" ${c1.showC(w=14, f = Ansi.RGB::toLaconicStringRGB)}")
+		    }
+		    println()
+		}
 	    }
 
 	    Am("Z")            -> {

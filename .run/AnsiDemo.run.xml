@@ -2,7 +2,7 @@
   <configuration default="false" name="AnsiDemo" type="JetRunConfigurationType" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="femtioprocent.ansi.appl.AnsiDemo" />
     <module name="ansi.main" />
-    <option name="PROGRAM_PARAMETERS" value="Z" />
+    <option name="PROGRAM_PARAMETERS" value="d" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

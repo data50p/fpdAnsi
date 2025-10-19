@@ -491,6 +491,11 @@ object Ansi {
 	fun toHue(value: Double) = toHsv().clone(h = value).toRGB().toCubeSize(cs)
 	fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
 	fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
+	fun addValue(value: Double) : RGB {
+	    val hsv = toHsv()
+	    val nval = hsv.v + (1.0 - hsv.v) * value
+	    return hsv.clone(v = nval).toRGB().toCubeSize(cs)
+	}
 
 	fun toMaxValue() = toValue(1.0)
 	fun toMaxSaturation() = toSaturation(1.0)
@@ -584,6 +589,23 @@ object Ansi {
 
 	fun eq0(v: Int): Int = v
 
+	fun byName(name: String) : RGB {
+	    return when (name) {
+		"rotL" -> rotL()
+		"rotR" -> rotR()
+		"mixRG" -> mixRG()
+		"mixGB" -> mixGB()
+		"mixRB" -> mixRB()
+		"compl" -> complement()
+		"inv" -> inverse()
+		"val+" -> addValue(0.1)
+		else -> this
+	    }
+	}
+
+	fun byNames(names: Collection<String>) : RGB {
+	    return names.fold(this) {acc, string -> acc.byName(string)}
+	}
 
 	fun toHsv(): HSV = (if (cs == 256) this else toCubeSize(256)).toHsv256()
 
