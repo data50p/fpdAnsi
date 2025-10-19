@@ -396,12 +396,13 @@ class AnsiDemo {
 	    }
 
 	    Am("Z")            -> {
-		val display = Ansi.Display(250, 75)
+		val display = Ansi.Display(100, 50)
 
 		val rgbRand00 = randomRGB(256)
 
 		val item = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
 		val item2 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
+                item2.velox = 2
 		val items = listOf(item, item2)
 
 		val frames = 250
