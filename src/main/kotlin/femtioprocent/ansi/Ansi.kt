@@ -707,6 +707,12 @@ object Ansi {
 	    Cell(fg, bg, ' ')
 	}
 
+	val gridCurrent = Array<Cell>(w * h) {
+	    val fg = RGB(2, 1, 1, 1)
+	    val bg = RGB(2, 0, 0, 0)
+	    Cell(fg, bg, ' ')
+	}
+
 	init {
 	}
 
@@ -733,14 +739,28 @@ object Ansi {
 	}
 
 	fun print() {
+	    var dirty = true
 	    print(Ansi.hideCursor() + Ansi.goto(0, 0))
+	    var cntA = 0
+	    var cntB = 0
 	    (0..<h).forEach { y ->
 		(0..<w).forEach { x ->
-		    print(Ansi.rgbFgBg(grid[y * w + x].fg, grid[y * w + x].bg, grid[y * w + x].ch.toString()))
+		    val ix = y * w + x
+		    if ( grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch ) {
+			dirty = true
+			cntA++
+		    } else {
+			if ( dirty )
+			    print(Ansi.goto(x, y))
+			print(Ansi.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
+			dirty = false
+			gridCurrent[ix] = grid[ix]
+			cntB++
+		    }
 		}
 		println()
 	    }
-	    println(Ansi.showCursor())
+	    println(Ansi.showCursor() + "cntAB $cntA $cntB")
 	}
 
 	val blank = "                                                                                  "

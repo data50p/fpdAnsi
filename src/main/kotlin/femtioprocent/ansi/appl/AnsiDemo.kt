@@ -396,7 +396,7 @@ class AnsiDemo {
 	    }
 
 	    Am("Z")            -> {
-		val display = Ansi.Display(100, 50)
+		val display = Ansi.Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
 
@@ -405,7 +405,7 @@ class AnsiDemo {
                 item2.velox = 2
 		val items = listOf(item, item2)
 
-		val frames = 250
+		val frames = 1250
 		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
 		repeat(frames) { frame ->
 		    val verb = true
@@ -418,7 +418,7 @@ class AnsiDemo {
 
 			val mt1 = measureTime {
 			    repeat(rows) { row ->
-				if (frame % 2 != 999) {
+				if (frame % 1 == 0) {
 				    val value = row.toDouble() / rows
 				    val hsv = rgbRand0.toHsv()
 				    val rgbRand = rgbRand0.toHsv().gradient(rows, rgbRand0.toHsv().clone(s = value))
