@@ -418,6 +418,8 @@ class AnsiDemo {
 
 		println("Theme")
 
+		val shadow = !true
+
 		val z2 = Random.nextInt(100) > 50
 		val z = if ( z2 ) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
 
@@ -440,33 +442,33 @@ class AnsiDemo {
 		var yy = 0
 
 		display.fill(theme[1])
-		display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(5, yy + 3, 15, 5, theme[0])
 		display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
 
 		xx = 25
-		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(xx + 5, yy + 3, 15, 5, theme[4])
 		display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), " World")
 
 		xx = 50
-		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(xx + 5, yy + 3, 15, 5, theme[5])
 		display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), if ( z2 ) " compl" else " analogue")
 
 		xx = 0
 		yy = 10
-		display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2])
 		display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
 
 		xx = 25
-		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2])
 		display.setText(xx + 5, yy + 3, theme[4].toValue(0.05), " World")
 
 		xx = 50
-		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		if ( shadow ) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		display.rect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue())
 		display.setText(xx + 5, yy + 3, theme[5].toValue(0.05), if ( z2 ) " compl" else " analogue")
 
