@@ -427,8 +427,8 @@ class AnsiDemo {
 		    rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
 		    rgbTheme.toValue(0.8),
 		    rgbTheme.byNames(listOf("val-", "val-", "val-")),
-		    z(rgbTheme, 0.1)[1],
-		    z(rgbTheme, 0.1)[2],
+		    z(rgbTheme, 0.3)[1],
+		    z(rgbTheme, 0.3)[2],
 		)
 		theme.pr("Theme1 ")
 		println()
@@ -437,20 +437,38 @@ class AnsiDemo {
 		val display = Ansi.Display(100, 24)
 
 		var xx = 0
+		var yy = 0
+
 		display.fill(theme[1])
-		display.rect(5 + 1, 3 + 1, 15, 5, theme[2])
-		display.rect(5, 3, 15, 5, theme[0])
-		display.setText(5, 3, theme[4].toValue(0.1), " Hello")
+		display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(5, yy + 3, 15, 5, theme[0])
+		display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
 
 		xx = 25
-		display.rect(xx + 5 + 1, 3 + 1, 15, 5, theme[2])
-		display.rect(xx + 5, 3, 15, 5, theme[4])
-		display.setText(xx + 5, 3, theme[4].toValue(0.1), " World")
+		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, yy + 3, 15, 5, theme[4])
+		display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), " World")
 
 		xx = 50
-		display.rect(xx + 5 + 1, 3 + 1, 15, 5, theme[2])
-		display.rect(xx + 5, 3, 15, 5, theme[5])
-		display.setText(xx + 5, 3, theme[4].toValue(0.1), if ( z2 ) " compl" else " analogue")
+		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, yy + 3, 15, 5, theme[5])
+		display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), if ( z2 ) " compl" else " analogue")
+
+		xx = 0
+		yy = 10
+		display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2])
+		display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
+
+		xx = 25
+		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2])
+		display.setText(xx + 5, yy + 3, theme[4].toValue(0.05), " World")
+
+		xx = 50
+		display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue())
+		display.setText(xx + 5, yy + 3, theme[5].toValue(0.05), if ( z2 ) " compl" else " analogue")
 
 		display.print(!false)
 	    }
