@@ -370,57 +370,32 @@ class AnsiDemo {
 		}
 		println()
 
+		println()
+	    }
+
+	    Am("T")            -> {
+		val rgb = randomRGB(256)
+		println("${rgb.showC()} ${rgb.byName("rotL").showC()} ${rgb.byNames(listOf("rotL", "compl")).showC()} ${rgb.byNames(listOf("rotL", "compl", "val+")).showC()}")
 
 		println()
-		println("---")
-
-		val verb = true
-		val N = 24 * 3
-		true.let {
-		    val other = randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
-		    val rgbRand0 = randomRGB(256).average(other)
-		    println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
-		    repeat(N) { n ->
-			val value = n.toDouble() / N
-			val hsv = rgbRand0.toHsv()
-			val rgbRand = rgbRand0.toHsv().gradient(N, rgbRand0.toHsv().clone(s = value))
-			var rgb2 = rgbRand[n].toRGB()
-			//if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-			//rgbRand.forEach { println("  " + it.showR()) }
-			(1..2 * N).forEach {
-			    rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / it.toDouble())
-			    print("${formatter3(rgb2, ' ')}".rgbBg(rgb2))
-			}
-			println()
-		    }
+		var c1 = rgb.toValue(0.1)
+		repeat(16) {
+		    c1 = c1.byName("val+")
+		    print(" ${c1.showC(w = 8, f = { "    " })}")
 		}
-
-		if ( true) {
-		    println()
-		    println()
-		    val rgb = randomRGB(256)
-		    println("${rgb.showC()} ${rgb.byName("rotL").showC()} ${rgb.byNames(listOf("rotL", "compl")).showC()} ${rgb.byNames(listOf("rotL", "compl", "val+")).showC()}")
-
-		    println()
-		    var c1 = rgb.toValue(0.1)
-		    repeat(16) {
-			c1 = c1.byName("val+")
-			print(" ${c1.showC(w=8, f = {"    "})}")
-		    }
-		    println()
-		    c1 = rgb.toValue(1.0)
-		    repeat(16) {
-			c1 = c1.byName("val-")
-			print(" ${c1.showC(w=8, f = {"    "})}")
-		    }
-		    println()
-		    c1 = rgb.toSaturation(0.1)
-		    repeat(16) {
-			c1 = c1.byName("sat+")
-			print(" ${c1.showC(w=8, f = {"    "})}")
-		    }
-		    println()
+		println()
+		c1 = rgb.toValue(1.0)
+		repeat(16) {
+		    c1 = c1.byName("val-")
+		    print(" ${c1.showC(w = 8, f = { "    " })}")
 		}
+		println()
+		c1 = rgb.toSaturation(0.1)
+		repeat(16) {
+		    c1 = c1.byName("sat+")
+		    print(" ${c1.showC(w = 8, f = { "    " })}")
+		}
+		println()
 	    }
 
 	    Am("Z")            -> {
@@ -430,7 +405,7 @@ class AnsiDemo {
 
 		val item = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
 		val item2 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
-                item2.velox = 2
+		item2.velox = 2
 		val items = listOf(item, item2)
 
 		var mt1 = Duration.ZERO
