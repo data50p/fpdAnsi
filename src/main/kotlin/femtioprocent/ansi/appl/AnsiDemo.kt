@@ -16,12 +16,12 @@ import kotlin.time.measureTime
 
 const val lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna elit, viverra in eros nec, accumsan fringilla leo." +
-	    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
-	    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
-	    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
-	    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
-	    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
-	    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
+    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
+    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
+    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
+    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
+    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
+    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
 
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
@@ -66,7 +66,7 @@ class AnsiDemo {
 	when {
 //<editor-fold desc="empty arg">
 	    arg.isEmpty()
-		    || Am("h") -> {
+	    || Am("h") -> {
 		println("--ansi=D      ->  Dump legacy colors")
 		println("--ansi=d      ->  demo")
 
@@ -80,11 +80,11 @@ class AnsiDemo {
 	    }
 //</editor-fold>
 
-	    Am("D")            -> {
+	    Am("D")    -> {
 		Ansi.dumpColor5().forEach { println(it) }
 	    }
 
-	    Am("d")            -> {
+	    Am("d")    -> {
 		println("")
 		println(Ansi.csFg(4)(1, 2, 3, "XXXXXXXXXXX Ansi.csFg(4)(1, 2, 3, s)"))
 		println(Ansi.csBg(4)(3, 2, 1, "XXXXXXXXXXX Ansi.csBg(4)(1, 2, 3, s)"))
@@ -380,13 +380,11 @@ class AnsiDemo {
 	    }
 
 
-	    Am("T")            -> {
+	    Am("T")    -> {
 
 		val rgb = randomRGB(256)
 
 		listOf<RGB>(rgb, rgb.byName("rotL"), rgb.byNames(listOf("rotL", "compl")), rgb.byNames(listOf("rotL", "compl", "val+"))).pr()
-
-		println()
 
 		val fmt = "%-27s"
 		rgb.theComplementary().pr(String.format(fmt, "Complementary"))
@@ -417,9 +415,47 @@ class AnsiDemo {
 		    print(" ${c1.showC(w = 8, f = { "    " })}")
 		}
 		println()
+
+		println("Theme")
+
+		val z2 = Random.nextInt(100) > 50
+		val z = if ( z2 ) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
+
+		val rgbTheme = rgb.toSaturation(0.15).toValue(0.90)
+		val theme = listOf<RGB>(
+		    rgbTheme,
+		    rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
+		    rgbTheme.toValue(0.8),
+		    rgbTheme.byNames(listOf("val-", "val-", "val-")),
+		    z(rgbTheme, 0.1)[1],
+		    z(rgbTheme, 0.1)[2],
+		)
+		theme.pr("Theme1 ")
+		println()
+		println()
+
+		val display = Ansi.Display(100, 24)
+
+		var xx = 0
+		display.fill(theme[1])
+		display.rect(5 + 1, 3 + 1, 15, 5, theme[2])
+		display.rect(5, 3, 15, 5, theme[0])
+		display.setText(5, 3, theme[4].toValue(0.1), " Hello")
+
+		xx = 25
+		display.rect(xx + 5 + 1, 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, 3, 15, 5, theme[4])
+		display.setText(xx + 5, 3, theme[4].toValue(0.1), " World")
+
+		xx = 50
+		display.rect(xx + 5 + 1, 3 + 1, 15, 5, theme[2])
+		display.rect(xx + 5, 3, 15, 5, theme[5])
+		display.setText(xx + 5, 3, theme[4].toValue(0.1), if ( z2 ) " compl" else " analogue")
+
+		display.print(!false)
 	    }
 
-	    Am("Z")            -> {
+	    Am("Z")    -> {
 		val display = Ansi.Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
@@ -467,7 +503,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("ca")           -> {
+	    Am("ca")   -> {
 		println("\ncolor5s calling: Ansi.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Ansi.maxColor5Index).forEach { ix1 ->
@@ -514,7 +550,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cb")           -> {
+	    Am("cb")   -> {
 
 		println("")
 		println("")
@@ -598,7 +634,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cc")           -> {
+	    Am("cc")   -> {
 
 		val minCube = if (narg == 0) 1 else narg
 		val maxCube = if (narg == 0) 8 else narg
@@ -680,7 +716,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("G")            -> {
+	    Am("G")    -> {
 		val from = if (narg > 0) narg else 1
 		val to = if (narg > 0) narg else 10
 

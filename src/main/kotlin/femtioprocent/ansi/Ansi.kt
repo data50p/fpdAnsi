@@ -852,7 +852,7 @@ object Ansi {
 	}
 
 	val gridCurrent = Array<Cell>(w * h) {
-	    val fg = RGB(2, 1, 1, 1)
+	    val fg = RGB(2, 0, 1, 1)
 	    val bg = RGB(2, 0, 0, 0)
 	    Cell(fg, bg, ' ')
 	}
@@ -870,6 +870,13 @@ object Ansi {
 	    }
 	}
 
+	fun setText(x: Int, y: Int, fg: RGB, s: String) {
+	    s.forEachIndexed { ix, ch ->
+		grid[ix + x + y * w].fg = fg
+		grid[ix + x + y * w].ch = ch
+	    }
+	}
+
 	fun hitWall(x: Int, y: Int, s: String): Boolean {
 	    return y < 0 || y >= h || x < 0 || (x + s.length) >= w
 	}
@@ -882,19 +889,21 @@ object Ansi {
 	    return y < 0 || y >= h
 	}
 
-	fun print() {
+	fun print(origo: Boolean = true) {
 	    var dirty = true
-	    print(Ansi.hideCursor() + Ansi.goto(0, 0))
+	    print(Ansi.hideCursor())
+	    if ( origo )
+		print(Ansi.hideCursor() + Ansi.goto(0, 0))
 	    var cntA = 0
 	    var cntB = 0
 	    (0..<h).forEach { y ->
 		(0..<w).forEach { x ->
 		    val ix = y * w + x
-		    if (grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
+		    if (origo && grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
 			dirty = true
 			cntA++
 		    } else {
-			if (dirty)
+			if (origo && dirty)
 			    print(Ansi.goto(x, y))
 			print(Ansi.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
 			dirty = false
@@ -905,6 +914,22 @@ object Ansi {
 		println()
 	    }
 	    println(Ansi.showCursor() + "cntAB $cntA $cntB")
+	}
+
+	fun fill(bg: RGB) {
+	    (0..<w).forEach{x ->
+		(0..<h).forEach { y ->
+		    set(x, y, bg, bg, ' ')
+		}
+	    }
+	}
+
+	fun rect(x: Int, y: Int, w: Int, h: Int, bg: RGB) {
+	    (x..<x+w).forEach{x ->
+		(y..<y+h).forEach { y ->
+		    set(x, y, bg, bg, ' ')
+		}
+	    }
 	}
 
 	val blank = "                                                                                  "
