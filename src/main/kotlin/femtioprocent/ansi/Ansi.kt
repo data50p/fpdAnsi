@@ -471,7 +471,84 @@ object Ansi {
 	fun mixRB() = RGB(cs, b, g, r)
 
 	fun inverse(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
+
 	fun complement() = toHsv().let { it.clone(h = (it.h + 180.0) % 360.0).toRGB() }.toCubeSize(cs)
+
+	fun theComplementary(): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		it += this
+		it += this.complement()
+	    }
+	}
+
+	fun theAnalogous(spread: Double): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		it += this
+		val hsv = this.toHsv()
+		it += hsv.copy(h = (hsv.h + spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsv.copy(h = (hsv.h - spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+	    }
+	}
+
+	fun theSplitComplementary(spread: Double): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		it += this
+		val hsv = this.complement().toHsv()
+		it += hsv.copy(h = (hsv.h + spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsv.copy(h = (hsv.h - spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+	}
+	}
+
+	fun theTriadic(): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		it += this
+		it += this.rotR()
+		it += this.rotL()
+	    }
+	}
+
+	fun theRectangleTetradic(spread: Double): List<RGB> = theDoubleComplementary(spread)
+
+	fun theDoubleComplementary(spread: Double): List<RGB> {
+	    return mutableListOf<RGB>().also {
+
+		val hsv = this.toHsv()
+		val hsvc = this.complement().toHsv()
+
+		it += hsv.copy(h = (hsv.h + spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsvc.copy(h = (hsvc.h - spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsvc.copy(h = (hsvc.h + spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsv.copy(h = (hsv.h - spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+	    }
+	}
+
+	fun theSquareTetradic(): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		it += this
+
+		val hsv = this.toHsv()
+
+		it += hsv.copy(h = (hsv.h + 0.25 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += this.complement()
+		it += hsv.copy(h = (hsv.h + 0.75 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+	    }
+	}
+
+	fun thePentagonal() = theDoubleSplitComplementary()
+
+	fun theDoubleSplitComplementary(): List<RGB> {
+	    return mutableListOf<RGB>().also {
+		val hsv = this.toHsv()
+		val hsvc = this.complement().toHsv()
+
+		it += this
+		it += hsv.copy(h = (hsv.h + 0.2 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsv.copy(h = (hsv.h - 0.4 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsvc.copy(h = (hsvc.h + 0.6 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+		it += hsvc.copy(h = (hsvc.h - 0.8 * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
+	    }
+	}
+
 
 	fun moreOrLess(fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int) = RGB(cs, fr(r), fg(g), fb(b))
 	fun moreOrLess(n: Int, fr: (Int) -> Int, fg: (Int) -> Int, fb: (Int) -> Int): RGB =
@@ -519,9 +596,9 @@ object Ansi {
 	    val hsv = toHsv()
 	    val vv = when {
 		hsv.s <= 1.0 -> value
-		hsv.v < 0.3 -> value / 3.0
-		hsv.v > 0.6 -> (value + 1) / 2.0
-		else        -> value
+		hsv.v < 0.3  -> value / 3.0
+		hsv.v > 0.6  -> (value + 1) / 2.0
+		else         -> value
 	    }
 	    val nval = hsv.v - (hsv.v) * vv
 	    return hsv.clone(v = nval).toRGB().toCubeSize(cs)

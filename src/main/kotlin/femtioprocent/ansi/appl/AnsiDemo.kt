@@ -41,6 +41,12 @@ class AnsiDemo {
 	ansiColorDemo(arg)
     }
 
+    fun List<RGB>.pr(prefix: String = "") {
+	print(prefix)
+	forEach { print(it.showC()) }
+	println()
+    }
+
     private fun ansiColorDemo(arg: String) {
 
 	var narg: Int = try {
@@ -373,9 +379,24 @@ class AnsiDemo {
 		println()
 	    }
 
+
 	    Am("T")            -> {
+
 		val rgb = randomRGB(256)
-		println("${rgb.showC()} ${rgb.byName("rotL").showC()} ${rgb.byNames(listOf("rotL", "compl")).showC()} ${rgb.byNames(listOf("rotL", "compl", "val+")).showC()}")
+
+		listOf<RGB>(rgb, rgb.byName("rotL"), rgb.byNames(listOf("rotL", "compl")), rgb.byNames(listOf("rotL", "compl", "val+"))).pr()
+
+		println()
+
+		val fmt = "%-27s"
+		rgb.theComplementary().pr(String.format(fmt, "Complementary"))
+		rgb.theAnalogous(0.1).pr(String.format(fmt, "Analogous"))
+		rgb.theSplitComplementary(0.1).pr(String.format(fmt, "Split Complementary"))
+		rgb.theTriadic().pr(String.format(fmt, "Triadic"))
+		rgb.theDoubleComplementary(0.1).pr(String.format(fmt, "Double Complementary"))
+		rgb.theSquareTetradic().pr(String.format(fmt, "Square Tetradic"))
+		rgb.theDoubleSplitComplementary().pr(String.format(fmt, "Double Split Complementary"))
+
 
 		println()
 		var c1 = rgb.toValue(0.1)
