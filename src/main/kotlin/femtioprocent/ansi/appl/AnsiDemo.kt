@@ -402,10 +402,22 @@ class AnsiDemo {
 		    println("${rgb.showC()} ${rgb.byName("rotL").showC()} ${rgb.byNames(listOf("rotL", "compl")).showC()} ${rgb.byNames(listOf("rotL", "compl", "val+")).showC()}")
 
 		    println()
-		    var c1 = rgb.toValue(0.3)
-		    repeat(10) {
+		    var c1 = rgb.toValue(0.1)
+		    repeat(16) {
 			c1 = c1.byName("val+")
-			print(" ${c1.showC(w=14, f = Ansi.RGB::toLaconicStringRGB)}")
+			print(" ${c1.showC(w=8, f = {"    "})}")
+		    }
+		    println()
+		    c1 = rgb.toValue(1.0)
+		    repeat(16) {
+			c1 = c1.byName("val-")
+			print(" ${c1.showC(w=8, f = {"    "})}")
+		    }
+		    println()
+		    c1 = rgb.toSaturation(0.1)
+		    repeat(16) {
+			c1 = c1.byName("sat+")
+			print(" ${c1.showC(w=8, f = {"    "})}")
 		    }
 		    println()
 		}

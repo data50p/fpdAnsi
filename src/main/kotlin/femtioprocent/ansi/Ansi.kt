@@ -491,10 +491,52 @@ object Ansi {
 	fun toHue(value: Double) = toHsv().clone(h = value).toRGB().toCubeSize(cs)
 	fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
 	fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
-	fun addValue(value: Double) : RGB {
+
+	fun addValue(value: Double): RGB {
 	    val hsv = toHsv()
-	    val nval = hsv.v + (1.0 - hsv.v) * value
+	    val vv = when {
+		hsv.v < 0.3 -> value / 3.0
+		hsv.v > 0.6 -> (value + 1) / 2.0
+		else        -> value
+	    }
+	    val nval = hsv.v + (1.0 - hsv.v) * vv
 	    return hsv.clone(v = nval).toRGB().toCubeSize(cs)
+	}
+
+	fun addSaturation(value: Double): RGB {
+	    val hsv = toHsv()
+	    val ss = when {
+		hsv.s <= 1.0 -> 0.3
+		hsv.s < 0.3  -> value / 3.0
+		hsv.s > 0.71 -> (value + 1) / 2.0
+		else         -> value
+	    }
+	    val nval = hsv.s + (1.0 - hsv.s) * ss
+	    return hsv.clone(s = nval).toRGB().toCubeSize(cs)
+	}
+
+	fun subValue(value: Double): RGB {
+	    val hsv = toHsv()
+	    val vv = when {
+		hsv.s <= 1.0 -> value
+		hsv.v < 0.3 -> value / 3.0
+		hsv.v > 0.6 -> (value + 1) / 2.0
+		else        -> value
+	    }
+	    val nval = hsv.v - (hsv.v) * vv
+	    return hsv.clone(v = nval).toRGB().toCubeSize(cs)
+	}
+
+	fun subSaturation(value: Double): RGB {
+	    val hsv = toHsv()
+	    val ss = when {
+		hsv.s <= 1.0 -> 0.3
+		hsv.s < 0.3  -> value / 3.0
+		hsv.s > 0.71 -> (value + 1) / 2.0
+		else         -> value
+	    }
+	    val nval = hsv.s + (1.0 - hsv.s) * ss
+	    return hsv.clone(s = nval).toRGB().toCubeSize(cs)
 	}
 
 	fun toMaxValue() = toValue(1.0)
@@ -589,22 +631,25 @@ object Ansi {
 
 	fun eq0(v: Int): Int = v
 
-	fun byName(name: String) : RGB {
+	fun byName(name: String): RGB {
 	    return when (name) {
-		"rotL" -> rotL()
-		"rotR" -> rotR()
+		"rotL"  -> rotL()
+		"rotR"  -> rotR()
 		"mixRG" -> mixRG()
 		"mixGB" -> mixGB()
 		"mixRB" -> mixRB()
 		"compl" -> complement()
-		"inv" -> inverse()
-		"val+" -> addValue(0.1)
-		else -> this
+		"inv"   -> inverse()
+		"val+"  -> addValue(0.12)
+		"sat+"  -> addSaturation(0.3)
+		"val-"  -> subValue(0.12)
+		"sat-"  -> subSaturation(0.3)
+		else    -> this
 	    }
 	}
 
-	fun byNames(names: Collection<String>) : RGB {
-	    return names.fold(this) {acc, string -> acc.byName(string)}
+	fun byNames(names: Collection<String>): RGB {
+	    return names.fold(this) { acc, string -> acc.byName(string) }
 	}
 
 	fun toHsv(): HSV = (if (cs == 256) this else toCubeSize(256)).toHsv256()
@@ -768,11 +813,11 @@ object Ansi {
 	    (0..<h).forEach { y ->
 		(0..<w).forEach { x ->
 		    val ix = y * w + x
-		    if ( grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch ) {
+		    if (grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
 			dirty = true
 			cntA++
 		    } else {
-			if ( dirty )
+			if (dirty)
 			    print(Ansi.goto(x, y))
 			print(Ansi.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
 			dirty = false
