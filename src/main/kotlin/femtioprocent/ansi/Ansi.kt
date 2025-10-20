@@ -473,10 +473,10 @@ object Ansi {
 	fun inverse(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
 	fun magnet(): RGB {
 	    val hsv = toHsv()
-	    return if (hsv.v < 0.5)
-		hsv.clone(v = 0.0, s = 1.0).toRGB()
-	    else
-		hsv.clone(v = 1.0, s = 0.0).toRGB()
+	    return when {
+		hsv.v < 0.67 -> hsv.clone(v = 0.0, s = 1.0).toRGB()
+		else -> hsv.clone(v = 1.0, s = 0.0).toRGB()
+	    }
 	}
 
 	fun complement() = toHsv().let { it.clone(h = (it.h + 180.0) % 360.0).toRGB() }.toCubeSize(cs)
