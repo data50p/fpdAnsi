@@ -389,7 +389,7 @@ class AnsiDemo {
 		val fmt = "%-27s"
 		rgb.theComplementary().pr(String.format(fmt, "Complementary"))
 		rgb.theAnalogous(0.06).pr(String.format(fmt, "Analogous"))
-		rgb.theSplitComplementary(0.1).pr(String.format(fmt, "Split Complementary"))
+		rgb.theSplitComplementary(0.06).pr(String.format(fmt, "Split Complementary"))
 		rgb.theTriadic().pr(String.format(fmt, "Triadic"))
 		rgb.theDoubleComplementary(0.1).pr(String.format(fmt, "Double Complementary"))
 		rgb.theSquareTetradic().pr(String.format(fmt, "Square Tetradic"))
@@ -422,8 +422,8 @@ class AnsiDemo {
 
 		val lowSatList = mutableListOf<RGB>()
 		with(rgb) {
-		    lowSatList += toSaturation(0.03).toValue(0.95)
-		    lowSatList += toSaturation(0.1).toValue(0.95)
+		    lowSatList += toSaturation(0.03).toValue(0.97)
+		    lowSatList += toSaturation(0.06).toValue(0.95)
 		    lowSatList += toSaturation(0.1).toValue(0.85)
 		    lowSatList += toSaturation(0.1).toValue(0.70)
 		    lowSatList += toSaturation(0.3).toValue(0.90)
