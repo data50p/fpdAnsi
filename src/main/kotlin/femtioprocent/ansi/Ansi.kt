@@ -475,7 +475,7 @@ object Ansi {
 	    val hsv = toHsv()
 	    return when {
 		hsv.v < 0.67 -> hsv.clone(v = 0.0, s = 1.0).toRGB()
-		else -> hsv.clone(v = 1.0, s = 0.0).toRGB()
+		else         -> hsv.clone(v = 1.0, s = 0.0).toRGB()
 	    }
 	}
 
@@ -503,7 +503,7 @@ object Ansi {
 		val hsv = this.complement().toHsv()
 		it += hsv.copy(h = (hsv.h + spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
 		it += hsv.copy(h = (hsv.h - spread * 360.0 + 360.0) % 360.0).toRGB().toCubeSize(cs)
-	}
+	    }
 	}
 
 	fun theTriadic(): List<RGB> {
@@ -885,12 +885,21 @@ object Ansi {
 	}
 
 	fun setText(x: Int, y: Int, s: String) {
-	    val ix0 = x + y * w
+	    var ix0 = x + y * w
 	    val fg = grid[ix0].bg.inverse().magnet()
+	    var row = 0
 
-	    s.forEachIndexed { ix, ch ->
-		grid[ix + ix0].fg = fg
-		grid[ix + ix0].ch = ch
+	    var ix = 0
+	    s.forEach { ch ->
+		if (ch == '\n') {
+		    ix = 0
+		    row++
+		    ix0 = x + (y + row) * w
+		} else {
+		    grid[ix + ix0].fg = fg
+		    grid[ix + ix0].ch = ch
+		    ix++
+		}
 	    }
 	}
 
@@ -909,7 +918,7 @@ object Ansi {
 	fun print(origo: Boolean = true) {
 	    var dirty = true
 	    print(Ansi.hideCursor())
-	    if ( origo )
+	    if (origo)
 		print(Ansi.hideCursor() + Ansi.goto(0, 0))
 	    var cntA = 0
 	    var cntB = 0
@@ -934,7 +943,7 @@ object Ansi {
 	}
 
 	fun fill(bg: RGB) {
-	    (0..<w).forEach{x ->
+	    (0..<w).forEach { x ->
 		(0..<h).forEach { y ->
 		    set(x, y, bg, bg, ' ')
 		}
@@ -942,8 +951,8 @@ object Ansi {
 	}
 
 	fun rect(x: Int, y: Int, w: Int, h: Int, bg: RGB) {
-	    (x..<x+w).forEach{x ->
-		(y..<y+h).forEach { y ->
+	    (x..<x + w).forEach { x ->
+		(y..<y + h).forEach { y ->
 		    set(x, y, bg, bg, ' ')
 		}
 	    }

@@ -445,46 +445,50 @@ class AnsiDemo {
 			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[2],
 		    )
 
-		    theme.pr("Theme1 ")
+		    theme.pr("Theme $ix ")
 		    println()
 		    println(rgbTheme.toHsv().showC())
 		    println()
 
 		    val display = Ansi.Display(125, 24)
 
+		    fun prRect(x: Int, y: Int, w: Int, h: Int, col: RGB, s: String) {
+			display.rect(x, y,  w, h, col)
+			val prfx = if (s.isNotEmpty()) "$s\n" else ""
+			display.setText(x, y, "$prfx${col.toLaconicStringRGB().replace(",", "\n")}")
+		    }
+
+
 		    var xx = 0
 		    var yy = 0
 
 		    display.fill(theme[1])
+
+		    prRect(0, 0, 15, 5, theme[1], "")
+
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(5, yy + 3, 15, 5, theme[0])
-		    display.setText(5, yy + 3, " Hello")
+		    prRect(5, yy + 3, 15, 5, theme[0], "Hello")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(xx + 5, yy + 3, 15, 5, theme[4])
-		    display.setText(xx + 5, yy + 3, " World")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[4], "World")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(xx + 5, yy + 3, 15, 5, theme[5])
-		    display.setText(xx + 5, yy + 3, if (z2) " compl" else " analogue")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[5], if (z2) "compl" else "analogue")
 
 		    xx = 0
 		    yy = 10
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2])
-		    display.setText(5, yy + 3, " Hello")
+		    prRect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2], "Hello")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2])
-		    display.setText(xx + 5, yy + 3, " World")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2],  "World")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    display.rect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue())
-		    display.setText(xx + 5, yy + 3, if (z2) " compl" else " analogue")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue(), if (z2) "compl" else "analogue")
 
 		    display.print(false)
 		}
