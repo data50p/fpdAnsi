@@ -458,33 +458,33 @@ class AnsiDemo {
 		    display.fill(theme[1])
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(5, yy + 3, 15, 5, theme[0])
-		    display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
+		    display.setText(5, yy + 3, " Hello")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(xx + 5, yy + 3, 15, 5, theme[4])
-		    display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), " World")
+		    display.setText(xx + 5, yy + 3, " World")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(xx + 5, yy + 3, 15, 5, theme[5])
-		    display.setText(xx + 5, yy + 3, theme[4].toValue(0.1), if (z2) " compl" else " analogue")
+		    display.setText(xx + 5, yy + 3, if (z2) " compl" else " analogue")
 
 		    xx = 0
 		    yy = 10
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2])
-		    display.setText(5, yy + 3, theme[4].toValue(0.1), " Hello")
+		    display.setText(5, yy + 3, " Hello")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2])
-		    display.setText(xx + 5, yy + 3, theme[4].toValue(0.05), " World")
+		    display.setText(xx + 5, yy + 3, " World")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    display.rect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue())
-		    display.setText(xx + 5, yy + 3, theme[5].toValue(0.05), if (z2) " compl" else " analogue")
+		    display.setText(xx + 5, yy + 3, if (z2) " compl" else " analogue")
 
 		    display.print(false)
 		}

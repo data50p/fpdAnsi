@@ -471,6 +471,13 @@ object Ansi {
 	fun mixRB() = RGB(cs, b, g, r)
 
 	fun inverse(): RGB = RGB(cs, cs - r - 1, cs - g - 1, cs - b - 1)
+	fun magnet(): RGB {
+	    val hsv = toHsv()
+	    return if (hsv.v < 0.5)
+		hsv.clone(v = 0.0, s = 1.0).toRGB()
+	    else
+		hsv.clone(v = 1.0, s = 0.0).toRGB()
+	}
 
 	fun complement() = toHsv().let { it.clone(h = (it.h + 180.0) % 360.0).toRGB() }.toCubeSize(cs)
 
@@ -864,7 +871,7 @@ object Ansi {
 	    grid[x + y * w] = Cell(fg, bg, ch)
 	}
 
-	fun setText(x: Int, y: Int, s: String) {
+	fun setTextOnly(x: Int, y: Int, s: String) {
 	    s.forEachIndexed { ix, ch ->
 		grid[ix + x + y * w].ch = ch
 	    }
@@ -874,6 +881,16 @@ object Ansi {
 	    s.forEachIndexed { ix, ch ->
 		grid[ix + x + y * w].fg = fg
 		grid[ix + x + y * w].ch = ch
+	    }
+	}
+
+	fun setText(x: Int, y: Int, s: String) {
+	    val ix0 = x + y * w
+	    val fg = grid[ix0].bg.inverse().magnet()
+
+	    s.forEachIndexed { ix, ch ->
+		grid[ix + ix0].fg = fg
+		grid[ix + ix0].ch = ch
 	    }
 	}
 
