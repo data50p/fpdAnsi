@@ -388,7 +388,7 @@ class AnsiDemo {
 
 		val fmt = "%-27s"
 		rgb.theComplementary().pr(String.format(fmt, "Complementary"))
-		rgb.theAnalogous(0.1).pr(String.format(fmt, "Analogous"))
+		rgb.theAnalogous(0.06).pr(String.format(fmt, "Analogous"))
 		rgb.theSplitComplementary(0.1).pr(String.format(fmt, "Split Complementary"))
 		rgb.theTriadic().pr(String.format(fmt, "Triadic"))
 		rgb.theDoubleComplementary(0.1).pr(String.format(fmt, "Double Complementary"))
@@ -441,11 +441,13 @@ class AnsiDemo {
 			rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
 			rgbTheme.toValue(0.8),
 			rgbTheme.byNames(listOf("val-", "val-", "val-")),
-			z(rgbTheme, 0.3)[1],
-			z(rgbTheme, 0.3)[2],
+			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[1],
+			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[2],
 		    )
+
 		    theme.pr("Theme1 ")
 		    println()
+		    println(rgbTheme.toHsv().showC())
 		    println()
 
 		    val display = Ansi.Display(125, 24)
