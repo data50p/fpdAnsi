@@ -420,6 +420,10 @@ class AnsiDemo {
 
 		val shadow = !true
 
+		with (rgb) {
+		    println(toSaturation(0.1).showC())
+		}
+
 		val z2 = Random.nextInt(100) > 50
 		val z = if ( z2 ) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
 
