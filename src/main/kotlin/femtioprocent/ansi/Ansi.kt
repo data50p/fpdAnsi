@@ -925,21 +925,23 @@ object Ansi {
 	    (0..<h).forEach { y ->
 		(0..<w).forEach { x ->
 		    val ix = y * w + x
-		    if (origo && grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
+		    if (false && origo && grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
 			dirty = true
 			cntA++
 		    } else {
-			if (origo && dirty)
+			if (true && origo && dirty)
 			    print(Ansi.goto(x, y))
 			print(Ansi.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
 			dirty = false
-			gridCurrent[ix] = grid[ix]
+			gridCurrent[ix].fg = grid[ix].fg
+			gridCurrent[ix].bg = grid[ix].bg
+			gridCurrent[ix].ch = grid[ix].ch
 			cntB++
 		    }
 		}
 		println()
 	    }
-	    println(Ansi.showCursor() + "cntAB $cntA $cntB")
+	    println(Ansi.showCursor()) // + "cntAB $cntA $cntB")
 	}
 
 	fun fill(bg: RGB) {
@@ -959,6 +961,7 @@ object Ansi {
 	}
 
 	val blank = "                                                                                  "
+//	val blank = "012345678901234567890123456789012345678901234567890"
 
 	inner class Item(var x: Int, var y: Int, var fg: RGB, var s: String) {
 	    var velox = 1
