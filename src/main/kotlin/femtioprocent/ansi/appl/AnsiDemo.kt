@@ -501,8 +501,12 @@ class AnsiDemo {
 
 		val item = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
 		val item2 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
+		val item3 = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
+		val item4 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
 		item2.velox = 2
-		val items = listOf(item, item2)
+		item3.velox = -3
+		item4.veloy = 2
+		val items = listOf(item, item2, item3, item4)
 
 		var mt1 = Duration.ZERO
 		val frames = 1250
@@ -518,7 +522,7 @@ class AnsiDemo {
 
 			mt1 = measureTime {
 			    repeat(rows) { row ->
-				if (frame % 10 == 0) {
+				if (frame % 8 == 0) {
 				    val value = row.toDouble() / rows
 				    val hsv = rgbRand0.toHsv()
 				    val rgbRand = rgbRand0.toHsv().gradient(rows, rgbRand0.toHsv().clone(s = value))
@@ -526,7 +530,7 @@ class AnsiDemo {
 				    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
 				    //rgbRand.forEach { println("  " + it.showR()) }
 				    (0..<display.w).forEach { col ->
-					rgb2 = rgb2.average(rgb2.toValue(0.2), 0.1 + 0.3 / (1 + col.toDouble()))
+					rgb2 = rgb2.average(rgb2.toValue(0.05), 0.05 + 0.3 / (1 + col.toDouble()))
 					display.set(col, row, rgbRand0, rgb2, ' ')
 				    }
 				}
@@ -536,7 +540,7 @@ class AnsiDemo {
 		    items.forEach { it.step() }
 		    val mt2 = measureTime {
 			display.print()
-			Thread.sleep(1)
+			Thread.sleep(16)
 		    }
 		    //print(Ansi.hideCursor() + Ansi.goto(0, display.h + 1) + Ansi.clear())
 		    //println(" mt $mt1 $mt2")
