@@ -480,15 +480,15 @@ class AnsiDemo {
 		    xx = 0
 		    yy = 10
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(5, yy + 3, 15, 5, theme[0].theRectangleTetradic(0.1)[2], "Hello")
+		    prRect(5, yy + 3, 15, 5, theme[1].theSquareTetradic()[1], "Hello")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[4].theRectangleTetradic(0.1)[2],  "World")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[1].theSquareTetradic()[3],  "World")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue(), if (z2) "compl" else "analogue")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue(), "compl+sat")
 
 		    display.print(false)
 		}
