@@ -473,6 +473,14 @@ class AnsiDemo {
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    prRect(5, yy + 3, 15, 5, theme[0], "Hello World")
 
+		    xx = 25
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toValue(theme[0].toHsv().v * 0.9), "little darker")
+
+		    xx = 50
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toSaturation(theme[0].toHsv().s * 0.5), "low sat")
+
 		    xx = 75
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    prRect(xx + 5, yy + 3, 15, 5, theme[4], if (z2) "compl" else "analogue")
