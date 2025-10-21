@@ -418,7 +418,7 @@ class AnsiDemo {
 
 		println("Theme")
 
-		val shadow = !true
+		val shadow = false
 
 		val lowSatList = mutableListOf<RGB>()
 		with(rgb) {
@@ -489,14 +489,15 @@ class AnsiDemo {
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    prRect(xx + 5, yy + 3, 15, 5, theme[5], if (z2) "compl" else "analogue")
 
+
 		    xx = 0
 		    yy = 10
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(5, yy + 3, 15, 5, theme[1].theSquareTetradic()[1], "Hello")
+		    prRect(5, yy + 3, 15, 5, theme[1].theSquareTetradic()[1], "left")
 
 		    xx = 25
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[1].theSquareTetradic()[3],  "World")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[1].theSquareTetradic()[3],  "right")
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
