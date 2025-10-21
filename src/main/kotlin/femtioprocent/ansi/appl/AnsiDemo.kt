@@ -436,6 +436,8 @@ class AnsiDemo {
 		    val z2 = ix % 2 == 0
 		    val z = if (z2) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
 
+		    val colZ = if ( z2 ) rgb.theSplitComplementary(0.06) else rgb.theAnalogous(0.06)
+
 		    val theme = listOf<RGB>(
 			rgbTheme,
 			rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
@@ -443,6 +445,8 @@ class AnsiDemo {
 			rgbTheme.byNames(listOf("val-", "val-", "val-")),
 			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[1],
 			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[2],
+			colZ[1],
+			colZ[2],
 		    )
 
 		    theme.pr("Theme $ix ")
@@ -467,13 +471,13 @@ class AnsiDemo {
 		    prRect(0, 0, 15, 5, theme[1], "")
 
 		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(5, yy + 3, 15, 5, theme[0], "Hello")
+		    prRect(5, yy + 3, 15, 5, theme[0], "Hello World")
 
-		    xx = 25
+		    xx = 75
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[4], "World")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[4], if (z2) "compl" else "analogue")
 
-		    xx = 50
+		    xx = 100
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
 		    prRect(xx + 5, yy + 3, 15, 5, theme[5], if (z2) "compl" else "analogue")
 
@@ -488,7 +492,15 @@ class AnsiDemo {
 
 		    xx = 50
 		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[0].complement().toSaturation(0.6).toMaxValue(), "compl+sat")
+		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toSaturation(0.1).toValue(0.7), "lowsat+darker")
+
+		    xx = 75
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme[6].toSaturation(0.6).toMaxValue(), "sat")
+
+		    xx = 100
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme[7].toSaturation(0.6).toMaxValue(), "sat")
 
 		    display.print(false)
 		}
