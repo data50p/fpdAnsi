@@ -16,12 +16,12 @@ import kotlin.time.measureTime
 
 const val lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna elit, viverra in eros nec, accumsan fringilla leo." +
-	    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
-	    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
-	    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
-	    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
-	    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
-	    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
+    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
+    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
+    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
+    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
+    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
+    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
 
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
@@ -43,7 +43,7 @@ class AnsiDemo {
 
     fun List<RGB>.pr(prefix: String = "") {
 	print(prefix)
-	forEach { print(it.showC()) }
+	forEach { print(it.showC(w = 15, f = { it.toLaconicStringRGB() })) }
 	println()
     }
 
@@ -66,7 +66,7 @@ class AnsiDemo {
 	when {
 //<editor-fold desc="empty arg">
 	    arg.isEmpty()
-		    || Am("h") -> {
+	    || Am("h") -> {
 		println("--ansi=D      ->  Dump legacy colors")
 		println("--ansi=d      ->  demo")
 
@@ -80,11 +80,11 @@ class AnsiDemo {
 	    }
 //</editor-fold>
 
-	    Am("D")            -> {
+	    Am("D")    -> {
 		Ansi.dumpColor5().forEach { println(it) }
 	    }
 
-	    Am("d")            -> {
+	    Am("d")    -> {
 		println("")
 		println(Ansi.csFg(4)(1, 2, 3, "XXXXXXXXXXX Ansi.csFg(4)(1, 2, 3, s)"))
 		println(Ansi.csBg(4)(3, 2, 1, "XXXXXXXXXXX Ansi.csBg(4)(1, 2, 3, s)"))
@@ -380,7 +380,7 @@ class AnsiDemo {
 	    }
 
 
-	    Am("T")            -> {
+	    Am("T")    -> {
 
 		val rgb = randomRGB(256)
 
@@ -432,24 +432,41 @@ class AnsiDemo {
 		val lowSatList2 = mutableListOf<RGB>()
 		lowSatList.forEach { lowSatList2 += it; lowSatList2 += it }
 
+		lowSatList.pr("lowSat: ")
+
 		lowSatList2.forEachIndexed { ix, rgbTheme ->
 		    val z2 = ix % 2 == 0
 		    val z = if (z2) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
 
-		    val colZ = if ( z2 ) rgb.theSplitComplementary(0.06) else rgb.theAnalogous(0.06)
+		    val colZ = if (z2) rgb.theSplitComplementary(0.06) else rgb.theAnalogous(0.06)
 
-		    val theme = listOf<RGB>(
+		    val theme1 = listOf<RGB>(
 			rgbTheme,
 			rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
 			rgbTheme.toValue(0.8),
 			rgbTheme.byNames(listOf("val-", "val-", "val-")),
-			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[1],
-			z(rgbTheme, if ( z2 ) 0.16 else 0.08)[2],
+			z(rgbTheme, if (z2) 0.16 else 0.08)[1],
+			z(rgbTheme, if (z2) 0.16 else 0.08)[2],
 			colZ[1],
 			colZ[2],
 		    )
 
-		    theme.pr("Theme $ix ")
+		    val theme2 = listOf<RGB>(
+			theme1[0],
+			theme1[0].toValue(theme1[0].toHsv().v * 0.9),
+			theme1[0].toSaturation(theme1[0].toHsv().s * 0.5),
+			theme1[4],
+			theme1[5],
+			theme1[1].theSquareTetradic()[1],
+			theme1[1].theSquareTetradic()[3],
+			theme1[0].toSaturation(0.1).toValue(0.7),
+			theme1[6].toSaturation(0.6).toMaxValue(),
+			theme1[7].toSaturation(0.6).toMaxValue(),
+		    )
+
+		    theme1.pr("Theme1 ${ix.toString().pL(2)} ")
+		    theme2.pr("Theme2 ${ix.toString().pL(2)} ")
+
 		    println()
 		    println(rgbTheme.toHsv().showC())
 		    println()
@@ -457,7 +474,7 @@ class AnsiDemo {
 		    val display = Ansi.Display(125, 24)
 
 		    fun prRect(x: Int, y: Int, w: Int, h: Int, col: RGB, s: String) {
-			display.rect(x, y,  w, h, col)
+			display.rect(x, y, w, h, col)
 			val prfx = if (s.isNotEmpty()) "$s\n" else ""
 			display.setText(x, y, "$prfx${col.toLaconicStringRGB().replace(",", "\n")}")
 		    }
@@ -466,56 +483,56 @@ class AnsiDemo {
 		    var xx = 0
 		    var yy = 0
 
-		    display.fill(theme[1])
+		    display.fill(theme1[1])
 
-		    prRect(0, 0, 15, 5, theme[1], "")
+		    prRect(0, 0, 15, 5, theme1[1], "")
 
-		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(5, yy + 3, 15, 5, theme[0], "Hello World")
+		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(5, yy + 3, 15, 5, theme1[0], "Hello World")
 
 		    xx = 25
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toValue(theme[0].toHsv().v * 0.9), "little darker")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toValue(theme1[0].toHsv().v * 0.9), "little darker")
 
 		    xx = 50
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toSaturation(theme[0].toHsv().s * 0.5), "low sat")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toSaturation(theme1[0].toHsv().s * 0.5), "low sat")
 
 		    xx = 75
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[4], if (z2) "compl" else "analogue")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[4], if (z2) "compl" else "analogue")
 
 		    xx = 100
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[5], if (z2) "compl" else "analogue")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[5], if (z2) "compl" else "analogue")
 
 
 		    xx = 0
 		    yy = 10
-		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(5, yy + 3, 15, 5, theme[1].theSquareTetradic()[1], "left")
+		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(5, yy + 3, 15, 5, theme1[1].theSquareTetradic()[1], "left")
 
 		    xx = 25
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[1].theSquareTetradic()[3],  "right")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[1].theSquareTetradic()[3], "right")
 
 		    xx = 50
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[0].toSaturation(0.1).toValue(0.7), "lowsat+darker")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toSaturation(0.1).toValue(0.7), "lowsat+darker")
 
 		    xx = 75
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[6].toSaturation(0.6).toMaxValue(), "sat")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[6].toSaturation(0.6).toMaxValue(), "sat")
 
 		    xx = 100
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme[7].toSaturation(0.6).toMaxValue(), "sat")
+		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
+		    prRect(xx + 5, yy + 3, 15, 5, theme1[7].toSaturation(0.6).toMaxValue(), "sat")
 
 		    display.print(false)
 		}
 	    }
 
-	    Am("Z")            -> {
+	    Am("Z")    -> {
 		val display = Ansi.Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
@@ -568,7 +585,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("ca")           -> {
+	    Am("ca")   -> {
 		println("\ncolor5s calling: Ansi.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Ansi.maxColor5Index).forEach { ix1 ->
@@ -615,7 +632,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cb")           -> {
+	    Am("cb")   -> {
 
 		println("")
 		println("")
@@ -699,7 +716,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cc")           -> {
+	    Am("cc")   -> {
 
 		val minCube = if (narg == 0) 1 else narg
 		val maxCube = if (narg == 0) 8 else narg
@@ -781,7 +798,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("G")            -> {
+	    Am("G")    -> {
 		val from = if (narg > 0) narg else 1
 		val to = if (narg > 0) narg else 10
 
