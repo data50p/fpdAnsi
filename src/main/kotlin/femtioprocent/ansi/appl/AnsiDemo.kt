@@ -530,7 +530,7 @@ class AnsiDemo {
 				    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
 				    //rgbRand.forEach { println("  " + it.showR()) }
 				    (0..<display.w).forEach { col ->
-					rgb2 = rgb2.average(rgb2.toValue(0.05), 0.05 + 0.3 / (1 + col.toDouble()))
+					rgb2 = rgb2.average(rgb2.toValue(0.15), 0.05 + 0.01 / (9 + col.toDouble()))
 					display.set(col, row, rgbRand0, rgb2, ' ')
 				    }
 				}
