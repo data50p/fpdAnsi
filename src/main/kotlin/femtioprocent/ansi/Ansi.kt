@@ -50,7 +50,7 @@ object Ansi {
     }
 
     fun goto(x: Int, y: Int): String {
-	return "\u001b[${y};${x}H"
+	return "\u001b[${y+1};${x+1}H"
     }
 
     fun clear(): String {
@@ -925,11 +925,11 @@ object Ansi {
 	    (0..<h).forEach { y ->
 		(0..<w).forEach { x ->
 		    val ix = y * w + x
-		    if (false && origo && grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
+		    if (origo && grid[ix].fg == gridCurrent[ix].fg && grid[ix].bg == gridCurrent[ix].bg && grid[ix].ch == gridCurrent[ix].ch) {
 			dirty = true
 			cntA++
 		    } else {
-			if (true && origo && dirty)
+			if (origo && dirty)
 			    print(Ansi.goto(x, y))
 			print(Ansi.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
 			dirty = false
