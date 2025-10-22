@@ -1,11 +1,7 @@
 package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Ansi.RGB
-import femtioprocent.ansi.Ansi.rgbBg
-import femtioprocent.ansi.Ansi.rgbFg
-import femtioprocent.ansi.Ansi.showC
-import femtioprocent.ansi.Ansi.showL
+import femtioprocent.ansi.Color2
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
@@ -41,7 +37,7 @@ class AnsiDemo {
 	ansiColorDemo(arg)
     }
 
-    fun List<RGB>.pr(prefix: String = "") {
+    fun List<Color2.RGB>.pr(prefix: String = "") {
 	print(prefix)
 	forEach { print(it.showC(w = 15, f = { it.toLaconicStringRGB() })) }
 	println()
@@ -168,14 +164,14 @@ class AnsiDemo {
 		fun formatter3(_rgb: RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
 
 		val red = Ansi.csRgb(256)(255, 0, 0)
-		println("RGB Gradient")
+		println("Color2 Gradient")
 		red.hueGradient(12).forEach { it2 ->
 		    print("${formatter1(it2)} ".rgbBg(it2))
 		}
 		println()
 		println()
 
-		println("RGB Gradients")
+		println("Color2 Gradients")
 		red.hueGradient(6).forEach { it1 ->
 		    it1.hueGradient(6).forEach { it2 ->
 			print("${formatter1(it2)} ".rgbBg(it2))
@@ -185,7 +181,7 @@ class AnsiDemo {
 		println()
 		println()
 
-		println("RGB Gradient 180°")
+		println("Color2 Gradient 180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -194,7 +190,7 @@ class AnsiDemo {
 		}
 		println()
 
-		println("RGB Gradient -180°")
+		println("Color2 Gradient -180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, -180.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -203,7 +199,7 @@ class AnsiDemo {
 		}
 		println()
 
-		println("RGB Gradient 45°")
+		println("Color2 Gradient 45°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -228,7 +224,7 @@ class AnsiDemo {
 		    val max2 = 8
 		    val cubeSize = 100
 
-		    println("        color-1           RGB              HSV              Hue              Saturation       Value             color-2")
+		    println("        color-1           Color2              HSV              Hue              Saturation       Value             color-2")
 		    repeat(max2) {
 			val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 			(0..<max2).forEach {
@@ -436,7 +432,7 @@ class AnsiDemo {
 
 		lowSatList2.forEachIndexed { ix, rgbTheme ->
 		    val z2 = ix % 2 == 0
-		    val z = if (z2) Ansi.RGB::theSplitComplementary else Ansi.RGB::theAnalogous
+		    val z = if (z2) RGB::theSplitComplementary else RGB::theAnalogous
 
 		    val colZ = if (z2) rgb.theSplitComplementary(0.06) else rgb.theAnalogous(0.06)
 
@@ -537,10 +533,10 @@ class AnsiDemo {
 
 		val rgbRand00 = randomRGB(256)
 
-		val item = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
-		val item2 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
-		val item3 = display.Item(0, 0, Ansi.RGB(2, 1, 1, 1), "Hello")
-		val item4 = display.Item(20, 12, Ansi.RGB(2, 1, 1, 1), "World")
+		val item = display.Item(0, 0, RGB(2, 1, 1, 1), "Hello")
+		val item2 = display.Item(20, 12, RGB(2, 1, 1, 1), "World")
+		val item3 = display.Item(0, 0, RGB(2, 1, 1, 1), "Hello")
+		val item4 = display.Item(20, 12, RGB(2, 1, 1, 1), "World")
 		item2.velox = 2
 		item3.velox = -3
 		item4.veloy = 2

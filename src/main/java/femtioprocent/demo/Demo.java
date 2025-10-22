@@ -1,6 +1,7 @@
 package femtioprocent.demo;
 
 import femtioprocent.ansi.Ansi;
+import femtioprocent.ansi.RGB;
 import femtioprocent.ansi.appl.AnsiDemo;
 import kotlin.jvm.functions.Function2;
 
@@ -78,25 +79,25 @@ public class Demo {
         // Create a color with values from 0 to 99 (100 values per red, green, and blue).
         // 100 is the cube size in rgb space. values from 2 up to 256 (including) is supported.
 
-        Ansi.RGB rgb = new Ansi.RGB(100, 12, 34, 64);
+        RGB rgb = new RGB(100, 12, 34, 64);
 
         // Create a random color in a specified color cube size
 
         System.out.println("");
         System.out.println("" + rgb.toString() + " -> " + Ansi.INSTANCE.rgbBg(" Hello ", rgb));
-        System.out.println(Ansi.INSTANCE.showC(rgb, 48, "Some blue: ", Ansi.RGB::toString));
+        System.out.println(Ansi.INSTANCE.showC(rgb, 48, "Some blue: ", RGB::toString));
         System.out.println(Ansi.INSTANCE.showC(rgb.inverse(), 32, "inverse: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
 
         System.out.println("");
 
-        Ansi.RGB fromCol = AnsiDemo.Companion.randomRGB(100).toSaturation(0.2).toValue(0.5);
-        Ansi.RGB toCol = fromCol.complement().toMaxSaturation().toMaxValue();
+        RGB fromCol = AnsiDemo.Companion.randomRGB(100).toSaturation(0.2).toValue(0.5);
+        RGB toCol = fromCol.complement().toMaxSaturation().toMaxValue();
         List<Ansi.HSV> list = fromCol.toHsv().gradient(12, toCol.toHsv());
 
         System.out.println("From " + fromCol + "  to " + toCol);
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c = list.get(ix).toRGB();
+            RGB c = list.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(Ansi.INSTANCE.rgbBg(" " + ix + " ", c));
@@ -104,12 +105,12 @@ public class Demo {
         }
         System.out.println();
 
-        Function2<String, Ansi.RGB, String> fg = Ansi.INSTANCE::rgbFg;
-        Function2<String, Ansi.RGB, String> bg = Ansi.INSTANCE::rgbBg;
+        Function2<String, RGB, String> fg = Ansi.INSTANCE::rgbFg;
+        Function2<String, RGB, String> bg = Ansi.INSTANCE::rgbBg;
 
         var cnt = 0;
         for (Ansi.HSV hsv : list) {
-            Ansi.RGB c2 = hsv.toRGB();
+            RGB c2 = hsv.toRGB();
             if (cnt > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + cnt++ + " ", c2.rotL()));
@@ -120,7 +121,7 @@ public class Demo {
 
         var list2 = rev(list);//.reversed();
         for (int ix = 0; ix < list2.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.toMaxSaturation()));
@@ -129,7 +130,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.toMaxValue()));
@@ -138,7 +139,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.toValue(0.6)));
@@ -147,7 +148,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.toSaturation(0.1)));
@@ -156,7 +157,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixRG()));
@@ -165,7 +166,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixRB()));
@@ -174,7 +175,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.mixGB()));
@@ -183,7 +184,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.rotL()));
@@ -192,7 +193,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.rotR()));
@@ -201,7 +202,7 @@ public class Demo {
         System.out.println();
 
         for (int ix = 0; ix < list.size(); ix++) {
-            Ansi.RGB c2 = list2.get(ix).toRGB();
+            RGB c2 = list2.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
             System.out.print(bg.invoke(" " + ix + " ", c2.inverse()));

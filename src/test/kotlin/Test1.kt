@@ -112,7 +112,7 @@ class Test1 {
     @Test
     fun testHueGradientRed() {
         println("testHueGradientRed")
-        val rgbBase = Ansi.RGB(256, 255, 0, 0)
+        val rgbBase = RGB(256, 255, 0, 0)
         val rgb256 = rgbBase.toCubeSize(256)
         rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
         println()
@@ -125,7 +125,7 @@ class Test1 {
     @Test
     fun testHueGradient() {
         println("testHueGradient")
-        val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val rgb256 = rgbBase.toCubeSize(256)
         rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
         println()
@@ -138,7 +138,7 @@ class Test1 {
     @Test
     fun testHueGradient2() {
         println("testHueGradient2")
-        val rgbBase = Ansi.RGB(8, 1, 2, 6)
+        val rgbBase = RGB(8, 1, 2, 6)
         rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
         val rgb256 = rgbBase.toCubeSize(256)
         rgb256.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
@@ -153,7 +153,7 @@ class Test1 {
     @Test
     fun testSaturationGradient6() {
         println("testSaturationGradient6")
-        val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
         println()
         val g1 = rgbBase.saturationGradient(12)
@@ -178,7 +178,7 @@ class Test1 {
     @Test
     fun testValueGradient6() {
         println("testValueGradient6")
-        val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
         println()
 
@@ -204,8 +204,8 @@ class Test1 {
     @Test
     fun testHueGradientColCol() {
         println("testHueGradientColCol")
-        val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        val rgbBase2 = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase2 = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         println("    ${" $rgbBase ".rgbBg(rgbBase)} ${" ${rgbBase.toHsv()} ".rgbBg(rgbBase)}")
         println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
         println()
@@ -218,8 +218,8 @@ class Test1 {
     @Test
     fun testHueGradientA() {
         println("testHueGradientA")
-        val rgbBase = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
-        val rgbBase2 = Ansi.RGB(8, 7, 7, 0)
+        val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbBase2 = RGB(8, 7, 7, 0)
         println("    ${" $rgbBase ".rgbBg(rgbBase)} ${" ${rgbBase.toHsv()} ".rgbBg(rgbBase)}")
         println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
         println()
@@ -231,8 +231,8 @@ class Test1 {
     @Test
     fun testHueGradientAS() {
         println("testHueGradientAS")
-        val rgbBase = Ansi.RGB(8, 2, 5, 1)
-        val rgbBase2 = Ansi.RGB(8, 7, 7, 0)
+        val rgbBase = RGB(8, 2, 5, 1)
+        val rgbBase2 = RGB(8, 7, 7, 0)
         println("    ${" $rgbBase ".rgbBg(rgbBase)} ${" ${rgbBase.toHsv()} ".rgbBg(rgbBase)}")
         println("    ${" $rgbBase2 ".rgbBg(rgbBase2)} ${" ${rgbBase2.toHsv()} ".rgbBg(rgbBase2)}")
         println()
@@ -244,7 +244,7 @@ class Test1 {
     @Test
     fun testValMin() {
         println("testValMin")
-        val rgbRand = Ansi.RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
+        val rgbRand = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
         val max2 = 12
 
         val g1 = rgbRand.gradient(max2, rgbRand.toHsv().clone(v = 0.0).toRGB())
@@ -264,9 +264,9 @@ class Test1 {
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.average(rgbRand2)
 
@@ -282,9 +282,9 @@ class Test1 {
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.toHsv().averageHue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
@@ -300,9 +300,9 @@ class Test1 {
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.toHsv().averageSaturation(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
@@ -318,9 +318,9 @@ class Test1 {
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.toHsv().averageValue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
@@ -335,9 +335,9 @@ class Test1 {
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
@@ -348,26 +348,26 @@ class Test1 {
 
     @Test
     fun testAverageRGBHSV() {
-        println("testAverage RGB HSV")
+        println("testAverage Color2 HSV")
         val max2 = 12
         val cubeSize = 100
 
-        val rgbRand = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+        val rgbRand = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
         (0..<max2).forEach { n ->
-            val rgbRand2 = Ansi.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+            val rgbRand2 = RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 
             val rgbAv = rgbRand.average(rgbRand2)
             val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
 
             println(
                 "${
-                    rgbRand.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                    rgbRand.showC(20, f = RGB::toLaconicStringRGB)
                 } ${
-                    rgbAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                    rgbAv.showC(20, f = RGB::toLaconicStringRGB)
                 }  ${
-                    hsvAv.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                    hsvAv.showC(20, f = RGB::toLaconicStringRGB)
                 } ${
-                    rgbRand2.showC(20, f = Ansi.RGB::toLaconicStringRGB)
+                    rgbRand2.showC(20, f = RGB::toLaconicStringRGB)
                 }"
             )
         }
