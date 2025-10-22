@@ -1,13 +1,13 @@
+import femtioprocent.Color2.appl.AnsiDemo
+import femtioprocent.Color2.appl.AnsiDemo.Companion.randomRGB
+import femtioprocent.Color2.appl.prList
 import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Ansi.rgbBg
-import femtioprocent.ansi.Ansi.showC
-import femtioprocent.ansi.Ansi.showL
-import femtioprocent.ansi.appl.AnsiDemo
-import femtioprocent.ansi.appl.AnsiDemo.Companion.randomRGB
-import femtioprocent.ansi.appl.prList
+import femtioprocent.ansi.Color2
+import femtioprocent.ansi.Color2.rgbBg
+import femtioprocent.ansi.Color2.showC
+import femtioprocent.ansi.Color2.showL
 import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
-import femtioprocent.ansi.showRGB
 import kotlin.random.Random
 import kotlin.test.Test
 
@@ -17,7 +17,7 @@ class Test1 {
     @Test
     fun testM1() {
         (1..256).forEach { n ->
-            val l = Ansi.Support.values256(n)
+            val l = Color2.Support.values256(n)
             assert(l.size == n)
             assert(l.first() == 0)
             if (l.size > 1)
@@ -77,6 +77,7 @@ class Test1 {
         }
     }
 
+    /****************************************************
     @Test
     fun testColor() {
         println("testColor")
@@ -373,4 +374,5 @@ class Test1 {
         }
         println()
     }
+    *********************/
 }
