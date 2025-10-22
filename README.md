@@ -7,3 +7,5 @@ The library have methods to generate gradients and other calculated color functi
 Of cource it will provide the escape codes for emitting the colors on supported terminals.
 
 https://github.com/data50p/fpdAnsi/blob/main/AnsiDemo.ipynb
+
+THIS IS PROGRESSING WORK
