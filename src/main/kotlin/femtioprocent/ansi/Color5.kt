@@ -2,7 +2,7 @@ package femtioprocent.ansi
 
 import femtioprocent.ansi.extentions.pL
 
-class Color5 {
+object Color5 {
 
     // ---------------------------------------------------- Predefined Colors -----------------------------------------------------
 
@@ -50,10 +50,6 @@ class Color5 {
     val maxColor5Index get() = Color5.entries.size - 1
     val maxColor5Value get() = g1.size - 1
 
-    private fun fgBg5(num: Int, s: String): String {
-	return "\u001b[1;${num + 10};30m${s}\u001b[00m"
-    }
-
     fun fg(color: Color, s: String): String {
 	return fg5(color.cr, color.cg, color.cb, s)
     }
@@ -62,12 +58,8 @@ class Color5 {
 	return bg5(color.cr, color.cg, color.cb, s)
     }
 
-    private fun fg(num: Int, s: String): String {
+    fun fg(num: Int, s: String): String {
 	return "\u001b[1;${num}m${s}\u001b[00m"
-    }
-
-    fun colorFun(color: Color): (String) -> String {
-	return { s -> fg(color, s) }
     }
 
     fun dumpColor5(): List<String> {
@@ -75,10 +67,7 @@ class Color5 {
 
 	Color.entries.forEach { acc ->
 	    list += "ColorSamples: ${acc.name.pL(2)} :: ${
-		fg(
-		    acc,
-		    "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name
-		)
+		fg(acc, "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name)
 	    }"
 	}
 
@@ -137,10 +126,6 @@ class Color5 {
 	constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
     }
 
-    fun color5Num(r: Int, g: Int, b: Int): Int {
-	return Color5Num(16 + b + 6 * g + 36 * r).rgb
-    }
-
     fun fg5(r: Int, g: Int, b: Int, s: String): String {
 	val num = color5Num(r, g, b)
 	return "\u001b[38;5;${num}m${s}\u001b[00m"
@@ -169,5 +154,7 @@ class Color5 {
 	return "\u001b[38;5;${num};48;5;${bgNum.rgb}m${s}\u001b[00m"
     }
 
-
+    fun color5Num(r: Int, g: Int, b: Int): Int {
+	return 16 + b + 6 * g + 36 * r
+    }
 }

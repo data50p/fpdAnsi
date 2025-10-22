@@ -1,11 +1,11 @@
-package femtioprocent.ansi.appl
+package femtioprocent.Color2.appl
 
-import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Color2
-import femtioprocent.ansi.Version
-import femtioprocent.ansi.extentions.pC
-import femtioprocent.ansi.extentions.pL
-import femtioprocent.ansi.extentions.pR
+import femtioprocent.Color2.Ansi
+import femtioprocent.Color2.Color2
+import femtioprocent.Color2.Version
+import femtioprocent.Color2.extentions.pC
+import femtioprocent.Color2.extentions.pL
+import femtioprocent.Color2.extentions.pR
 import kotlin.random.Random
 import kotlin.time.Duration
 import kotlin.time.measureTime
@@ -77,27 +77,27 @@ class AnsiDemo {
 //</editor-fold>
 
 	    Am("D")    -> {
-		Ansi.dumpColor5().forEach { println(it) }
+		Color2.dumpColor5().forEach { println(it) }
 	    }
 
 	    Am("d")    -> {
 		println("")
-		println(Ansi.csFg(4)(1, 2, 3, "XXXXXXXXXXX Ansi.csFg(4)(1, 2, 3, s)"))
-		println(Ansi.csBg(4)(3, 2, 1, "XXXXXXXXXXX Ansi.csBg(4)(1, 2, 3, s)"))
-		println(Ansi.csFg(4, 3, 2, 3)("XXXXXXXXXXX Ansi.csFg(4, 3, 2, 3)(s)"))
-		println(Ansi.csBg(4, 3, 0, 1)("XXXXXXXXXXX Ansi.csBg(4, 3, 0, 1)(s)"))
-		println(Ansi.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX Ansi.csFgRGB(4)(0, 2, 3)(s)"))
-		println(Ansi.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX Ansi.csBgRGB(4)(3, 0, 2)(s)"))
+		println(Color2.csFg(4)(1, 2, 3, "XXXXXXXXXXX Color2.csFg(4)(1, 2, 3, s)"))
+		println(Color2.csBg(4)(3, 2, 1, "XXXXXXXXXXX Color2.csBg(4)(1, 2, 3, s)"))
+		println(Color2.csFg(4, 3, 2, 3)("XXXXXXXXXXX Color2.csFg(4, 3, 2, 3)(s)"))
+		println(Color2.csBg(4, 3, 0, 1)("XXXXXXXXXXX Color2.csBg(4, 3, 0, 1)(s)"))
+		println(Color2.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX Color2.csFgRGB(4)(0, 2, 3)(s)"))
+		println(Color2.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX Color2.csBgRGB(4)(3, 0, 2)(s)"))
 		println()
 
 
-		val cube4 = Ansi.csRgb(4)
-		val cube5 = Ansi.csRgb(5)
+		val cube4 = Color2.csRgb(4)
+		val cube5 = Color2.csRgb(5)
 
 		val yellow = cube4(3, 3, 1)
 		val lightMagenta = cube4(3, 2, 3)
 		val lightGreen = cube4(1, 3, 2)
-		val rgb256 = Ansi.csRgb(256)(32, 155, 240)
+		val rgb256 = Color2.csRgb(256)(32, 155, 240)
 
 		val painter = rgbBg(lightGreen)
 
@@ -137,19 +137,19 @@ class AnsiDemo {
 		val lightMagenta8 = lightMagenta256.toCubeSize(8)
 		val lightGreen8 = lightGreen256.toCubeSize(8)
 
-		println(Ansi.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
-		println(Ansi.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
+		println(Color2.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
+		println(Color2.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
 		println()
 
-		println(painter("ZZZZZZZZZZZZZ Ansi.rgbBg( Ansi.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
-		println(rgbBg(lightGreen256)("ZZZZZZZZZZZZZ Ansi.rgbBg( Ansi.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
-		println(rgbBg(lightGreen4)("ZZZZZZZZZZZZZ Ansi.rgbBg( Ansi.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
-		println(rgbBg(lightGreen8)("ZZZZZZZZZZZZZ Ansi.rgbBg( Ansi.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
+		println(painter("ZZZZZZZZZZZZZ Color2.rgbBg( Color2.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
+		println(rgbBg(lightGreen256)("ZZZZZZZZZZZZZ Color2.rgbBg( Color2.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
+		println(rgbBg(lightGreen4)("ZZZZZZZZZZZZZ Color2.rgbBg( Color2.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
+		println(rgbBg(lightGreen8)("ZZZZZZZZZZZZZ Color2.rgbBg( Color2.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
 
-		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(Ansi.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(Color2.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(Color2.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(Color2.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(Color2.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
 
 		listOf(lightGreen, lightMagenta, lightGreen256, lightMagenta256).prList(" ")
 		println()
@@ -163,7 +163,7 @@ class AnsiDemo {
 		fun formatter2(_rgb: RGB) = "·".pC(cellWidth2)
 		fun formatter3(_rgb: RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
 
-		val red = Ansi.csRgb(256)(255, 0, 0)
+		val red = Color2.csRgb(256)(255, 0, 0)
 		println("Color2 Gradient")
 		red.hueGradient(12).forEach { it2 ->
 		    print("${formatter1(it2)} ".rgbBg(it2))
@@ -305,7 +305,7 @@ class AnsiDemo {
 		    println()
 
 		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
-		    fun printForm(hsv: Ansi.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
+		    fun printForm(hsv: Color2.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 		    print("Hue    360° ")
 		    rgbRand.hueGradient(loops).forEach { printForm(it) }
@@ -467,7 +467,7 @@ class AnsiDemo {
 		    println(rgbTheme.toHsv().showC())
 		    println()
 
-		    val display = Ansi.Display(125, 24)
+		    val display = Color2.Display(125, 24)
 
 		    fun prRect(x: Int, y: Int, w: Int, h: Int, col: RGB, s: String) {
 			display.rect(x, y, w, h, col)
@@ -529,7 +529,7 @@ class AnsiDemo {
 	    }
 
 	    Am("Z")    -> {
-		val display = Ansi.Display(250, 75)
+		val display = Color2.Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
 
@@ -544,14 +544,14 @@ class AnsiDemo {
 
 		var mt1 = Duration.ZERO
 		val frames = 1250
-		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
+		print(Color2.hideCursor() + Color2.goto(0, 0) + Color2.clear())
 		repeat(frames) { frame ->
 		    val verb = true
 		    val rows = display.h
 		    true.let {
 			val other = rgbRand00.toValue(frame / frames.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
 			val rgbRand0 = rgbRand00.toMaxValue().rotL().average(other)
-			print(Ansi.hideCursor() + Ansi.goto(0, rows + 1))
+			print(Color2.hideCursor() + Color2.goto(0, rows + 1))
 			//println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
 
 			mt1 = measureTime {
@@ -576,49 +576,49 @@ class AnsiDemo {
 			display.print()
 			Thread.sleep(16)
 		    }
-		    //print(Ansi.hideCursor() + Ansi.goto(0, display.h + 1) + Ansi.clear())
+		    //print(Color2.hideCursor() + Color2.goto(0, display.h + 1) + Color2.clear())
 		    //println(" mt $mt1 $mt2")
 		}
 	    }
 
 	    Am("ca")   -> {
-		println("\ncolor5s calling: Ansi.color5(ix1, ix2, string)")
+		println("\ncolor5s calling: Color2.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Ansi.maxColor5Index).forEach { ix1 ->
+		(0..Color2.maxColor5Index).forEach { ix1 ->
 		    print("color5 $ix1: ")
-		    print(Ansi.color5ByIndex(ix1).name.pL(7))
-		    (0..Ansi.maxColor5Value).forEach { ix2 ->
-			print(Ansi.color5(Ansi.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
+		    print(Color2.color5ByIndex(ix1).name.pL(7))
+		    (0..Color2.maxColor5Value).forEach { ix2 ->
+			print(Color2.color5(Color2.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
 		    }
 		    println("")
 		}
-		println("\ncolor5s calling: Ansi.color5Bg(ix1, ix2, string)")
+		println("\ncolor5s calling: Color2.color5Bg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Ansi.maxColor5Index).forEach { ix1 ->
+		(0..Color2.maxColor5Index).forEach { ix1 ->
 		    print("color5 $ix1: ")
-		    print(Ansi.color5ByIndex(ix1).name.pL(7))
-		    (0..Ansi.maxColor5Value).forEach { ix2 ->
-			print(Ansi.color5Bg(Ansi.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
+		    print(Color2.color5ByIndex(ix1).name.pL(7))
+		    (0..Color2.maxColor5Value).forEach { ix2 ->
+			print(Color2.color5Bg(Color2.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
 		    }
 		    println("")
 		}
-		println("\ncolor5s calling: Ansi.color5FgBg(ix1, ix2, string)")
+		println("\ncolor5s calling: Color2.color5FgBg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Ansi.maxColor5Index).forEach { ix1 ->
-		    val complement = Ansi.Color5.valueOf(Ansi.color5ByIndex(ix1).complement)
+		(0..Color2.maxColor5Index).forEach { ix1 ->
+		    val complement = Color2.Color5.valueOf(Color2.color5ByIndex(ix1).complement)
 		    val fix1 = complement.ordinal
-		    val fgcolor5 = Ansi.color5ByIndex(fix1)
+		    val fgcolor5 = Color2.color5ByIndex(fix1)
 		    print("color5 $fix1 $ix1: ")
-		    print(Ansi.color5ByIndex(fix1).name.pL(7) + "  ")
-		    print(Ansi.color5ByIndex(ix1).name.pL(7) + "  ")
+		    print(Color2.color5ByIndex(fix1).name.pL(7) + "  ")
+		    print(Color2.color5ByIndex(ix1).name.pL(7) + "  ")
 
-		    (0..Ansi.maxColor5Value).forEach { ix2 ->
-			val fix2 = ix2 // Ansi.maxColor5Value - ix2
+		    (0..Color2.maxColor5Value).forEach { ix2 ->
+			val fix2 = ix2 // Color2.maxColor5Value - ix2
 			print(
-			    Ansi.color5FgBg(
+			    Color2.color5FgBg(
 				fgcolor5,
 				fix2,
-				Ansi.color5ByIndex(ix1),
+				Color2.color5ByIndex(ix1),
 				ix2,
 				"  ($fix2 $ix2 ##########)"
 			    )
@@ -642,7 +642,7 @@ class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    val fg = Ansi.fg5(r, g, b, "Ansi.fg5($r,$g,$b) ")
+			    val fg = Color2.fg5(r, g, b, "Color2.fg5($r,$g,$b) ")
 			    print("  $fg")
 			}
 			println("")
@@ -654,7 +654,7 @@ class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    print(" " + Ansi.bg5(r, g, b, " Ansi.bg5($r,$g,$b) "))
+			    print(" " + Color2.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -665,7 +665,7 @@ class AnsiDemo {
 		ran5.forEach { b ->
 		    ran5.forEach { r ->
 			ran5.forEach { g ->
-			    print(" " + Ansi.bg5(r, g, b, " Ansi.bg5($r,$g,$b) "))
+			    print(" " + Color2.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -676,7 +676,7 @@ class AnsiDemo {
 		ran5.forEach { g ->
 		    ran5.forEach { b ->
 			ran5.forEach { r ->
-			    print(" " + Ansi.bg5(r, g, b, " Ansi.bg5($r,$g,$b) "))
+			    print(" " + Color2.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -689,8 +689,8 @@ class AnsiDemo {
 		    ran5.forEach { r ->
 			ran5.forEach { g ->
 			    ran5.forEach { b ->
-				val bg = Ansi.Color5Num(w, w, w)
-				print(Ansi.fgbg5(r, g, b, bg, " Ansi.fgbg5($r,$g,$b,$bg) "))
+				val bg = Color2.Color5Num(w, w, w)
+				print(Color2.fgbg5(r, g, b, bg, " Color2.fgbg5($r,$g,$b,$bg) "))
 			    }
 			    println("")
 			}
@@ -705,7 +705,7 @@ class AnsiDemo {
 			    val fr = 5 - br
 			    val fg = 5 - bg
 			    val fb = 5 - bb
-			    print(Ansi.fgbg5(fr, fg, fb, br, bg, bb, " Ansi.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
+			    print(Color2.fgbg5(fr, fg, fb, br, bg, bb, " Color2.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
 			}
 			println("")
 		    }
@@ -726,7 +726,7 @@ class AnsiDemo {
 		fun f2(v: Int): String = v.toString().pL(2)
 		fun f3(v: Int): String = v.toString().pL(3)
 
-		val colors = Ansi.Support::values256
+		val colors = Color2.Support::values256
 
 		(minCube..maxCube).forEach { cubeSize ->
 		    println("")
@@ -734,7 +734,7 @@ class AnsiDemo {
 		    colors(cubeSize).forEach { r ->
 			colors(cubeSize).forEach { g ->
 			    colors(cubeSize).forEach { b ->
-				val fg = Ansi.fg256(r, g, b, "Ansi.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
+				val fg = Color2.fg256(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
 				print("  $fg")
 			    }
 			    println("")
@@ -751,7 +751,7 @@ class AnsiDemo {
 			    println("")
 			colors(cubeSize).forEach { g ->
 			    colors(cubeSize).forEach { b ->
-				print(" " + Ansi.bg256(r, g, b, " Ansi.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
+				print(" " + Color2.bg256(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
 			    }
 			    println("")
 			}
@@ -763,19 +763,19 @@ class AnsiDemo {
 		(minCube..maxCube).forEach { cubeSize ->
 		    println("")
 		    println("Using ColorCube Values on Fg: (cubeSize)(r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-		    val csFg = Ansi.csFg(cubeSize)
+		    val csFg = Color2.csFg(cubeSize)
 		    val fn = if (cubeSize <= 10) ::f1 else ::f2
 		    (0..<cubeSize).forEach { r ->
 			(0..<cubeSize).forEach { g ->
 			    (0..<cubeSize).forEach { b ->
-				val fg = csFg(r, g, b, "Ansi.csFg(${cubeSize})(${fn(r)},${fn(g)},${fn(b)}) ")
+				val fg = csFg(r, g, b, "Color2.csFg(${cubeSize})(${fn(r)},${fn(g)},${fn(b)}) ")
 				print("  $fg")
 			    }
 			    println("")
 			}
 		    }
 		}
-		val painter = Ansi.csBg(4, 3, 0, 2)
+		val painter = Color2.csBg(4, 3, 0, 2)
 
 		(minCube..maxCube).forEach { cubeSize ->
 		    println("")
@@ -785,7 +785,7 @@ class AnsiDemo {
 			(0..<cubeSize).forEach { g ->
 			    (0..<cubeSize).forEach { b ->
 				val bg =
-				    Ansi.csBg(cubeSize, r, g, b, "Ansi.csBg(${cubeSize},${fn(r)},${fn(g)},${fn(b)}) ")
+				    Color2.csBg(cubeSize, r, g, b, "Color2.csBg(${cubeSize},${fn(r)},${fn(g)},${fn(b)}) ")
 				print("  $bg")
 			    }
 			    println("")

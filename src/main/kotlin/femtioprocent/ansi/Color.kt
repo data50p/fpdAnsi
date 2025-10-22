@@ -1,6 +1,7 @@
 package femtioprocent.ansi
 
-class LegacyColor {
+object Color {
+
     enum class LegacyColor(val cc: Int) {
 	D(30),
 	R(31),
@@ -12,7 +13,7 @@ class LegacyColor {
 	W(37),
     }
 
-    fun legacyColorCode(ch: Char): LegacyColor {
+    fun legacyColorCode(ch: Char): Color.LegacyColor {
 	val num = when (ch) {
 	    'd'  -> LegacyColor.D
 	    'r'  -> LegacyColor.R
@@ -27,12 +28,15 @@ class LegacyColor {
 	return num
     }
 
-    fun fg(cc: femtioprocent.ansi.LegacyColor, s: String): String {
-	return Ansi.fg(cc.cc, s)
+    fun fg(cc: LegacyColor, s: String): String {
+	return "\u001b[1;${cc.cc}m${s}\u001b[00m"
     }
 
-    fun fgBg5(cc: femtioprocent.ansi.LegacyColor, s: String): String {
-	return Ansi.fgBg5(cc.cc, s)
+    fun colorFun(color: Color5.Color): (String) -> String {
+	return { s -> Color5.fg(color, s) }
     }
 
+    fun fgBg5(cc: LegacyColor, s: String): String {
+	return "\u001b[1;${cc.cc + 10};30m${s}\u001b[00m"
+    }
 }

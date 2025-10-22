@@ -9,7 +9,7 @@ import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random
 
 
-class Color2 {
+object Color2 {
 
     fun showRGB(rgb: Color2.RGB, w: Int = 34) = rgb.showC()
     fun showHSV(rgb: Color2.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
