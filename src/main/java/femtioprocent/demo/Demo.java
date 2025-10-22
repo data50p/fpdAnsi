@@ -1,10 +1,10 @@
 package femtioprocent.demo;
 
-import femtioprocent.ansi.appl.AnsiDemo;
 import femtioprocent.ansi.Color;
 import femtioprocent.ansi.Color2;
 import femtioprocent.ansi.Color2.RGB;
 import femtioprocent.ansi.Color5;
+import femtioprocent.ansi.appl.AnsiDemo;
 import kotlin.jvm.functions.Function2;
 
 import java.util.ArrayList;

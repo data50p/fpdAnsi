@@ -1,14 +1,9 @@
+import femtioprocent.ansi.Color2
+import femtioprocent.ansi.Color2.showL
 import femtioprocent.ansi.appl.AnsiDemo
 import femtioprocent.ansi.appl.AnsiDemo.Companion.randomRGB
 import femtioprocent.ansi.appl.prList
-import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Color2
-import femtioprocent.ansi.Color2.rgbBg
-import femtioprocent.ansi.Color2.showC
-import femtioprocent.ansi.Color2.showL
-import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
-import kotlin.random.Random
 import kotlin.test.Test
 
 class Test1 {

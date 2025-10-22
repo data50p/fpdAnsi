@@ -1,6 +1,5 @@
 package femtioprocent.ansi.extentions
 
-import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Color
 import femtioprocent.ansi.Color5
 

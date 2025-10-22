@@ -1,15 +1,11 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Color2
+import femtioprocent.ansi.*
 import femtioprocent.ansi.Color2.RGB
 import femtioprocent.ansi.Color2.rgbBg
 import femtioprocent.ansi.Color2.rgbFg
 import femtioprocent.ansi.Color2.showC
 import femtioprocent.ansi.Color2.showL
-import femtioprocent.ansi.Color5
-import femtioprocent.ansi.Display
-import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR

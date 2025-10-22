@@ -1,7 +1,5 @@
 package femtioprocent.ansi
 
-import femtioprocent.ansi.Color2
-
 class Display(val w: Int, val h: Int) {
     data class Cell(var fg: Color2.RGB, var bg: Color2.RGB, var ch: Char)
 

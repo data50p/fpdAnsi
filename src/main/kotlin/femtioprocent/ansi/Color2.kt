@@ -2,7 +2,6 @@ package femtioprocent.ansi
 
 import femtioprocent.ansi.Ansi.modSpecial
 import femtioprocent.ansi.Color2.RGB
-import femtioprocent.ansi.Color2.HSV
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
