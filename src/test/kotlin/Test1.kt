@@ -1,4 +1,5 @@
 import femtioprocent.ansi.Color
+import femtioprocent.ansi.Color.LegacyColor
 import femtioprocent.ansi.Color2
 import femtioprocent.ansi.Color2.RGB
 import femtioprocent.ansi.Color2.rgbBg
@@ -26,6 +27,20 @@ class Test1 {
             if (l.size > 1)
                 assert(l.last() == 255)
         }
+    }
+
+    @Test
+    fun testLegacy() {
+	println(Color.normal(LegacyColor.R, " RED normal "))
+	println(Color.bold(LegacyColor.R, " RED bold "))
+	println(Color.faint(LegacyColor.R, " RED faint "))
+	println(Color.crossed(LegacyColor.R, " RED crossed "))
+	println(Color.hiBoldIntensity(LegacyColor.R, " RED bold intense "))
+	println(Color.underline(LegacyColor.R, " RED underline "))
+	println(Color.italic(LegacyColor.R, " RED italic "))
+	println(Color.background(LegacyColor.R, " RED background "))
+	println(Color.hiIntensityBackground(LegacyColor.R, " RED intense background "))
+	println(Color.normal(LegacyColor.B,LegacyColor.Y, " Blue Yellow "))
     }
 
     @Test

@@ -17,12 +17,12 @@ public class Demo {
 
         /// ////////// Following is for legacy colors (a very few values indeed). Type 1 color spec
 
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color.INSTANCE.fg(Color.LegacyColor.R, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color.INSTANCE.fg(Color.LegacyColor.G, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color.INSTANCE.fg(Color.LegacyColor.B, " Hello "));
-        System.out.println("Color.INSTANCE.fgBg5(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color.INSTANCE.fgBg5(Color.LegacyColor.Y, " Hello "));
-        System.out.println("Color.INSTANCE.fgBg5(Color.LegacyColor.C, \"Hello\") " + " -> " + Color.INSTANCE.fgBg5(Color.LegacyColor.C, " Hello "));
-        System.out.println("Color.INSTANCE.fgBg5(Color.LegacyColor.M, \"Hello\") " + " -> " + Color.INSTANCE.fgBg5(Color.LegacyColor.M, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.R, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.G, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.B, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.Y, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.C, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.C, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.M, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.M, " Hello "));
         System.out.println();
         /// ////////// Following is for predefined colors (6 bits).
 
