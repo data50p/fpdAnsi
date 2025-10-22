@@ -50,6 +50,10 @@ object Color5 {
     val maxColor5Index get() = Color5.entries.size - 1
     val maxColor5Value get() = g1.size - 1
 
+    fun colorFun(color: Color5.Color): (String) -> String {
+	return { s -> femtioprocent.ansi.Color5.fg(color, s) }
+    }
+
     fun fg(color: Color, s: String): String {
 	return fg5(color.cr, color.cg, color.cb, s)
     }

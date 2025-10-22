@@ -32,10 +32,6 @@ object Color {
 	return "\u001b[1;${cc.cc}m${s}\u001b[00m"
     }
 
-    fun colorFun(color: Color5.Color): (String) -> String {
-	return { s -> Color5.fg(color, s) }
-    }
-
     fun fgBg5(cc: LegacyColor, s: String): String {
 	return "\u001b[1;${cc.cc + 10};30m${s}\u001b[00m"
     }
