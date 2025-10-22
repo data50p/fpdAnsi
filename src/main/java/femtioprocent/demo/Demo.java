@@ -1,6 +1,6 @@
 package femtioprocent.demo;
 
-import femtioprocent.Color2.appl.AnsiDemo;
+import femtioprocent.ansi.appl.AnsiDemo;
 import femtioprocent.ansi.Color;
 import femtioprocent.ansi.Color2;
 import femtioprocent.ansi.Color2.RGB;

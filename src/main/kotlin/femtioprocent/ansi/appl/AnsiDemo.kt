@@ -1,4 +1,4 @@
-package femtioprocent.Color2.appl
+package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Color2

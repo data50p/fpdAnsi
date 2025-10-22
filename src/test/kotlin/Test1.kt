@@ -1,6 +1,6 @@
-import femtioprocent.Color2.appl.AnsiDemo
-import femtioprocent.Color2.appl.AnsiDemo.Companion.randomRGB
-import femtioprocent.Color2.appl.prList
+import femtioprocent.ansi.appl.AnsiDemo
+import femtioprocent.ansi.appl.AnsiDemo.Companion.randomRGB
+import femtioprocent.ansi.appl.prList
 import femtioprocent.ansi.Ansi
 import femtioprocent.ansi.Color2
 import femtioprocent.ansi.Color2.rgbBg
