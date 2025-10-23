@@ -25,18 +25,6 @@ object Ansi {
 	return CSI("?25h")
     }
 
-    fun inverse(s: String): String {
-	return "\u001b[7m$s\u001b[0m"
-    }
-
-    fun inverse(): String {
-	return "\u001b[7m"
-    }
-
-    fun normal(): String {
-	return "\u001b[0m"
-    }
-
     fun goto(x: Int, y: Int): String {
 	return "\u001b[${y + 1};${x + 1}H"
     }

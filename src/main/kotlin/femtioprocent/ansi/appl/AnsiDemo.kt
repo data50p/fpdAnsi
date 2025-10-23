@@ -693,7 +693,7 @@ class AnsiDemo {
 			ran5.forEach { g ->
 			    ran5.forEach { b ->
 				val bg = Color5.Color5Num(w, w, w)
-				print(Color5.emitFgBg5(r, g, b, bg, " Color5.fgbg5($r,$g,$b,$bg) "))
+				print(Color5.emitFgBg5(r, g, b, w, w, w, " Color5.fgbg5($r,$g,$b,$w,$w,$w) "))
 			    }
 			    println("")
 			}
@@ -737,7 +737,7 @@ class AnsiDemo {
 		    colors(cubeSize).forEach { r ->
 			colors(cubeSize).forEach { g ->
 			    colors(cubeSize).forEach { b ->
-				val fg = Color2.fg256(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
+				val fg = Color2.emitFg2(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
 				print("  $fg")
 			    }
 			    println("")
@@ -754,7 +754,7 @@ class AnsiDemo {
 			    println("")
 			colors(cubeSize).forEach { g ->
 			    colors(cubeSize).forEach { b ->
-				print(" " + Color2.bg256(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
+				print(" " + Color2.emitBg2(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
 			    }
 			    println("")
 			}

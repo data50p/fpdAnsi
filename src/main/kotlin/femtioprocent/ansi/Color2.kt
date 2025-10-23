@@ -17,11 +17,11 @@ object Color2 {
 
     // ---------- CSI for color type 2 (8 bits) ----------
 
-    fun fg256(r: Int, g: Int, b: Int, s: String): String {
+    fun emitFg2(r: Int, g: Int, b: Int, s: String): String {
 	return "\u001b[38;2;${r};${g};${b}m${s}\u001b[00m"
     }
 
-    fun bg256(r: Int, g: Int, b: Int, s: String): String {
+    fun emitBg2(r: Int, g: Int, b: Int, s: String): String {
 	val num = Color5.color5Num(r, g, b)
 	val numfg = when {
 	    //r == 0 -> 231
@@ -33,7 +33,7 @@ object Color2 {
 	return "\u001b[48;2;${r};${g};${b};38;5;${numfg}m${s}\u001b[00m"
     }
 
-    fun fgbg256(fr: Int, fg: Int, fb: Int, br: Int, bg: Int, bb: Int, s: String): String {
+    fun emitFgBg2(fr: Int, fg: Int, fb: Int, br: Int, bg: Int, bb: Int, s: String): String {
 	return "\u001b[38;2;${fr};${fg};${fb};48;2;${br};${bg};${bb}m${s}\u001b[00m"
     }
 
@@ -44,7 +44,7 @@ object Color2 {
 	val r = Support.values256(cubeSize)[rix]
 	val g = Support.values256(cubeSize)[gix]
 	val b = Support.values256(cubeSize)[bix]
-	return fg256(r, g, b, s)
+	return emitFg2(r, g, b, s)
     }
 
     fun csBg(cubeSize: Int, rix: Int, gix: Int, bix: Int, s: String): String {
@@ -53,7 +53,7 @@ object Color2 {
 	val r = Support.values256(cubeSize)[rix]
 	val g = Support.values256(cubeSize)[gix]
 	val b = Support.values256(cubeSize)[bix]
-	return bg256(r, g, b, s)
+	return emitBg2(r, g, b, s)
     }
 
     fun csFgBg(
@@ -77,7 +77,7 @@ object Color2 {
 	val br = Support.values256(cubeSizeBG)[brix]
 	val bg = Support.values256(cubeSizeBG)[bgix]
 	val bb = Support.values256(cubeSizeBG)[bbix]
-	return fgbg256(fr, fg, fb, br, bg, bb, s)
+	return emitFgBg2(fr, fg, fb, br, bg, bb, s)
     }
 
     fun rgbFgBg(rgbFG: RGB, rgbBG: RGB, s: String): String {

@@ -128,9 +128,21 @@ object Color5 {
 
     // ------------------------------------------------------------- Emits actual ansi escape
 
+    fun emitFg5(num: Int, s: String): String {
+	return "\u001b[38;5;${num}m${s}\u001b[00m"
+    }
+
+    fun emitBg5(num: Int, s: String): String {
+	return "\u001b[48;5;${num}m${s}\u001b[00m"
+    }
+
+    fun emitFgBg5(numFg: Int, numBg: Int, s: String): String {
+	return "\u001b[38;5;${numFg};48;5;${numBg}m${s}\u001b[00m"
+    }
+
     fun emitFg5(r: Int, g: Int, b: Int, s: String): String {
 	val num = color5Num(r, g, b)
-	return "\u001b[38;5;${num}m${s}\u001b[00m"
+	return emitFg5(num, s)
     }
 
     fun emitBg5(r: Int, g: Int, b: Int, s: String): String {
@@ -142,18 +154,18 @@ object Color5 {
 	    r + g + b > 6 -> 0
 	    else          -> 231
 	}
-	return "\u001b[48;5;${num};38;5;${numfg}m${s}\u001b[00m"
+	return emitFgBg5(numfg, num, s)
+    }
+
+    fun emitBgOnly5(r: Int, g: Int, b: Int, s: String): String {
+	val num = color5Num(r, g, b)
+	return emitBg5(num, s)
     }
 
     fun emitFgBg5(r: Int, g: Int, b: Int, br: Int, bg: Int, bb: Int, s: String): String {
-	val num = color5Num(r, g, b)
-	val bnum = color5Num(br, bg, bb)
-	return "\u001b[38;5;${num};48;5;${bnum}m${s}\u001b[00m"
-    }
-
-    fun emitFgBg5(r: Int, g: Int, b: Int, bgNum: Color5Num, s: String): String {
-	val num = color5Num(r, g, b)
-	return "\u001b[38;5;${num};48;5;${bgNum.rgb}m${s}\u001b[00m"
+	val numFg = color5Num(r, g, b)
+	val numBg = color5Num(br, bg, bb)
+	return emitFgBg5(numFg, numBg, s)
     }
 
     fun color5Num(r: Int, g: Int, b: Int): Int {
