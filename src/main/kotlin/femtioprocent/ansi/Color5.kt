@@ -6,38 +6,38 @@ object Color5 {
 
     // ---------------------------------------------------- Predefined Colors -----------------------------------------------------
 
-    enum class Color(val cr: Int, val cg: Int, val cb: Int) {
-	DD(0, 0, 0),
-	D(1, 1, 1),
-	DL(2, 2, 2),
-	WD(3, 3, 3),
-	W(4, 4, 4),
-	WL(5, 5, 5),
+    enum class ColorValue(val cr: Int, val cg: Int, val cb: Int) {
+	DARK_BLACK(0, 0, 0),
+	BLACK(1, 1, 1),
+	LIGHT_BLACK(2, 2, 2),
+	DARK_WHITE(3, 3, 3),
+	WHITE(4, 4, 4),
+	LIGHT_WHITE(5, 5, 5),
 
-	RD(4, 0, 0),
-	R(5, 0, 0),
-	RL(5, 1, 1),
-	OD(4, 1, 0),
-	O(5, 3, 0),
-	OL(5, 4, 1),
-	GD(0, 4, 0),
-	G(0, 5, 0),
-	GL(2, 5, 2),
-	YD(4, 4, 0),
-	Y(5, 5, 0),
-	YL(5, 5, 2),
-	BD(0, 0, 4),
-	B(0, 0, 5),
-	BL(1, 1, 5),
-	MD(4, 0, 4),
-	M(5, 0, 5),
-	ML(5, 2, 5),
-	CD(0, 4, 4),
-	C(0, 5, 5),
-	CL(2, 5, 5),
+	DARK_RED(4, 0, 0),
+	RED(5, 0, 0),
+	LIGHT_RED(5, 1, 1),
+	DARK_ORANGE(4, 1, 0),
+	ORANGE(5, 3, 0),
+	LIGHT_ORANGE(5, 4, 1),
+	DARK_GREEN(0, 4, 0),
+	GREEN(0, 5, 0),
+	LIGHT_GREEN(2, 5, 2),
+	DARK_YELLOW(4, 4, 0),
+	YELLOW(5, 5, 0),
+	LIGHT_YELLOW(5, 5, 2),
+	DARK_BLUE(0, 0, 4),
+	BLUE(0, 0, 5),
+	LIGHT_BLUE(1, 1, 5),
+	DARK_MAGENTA(4, 0, 4),
+	MAGENTA(5, 0, 5),
+	LIGHT_MAGENTA(5, 2, 5),
+	DARK_CYAN(0, 4, 4),
+	CYAN(0, 5, 5),
+	LIGHT_CYAN(2, 5, 5),
     }
 
-    enum class Color5(val bits: Int, val bgFlip: Int, val complement: String) { // no X-reference
+    enum class Color5Code(val bits: Int, val bgFlip: Int, val complement: String) { // no X-reference
 	RED(1, 3, "GREEN"),
 	GREEN(2, 3, "RED"),
 	BLUE(4, 5, "YELLOW"),
@@ -47,19 +47,19 @@ object Color5 {
 	GRAY(7, 1, "GRAY")
     }
 
-    val maxColor5Index get() = Color5.entries.size - 1
+    val maxColor5CodeIndex get() = Color5Code.entries.size - 1
     val maxColor5Value get() = g1.size - 1
 
-    fun colorFun(color: Color5.Color): (String) -> String {
+    fun colorFun(color: Color5.ColorValue): (String) -> String {
 	return { s -> femtioprocent.ansi.Color5.fg(color, s) }
     }
 
-    fun fg(color: Color, s: String): String {
-	return fg5(color.cr, color.cg, color.cb, s)
+    fun fg(colorValue: ColorValue, s: String): String {
+	return fg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
     }
 
-    fun bg(color: Color, s: String): String {
-	return bg5(color.cr, color.cg, color.cb, s)
+    fun bg(colorValue: ColorValue, s: String): String {
+	return bg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
     }
 
     fun fg(num: Int, s: String): String {
@@ -69,19 +69,19 @@ object Color5 {
     fun dumpColor5(): List<String> {
 	val list = mutableListOf<String>()
 
-	Color.entries.forEach { acc ->
-	    list += "ColorSamples: ${acc.name.pL(2)} :: ${
-		fg(acc, "XXXXXXXXXXXX " + acc.cr + ' ' + acc.cg + ' ' + acc.cb + ' ' + acc.name)
+	ColorValue.entries.forEach { cc ->
+	    list += "ColorSamples: ${cc.name.pL(2)} :: ${
+		fg(cc, "XXXXXXXXXXXX " + cc.cr + ' ' + cc.cg + ' ' + cc.cb + ' ' + cc.name)
 	    }"
 	}
 
 	return list
     }
 
-    fun color5ByIndex(ix: Int): Color5 {
-	if (ix >= Color5.entries.size)
-	    return Color5.entries[maxColor5Index]
-	return Color5.entries[ix]
+    fun color5ByIndex(ix: Int): Color5Code {
+	if (ix >= Color5Code.entries.size)
+	    return Color5Code.entries[maxColor5CodeIndex]
+	return Color5Code.entries[ix]
     }
 
     //                                              (  darker  )
@@ -90,7 +90,7 @@ object Color5 {
     private val g1 = listOf(5, 5, 5, 5, 5, 4, 3, 2, 1)
     private val g2 = listOf(4, 3, 2, 1, 0, 0, 0, 0, 0)
 
-    fun color5(color: Color5, value: Int, s: String): String {
+    fun color5(color: Color5Code, value: Int, s: String): String {
 	val h1 = if ((color.bits and 1) == 1) g1 else g2
 	val h2 = if ((color.bits and 2) == 2) g1 else g2
 	val h3 = if ((color.bits and 4) == 4) g1 else g2
@@ -101,7 +101,7 @@ object Color5 {
     /**
      * value => 0..5
      */
-    fun color5Bg(color: Color5, value: Int, s: String): String {
+    fun color5Bg(color: Color5Code, value: Int, s: String): String {
 	val valueS = 8 - value
 	val h1 = if (color.bgFlip < value) 0 else 5
 	val h2 = if (color.bgFlip < value) 0 else 5
@@ -113,7 +113,7 @@ object Color5 {
 	return r
     }
 
-    fun color5FgBg(color: Color5, value: Int, bgColor: Color5, bgValue: Int, s: String): String {
+    fun color5FgBg(color: Color5Code, value: Int, bgColor: Color5Code, bgValue: Int, s: String): String {
 	val bgValueS = 8 - bgValue
 	val h1 = if ((color.bits and 1) == 1) g1 else g2
 	val h2 = if ((color.bits and 2) == 2) g1 else g2

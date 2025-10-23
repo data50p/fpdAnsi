@@ -1,6 +1,6 @@
 package femtioprocent.demo;
 
-import femtioprocent.ansi.Color;
+import femtioprocent.ansi.Color1;
 import femtioprocent.ansi.Color2;
 import femtioprocent.ansi.Color2.RGB;
 import femtioprocent.ansi.Color5;
@@ -17,58 +17,58 @@ public class Demo {
 
         /// ////////// Following is for legacy colors (a very few values indeed). Type 1 color spec
 
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.R, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.G, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color.INSTANCE.bold(Color.LegacyColor.B, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.Y, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.C, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.C, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.M, \"Hello\") " + " -> " + Color.INSTANCE.normal(Color.LegacyColor.M, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.RED, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.GREEN, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.BLUE, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.YELLOW, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.C, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.CYAN, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.M, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.MAGENTA, " Hello "));
         System.out.println();
         /// ////////// Following is for predefined colors (6 bits).
 
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.DD)" + Color5.INSTANCE.fg(Color5.Color.DD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.D)" + Color5.INSTANCE.fg(Color5.Color.D, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.DL)" + Color5.INSTANCE.fg(Color5.Color.DL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.WD)" + Color5.INSTANCE.fg(Color5.Color.WD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.W)" + Color5.INSTANCE.fg(Color5.Color.W, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.WL)" + Color5.INSTANCE.fg(Color5.Color.WL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.RD)" + Color5.INSTANCE.fg(Color5.Color.RD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.R)" + Color5.INSTANCE.fg(Color5.Color.R, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.RL)" + Color5.INSTANCE.fg(Color5.Color.RL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.OD)" + Color5.INSTANCE.fg(Color5.Color.OD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.O)" + Color5.INSTANCE.fg(Color5.Color.O, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.OL)" + Color5.INSTANCE.fg(Color5.Color.OL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.GD)" + Color5.INSTANCE.fg(Color5.Color.GD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.G)" + Color5.INSTANCE.fg(Color5.Color.G, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.fg(Color5.Color.GL)" + Color5.INSTANCE.fg(Color5.Color.GL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.YD)" + Color5.INSTANCE.bg(Color5.Color.YD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.Y)" + Color5.INSTANCE.bg(Color5.Color.Y, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.YL)" + Color5.INSTANCE.bg(Color5.Color.YL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.BD)" + Color5.INSTANCE.bg(Color5.Color.BD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.B)" + Color5.INSTANCE.bg(Color5.Color.B, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.BL)" + Color5.INSTANCE.bg(Color5.Color.BL, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.MD)" + Color5.INSTANCE.bg(Color5.Color.MD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.M)" + Color5.INSTANCE.bg(Color5.Color.M, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.ML)" + Color5.INSTANCE.bg(Color5.Color.ML, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.CD)" + Color5.INSTANCE.bg(Color5.Color.CD, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.C)" + Color5.INSTANCE.bg(Color5.Color.C, " XXXXXXXX "));
-        System.out.println("Color5.INSTANCE.bg(Color5.Color.CL)" + Color5.INSTANCE.bg(Color5.Color.CL, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.DD)" + Color5.INSTANCE.fg(Color5.ColorValue.DARK_BLACK, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.D)" + Color5.INSTANCE.fg(Color5.ColorValue.BLACK, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.DL)" + Color5.INSTANCE.fg(Color5.ColorValue.LIGHT_BLACK, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.WD)" + Color5.INSTANCE.fg(Color5.ColorValue.DARK_WHITE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.W)" + Color5.INSTANCE.fg(Color5.ColorValue.WHITE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.WL)" + Color5.INSTANCE.fg(Color5.ColorValue.LIGHT_WHITE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.RD)" + Color5.INSTANCE.fg(Color5.ColorValue.DARK_RED, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.R)" + Color5.INSTANCE.fg(Color5.ColorValue.RED, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.RL)" + Color5.INSTANCE.fg(Color5.ColorValue.LIGHT_RED, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.OD)" + Color5.INSTANCE.fg(Color5.ColorValue.DARK_ORANGE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.O)" + Color5.INSTANCE.fg(Color5.ColorValue.ORANGE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.OL)" + Color5.INSTANCE.fg(Color5.ColorValue.LIGHT_ORANGE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.GD)" + Color5.INSTANCE.fg(Color5.ColorValue.DARK_GREEN, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.G)" + Color5.INSTANCE.fg(Color5.ColorValue.GREEN, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.fg(Color5.Color.GL)" + Color5.INSTANCE.fg(Color5.ColorValue.LIGHT_GREEN, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.YD)" + Color5.INSTANCE.bg(Color5.ColorValue.DARK_YELLOW, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.Y)" + Color5.INSTANCE.bg(Color5.ColorValue.YELLOW, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.YL)" + Color5.INSTANCE.bg(Color5.ColorValue.LIGHT_YELLOW, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.BD)" + Color5.INSTANCE.bg(Color5.ColorValue.DARK_BLUE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.B)" + Color5.INSTANCE.bg(Color5.ColorValue.BLUE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.BL)" + Color5.INSTANCE.bg(Color5.ColorValue.LIGHT_BLUE, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.MD)" + Color5.INSTANCE.bg(Color5.ColorValue.DARK_MAGENTA, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.M)" + Color5.INSTANCE.bg(Color5.ColorValue.MAGENTA, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.ML)" + Color5.INSTANCE.bg(Color5.ColorValue.LIGHT_MAGENTA, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.CD)" + Color5.INSTANCE.bg(Color5.ColorValue.DARK_CYAN, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.C)" + Color5.INSTANCE.bg(Color5.ColorValue.CYAN, " XXXXXXXX "));
+        System.out.println("Color5.INSTANCE.bg(Color5.Color.CL)" + Color5.INSTANCE.bg(Color5.ColorValue.LIGHT_CYAN, " XXXXXXXX "));
 
 
         /// ////////// Following is for special 6 bits color (216 rgb values). Escape code type 5.
 
         // A predefined color
 
-        Color5.Color5 rgb5 = Color5.Color5.MAGENTA;
+        Color5.Color5Code rgb5 = Color5.Color5Code.MAGENTA;
         System.out.println("");
         System.out.println("Calling Color5.INSTANCE.color5(Color5.Color5.<COLOR_ENUM>, 4, \"Hello 4\")");
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.RED, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.GREEN, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.BLUE, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.YELLOW, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.MAGENTA, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.CYAN, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5.GRAY, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.RED, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.GREEN, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.BLUE, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.YELLOW, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.MAGENTA, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.CYAN, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.GRAY, 4, "Hello 4"));
 
 
         /// ////////// Following is for full 24 bits color. Escape code type 2.

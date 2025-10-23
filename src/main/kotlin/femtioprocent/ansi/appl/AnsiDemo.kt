@@ -587,7 +587,7 @@ class AnsiDemo {
 	    Am("ca")   -> {
 		println("\ncolor5s calling: Color2.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxColor5Index).forEach { ix1 ->
+		(0..Color5.maxColor5CodeIndex).forEach { ix1 ->
 		    print("color5 $ix1: ")
 		    print(Color5.color5ByIndex(ix1).name.pL(7))
 		    (0..Color5.maxColor5Value).forEach { ix2 ->
@@ -597,7 +597,7 @@ class AnsiDemo {
 		}
 		println("\ncolor5s calling: Color2.color5Bg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxColor5Index).forEach { ix1 ->
+		(0..Color5.maxColor5CodeIndex).forEach { ix1 ->
 		    print("color5 $ix1: ")
 		    print(Color5.color5ByIndex(ix1).name.pL(7))
 		    (0..Color5.maxColor5Value).forEach { ix2 ->
@@ -607,8 +607,8 @@ class AnsiDemo {
 		}
 		println("\ncolor5s calling: Color2.color5FgBg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxColor5Index).forEach { ix1 ->
-		    val complement = Color5.Color5.valueOf(Color5.color5ByIndex(ix1).complement)
+		(0..Color5.maxColor5CodeIndex).forEach { ix1 ->
+		    val complement = Color5.Color5Code.valueOf(Color5.color5ByIndex(ix1).complement)
 		    val fix1 = complement.ordinal
 		    val fgcolor5 = Color5.color5ByIndex(fix1)
 		    print("color5 $fix1 $ix1: ")
