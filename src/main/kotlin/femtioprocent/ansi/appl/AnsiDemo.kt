@@ -73,7 +73,8 @@ class AnsiDemo {
 		println("--ansi=cb     ->  Type 5 colors (6 bits)")
 		println("--ansi=cc(#)  ->  Type 2 colors (8 bits), # = color cube size")
 		println("--ansi=G(#)   ->  Gradients on colors, # = color cube size")
-		println("--ansi=L      ->  Logs demo")
+		println("--ansi=A      ->  Animation demo")
+		println("--ansi=T      ->  Theme demo")
 		println("--ansi=h      ->  https://en.wikipedia.org/wiki/Help!")
 		System.exit(2)
 	    }
@@ -531,7 +532,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("Z")    -> {
+	    Am("A")    -> {
 		val display = Display(250, 75)
 
 		val rgbRand00 = randomRGB(256)
