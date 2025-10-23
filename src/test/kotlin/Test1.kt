@@ -1,5 +1,5 @@
 import femtioprocent.ansi.Color1
-import femtioprocent.ansi.Color1.ColorCode
+import femtioprocent.ansi.Color1.Code
 import femtioprocent.ansi.Color5
 import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
@@ -8,20 +8,20 @@ import kotlin.test.Test
 class Test1 {
     val verbose = false
 
-    val colorCodes = mapOf<String, femtioprocent.ansi.Color1.ColorCode>(
-	"RED" to ColorCode.RED,
-	"GREEN" to ColorCode.GREEN,
-	"BLUE" to ColorCode.BLUE,
-	"YELLOW" to ColorCode.YELLOW,
-	"CYAN" to ColorCode.CYAN,
-	"MAGENTA" to ColorCode.MAGENTA,
-	"WHITE" to ColorCode.WHITE,
-	"BLACK" to ColorCode.BLACK,
+    val codes = mapOf<String, femtioprocent.ansi.Color1.Code>(
+	"RED" to Code.RED,
+	"GREEN" to Code.GREEN,
+	"BLUE" to Code.BLUE,
+	"YELLOW" to Code.YELLOW,
+	"CYAN" to Code.CYAN,
+	"MAGENTA" to Code.MAGENTA,
+	"WHITE" to Code.WHITE,
+	"BLACK" to Code.BLACK,
     )
 
     @Test
     fun testLegacy() {
-	colorCodes.entries.forEach { (text, col) ->
+	codes.entries.forEach { (text, col) ->
 	    println(Color1.normal(col, " ${text} normal "))
 	    println(Color1.bold(col, " ${text} bold "))
 	    println(Color1.faint(col, " ${text} faint "))
@@ -36,8 +36,8 @@ class Test1 {
 
     @Test
     fun testLegacy2() {
-	colorCodes.forEach { fg ->
-	    colorCodes.forEach { bg ->
+	codes.forEach { fg ->
+	    codes.forEach { bg ->
 		println(Color1.normal(fg.value, bg.value, "    ${fg.key} text on ${bg.key} background    "))
 	    }
 	}
@@ -54,7 +54,7 @@ class Test1 {
     @Test
     fun testColor() {
 	println("testColor")
-	listOf(ColorCode.MAGENTA, ColorCode.RED, ColorCode.GREEN, ColorCode.BLUE).forEach {
+	listOf(Code.MAGENTA, Code.RED, Code.GREEN, Code.BLUE).forEach {
 	    println("${it.toString().ansiColor(it)}")
 	}
     }
@@ -62,7 +62,7 @@ class Test1 {
     @Test
     fun testColor2() {
 	println("testColor2")
-	listOf(ColorCode.MAGENTA, ColorCode.RED, ColorCode.GREEN, ColorCode.BLUE).forEach {
+	listOf(Code.MAGENTA, Code.RED, Code.GREEN, Code.BLUE).forEach {
 	    println("${it.toString().ansiBgColor(it)}")
 	}
     }
@@ -70,7 +70,7 @@ class Test1 {
     @Test
     fun testColorB() {
 	println("testColorB")
-	listOf(ColorCode.MAGENTA, ColorCode.RED, ColorCode.GREEN, ColorCode.BLUE).forEach {
+	listOf(Code.MAGENTA, Code.RED, Code.GREEN, Code.BLUE).forEach {
 	    println("${it.toString().ansiColor(it)}")
 	}
     }
@@ -78,7 +78,7 @@ class Test1 {
     @Test
     fun testColor5() {
 	println("testColor5")
-	listOf(Color5.Color5Code.MAGENTA, Color5.Color5Code.RED, Color5.Color5Code.GREEN, Color5.Color5Code.BLUE).forEach {
+	listOf(Color5.Code.MAGENTA, Color5.Code.RED, Color5.Code.GREEN, Color5.Code.BLUE).forEach {
 	    println("${it.toString().ansiColor(it, 3)}")
 	}
     }

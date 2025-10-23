@@ -17,12 +17,12 @@ public class Demo {
 
         /// ////////// Following is for legacy colors (a very few values indeed). Type 1 color spec
 
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.RED, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.GREEN, " Hello "));
-        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.ColorCode.BLUE, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.YELLOW, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.C, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.CYAN, " Hello "));
-        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.M, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.ColorCode.MAGENTA, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.R, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.Code.RED, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.G, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.Code.GREEN, " Hello "));
+        System.out.println("Color.INSTANCE.fg(Color.LegacyColor.B, \"Hello\")  " + " -> " + Color1.INSTANCE.bold(Color1.Code.BLUE, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.Y, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.Code.YELLOW, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.C, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.Code.CYAN, " Hello "));
+        System.out.println("Color.INSTANCE.normal(Color.LegacyColor.M, \"Hello\") " + " -> " + Color1.INSTANCE.normal(Color1.Code.MAGENTA, " Hello "));
         System.out.println();
         /// ////////// Following is for predefined colors (6 bits).
 
@@ -59,16 +59,16 @@ public class Demo {
 
         // A predefined color
 
-        Color5.Color5Code rgb5 = Color5.Color5Code.MAGENTA;
+        Color5.Code rgb5 = Color5.Code.MAGENTA;
         System.out.println("");
         System.out.println("Calling Color5.INSTANCE.color5(Color5.Color5.<COLOR_ENUM>, 4, \"Hello 4\")");
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.RED, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.GREEN, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.BLUE, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.YELLOW, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.MAGENTA, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.CYAN, 4, "Hello 4"));
-        System.out.println(Color5.INSTANCE.color5(Color5.Color5Code.GRAY, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.RED, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.GREEN, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.BLUE, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.YELLOW, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.MAGENTA, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.CYAN, 4, "Hello 4"));
+        System.out.println(Color5.INSTANCE.color5(Color5.Code.GRAY, 4, "Hello 4"));
 
 
         /// ////////// Following is for full 24 bits color. Escape code type 2.

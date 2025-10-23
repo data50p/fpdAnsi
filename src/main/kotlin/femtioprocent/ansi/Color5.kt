@@ -37,7 +37,7 @@ object Color5 {
 	LIGHT_CYAN(2, 5, 5),
     }
 
-    enum class Color5Code(val bits: Int, val bgFlip: Int, val complement: String) { // no X-reference
+    enum class Code(val bits: Int, val bgFlip: Int, val complement: String) { // no X-reference
 	RED(1, 3, "GREEN"),
 	GREEN(2, 3, "RED"),
 	BLUE(4, 5, "YELLOW"),
@@ -47,7 +47,7 @@ object Color5 {
 	GRAY(7, 1, "GRAY")
     }
 
-    val maxColor5CodeIndex get() = Color5Code.entries.size - 1
+    val maxCodeIndex get() = Code.entries.size - 1
     val maxColor5Value get() = g1.size - 1
 
     fun colorFun(color: Color5.ColorValue): (String) -> String {
@@ -78,10 +78,10 @@ object Color5 {
 	return list
     }
 
-    fun color5ByIndex(ix: Int): Color5Code {
-	if (ix >= Color5Code.entries.size)
-	    return Color5Code.entries[maxColor5CodeIndex]
-	return Color5Code.entries[ix]
+    fun color5ByIndex(ix: Int): Code {
+	if (ix >= Code.entries.size)
+	    return Code.entries[maxCodeIndex]
+	return Code.entries[ix]
     }
 
     //                                              (  darker  )
@@ -90,7 +90,7 @@ object Color5 {
     private val g1 = listOf(5, 5, 5, 5, 5, 4, 3, 2, 1)
     private val g2 = listOf(4, 3, 2, 1, 0, 0, 0, 0, 0)
 
-    fun color5(color: Color5Code, value: Int, s: String): String {
+    fun color5(color: Code, value: Int, s: String): String {
 	val h1 = if ((color.bits and 1) == 1) g1 else g2
 	val h2 = if ((color.bits and 2) == 2) g1 else g2
 	val h3 = if ((color.bits and 4) == 4) g1 else g2
@@ -101,7 +101,7 @@ object Color5 {
     /**
      * value => 0..5
      */
-    fun color5Bg(color: Color5Code, value: Int, s: String): String {
+    fun color5Bg(color: Code, value: Int, s: String): String {
 	val valueS = 8 - value
 	val h1 = if (color.bgFlip < value) 0 else 5
 	val h2 = if (color.bgFlip < value) 0 else 5
@@ -113,7 +113,7 @@ object Color5 {
 	return r
     }
 
-    fun color5FgBg(color: Color5Code, value: Int, bgColor: Color5Code, bgValue: Int, s: String): String {
+    fun color5FgBg(color: Code, value: Int, bgColor: Code, bgValue: Int, s: String): String {
 	val bgValueS = 8 - bgValue
 	val h1 = if ((color.bits and 1) == 1) g1 else g2
 	val h2 = if ((color.bits and 2) == 2) g1 else g2
