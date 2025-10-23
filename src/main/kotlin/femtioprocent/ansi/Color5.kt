@@ -62,10 +62,6 @@ object Color5 {
 	return emitBg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
     }
 
-    fun fg5(num: Int, s: String): String {
-	return "\u001b[1;${num}m${s}\u001b[00m"
-    }
-
     fun dumpColor5(): List<String> {
 	val list = mutableListOf<String>()
 
@@ -129,6 +125,8 @@ object Color5 {
     value class Color5Num(val rgb: Int) {
 	constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
     }
+
+    // ------------------------------------------------------------- Emits actual ansi escape
 
     fun emitFg5(r: Int, g: Int, b: Int, s: String): String {
 	val num = color5Num(r, g, b)
