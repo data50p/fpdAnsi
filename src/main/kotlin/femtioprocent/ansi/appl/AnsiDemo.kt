@@ -537,14 +537,11 @@ class AnsiDemo {
 
 		val rgbRand00 = randomRGB(256)
 
-		val item = display.Item(0, 0, RGB(2, 1, 1, 1), "Hello")
-		val item2 = display.Item(20, 12, RGB(2, 1, 1, 1), "World")
-		val item3 = display.Item(0, 0, RGB(2, 1, 1, 1), "Hello")
-		val item4 = display.Item(20, 12, RGB(2, 1, 1, 1), "World")
-		item2.velox = 2
-		item3.velox = -3
-		item4.veloy = 2
-		val items = listOf<Display.Item>(item, item2, item3, item4)
+		val item = display.MovingItem(0, 0, RGB(2, 1, 1, 1), "Hello", 1, 1)
+		val item2 = display.MovingItem(20, 12, RGB(2, 1, 1, 1), "World", -1, 2)
+		val item3 = display.MovingItem(60, 20, RGB(2, 1, 1, 1), "Hello", 2, 1)
+		val item4 = display.MovingItem(20, 12, RGB(2, 1, 1, 1), "World", -2, -2)
+		val items = listOf<Display.MovingItem>(item, item2, item3, item4)
 
 		var mt1 = Duration.ZERO
 		val frames = 1250

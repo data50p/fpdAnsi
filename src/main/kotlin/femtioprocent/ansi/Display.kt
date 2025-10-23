@@ -1,6 +1,7 @@
 package femtioprocent.ansi
 
 class Display(val w: Int, val h: Int) {
+
     data class Cell(var fg: Color2.RGB, var bg: Color2.RGB, var ch: Char)
 
     val grid = Array<Cell>(w * h) {
@@ -114,9 +115,7 @@ class Display(val w: Int, val h: Int) {
     val blank = "                                                                                  "
 //	val blank = "012345678901234567890123456789012345678901234567890"
 
-    inner class Item(var x: Int, var y: Int, var fg: Color2.RGB, var s: String) {
-	var velox = 1
-	var veloy = 1
+    inner class MovingItem(var x: Int, var y: Int, var fg: Color2.RGB, var s: String, var velox: Int = 0, var veloy: Int = 0) {
 
 	fun moveTo(x: Int, y: Int) {
 	    setText(x, y, blank.substring(0, s.length))
