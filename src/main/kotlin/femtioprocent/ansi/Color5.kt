@@ -51,18 +51,18 @@ object Color5 {
     val maxColor5Value get() = g1.size - 1
 
     fun colorFun(color: Color5.ColorValue): (String) -> String {
-	return { s -> femtioprocent.ansi.Color5.fg(color, s) }
+	return { s -> femtioprocent.ansi.Color5.fg5(color, s) }
     }
 
-    fun fg(colorValue: ColorValue, s: String): String {
-	return fg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
+    fun fg5(colorValue: ColorValue, s: String): String {
+	return emitFg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
     }
 
-    fun bg(colorValue: ColorValue, s: String): String {
-	return bg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
+    fun bg5(colorValue: ColorValue, s: String): String {
+	return emitBg5(colorValue.cr, colorValue.cg, colorValue.cb, s)
     }
 
-    fun fg(num: Int, s: String): String {
+    fun fg5(num: Int, s: String): String {
 	return "\u001b[1;${num}m${s}\u001b[00m"
     }
 
@@ -71,7 +71,7 @@ object Color5 {
 
 	ColorValue.entries.forEach { cc ->
 	    list += "ColorSamples: ${cc.name.pL(2)} :: ${
-		fg(cc, "XXXXXXXXXXXX " + cc.cr + ' ' + cc.cg + ' ' + cc.cb + ' ' + cc.name)
+		fg5(cc, "XXXXXXXXXXXX " + cc.cr + ' ' + cc.cg + ' ' + cc.cb + ' ' + cc.name)
 	    }"
 	}
 
@@ -94,7 +94,7 @@ object Color5 {
 	val h1 = if ((color.bits and 1) == 1) g1 else g2
 	val h2 = if ((color.bits and 2) == 2) g1 else g2
 	val h3 = if ((color.bits and 4) == 4) g1 else g2
-	val r = fg5(h1[value], h2[value], h3[value], s)
+	val r = emitFg5(h1[value], h2[value], h3[value], s)
 	return r
     }
 
@@ -109,7 +109,7 @@ object Color5 {
 	val bh1 = if ((color.bits and 1) == 1) g1 else g2
 	val bh2 = if ((color.bits and 2) == 2) g1 else g2
 	val bh3 = if ((color.bits and 4) == 4) g1 else g2
-	val r = fgbg5(h1, h2, h3, bh1[valueS], bh2[valueS], bh3[valueS], s)
+	val r = emitFgBg5(h1, h2, h3, bh1[valueS], bh2[valueS], bh3[valueS], s)
 	return r
     }
 
@@ -121,7 +121,7 @@ object Color5 {
 	val bh1 = if ((bgColor.bits and 1) == 1) g1 else g2
 	val bh2 = if ((bgColor.bits and 2) == 2) g1 else g2
 	val bh3 = if ((bgColor.bits and 4) == 4) g1 else g2
-	val r = fgbg5(h1[value], h2[value], h3[value], bh1[bgValueS], bh2[bgValueS], bh3[bgValueS], s)
+	val r = emitFgBg5(h1[value], h2[value], h3[value], bh1[bgValueS], bh2[bgValueS], bh3[bgValueS], s)
 	return r
     }
 
@@ -130,12 +130,12 @@ object Color5 {
 	constructor(r: Int, g: Int, b: Int) : this(color5Num(r, g, b))
     }
 
-    fun fg5(r: Int, g: Int, b: Int, s: String): String {
+    fun emitFg5(r: Int, g: Int, b: Int, s: String): String {
 	val num = color5Num(r, g, b)
 	return "\u001b[38;5;${num}m${s}\u001b[00m"
     }
 
-    fun bg5(r: Int, g: Int, b: Int, s: String): String {
+    fun emitBg5(r: Int, g: Int, b: Int, s: String): String {
 	val num = color5Num(r, g, b)
 	val numfg = when {
 	    //r == 0 -> 231
@@ -147,13 +147,13 @@ object Color5 {
 	return "\u001b[48;5;${num};38;5;${numfg}m${s}\u001b[00m"
     }
 
-    fun fgbg5(r: Int, g: Int, b: Int, br: Int, bg: Int, bb: Int, s: String): String {
+    fun emitFgBg5(r: Int, g: Int, b: Int, br: Int, bg: Int, bb: Int, s: String): String {
 	val num = color5Num(r, g, b)
 	val bnum = color5Num(br, bg, bb)
 	return "\u001b[38;5;${num};48;5;${bnum}m${s}\u001b[00m"
     }
 
-    fun fgbg5(r: Int, g: Int, b: Int, bgNum: Color5Num, s: String): String {
+    fun emitFgBg5(r: Int, g: Int, b: Int, bgNum: Color5Num, s: String): String {
 	val num = color5Num(r, g, b)
 	return "\u001b[38;5;${num};48;5;${bgNum.rgb}m${s}\u001b[00m"
     }

@@ -1,5 +1,5 @@
-import femtioprocent.ansi.Color1
-import femtioprocent.ansi.Color1.Code
+import femtioprocent.ansi.LegacyColor
+import femtioprocent.ansi.LegacyColor.Code
 import femtioprocent.ansi.Color5
 import femtioprocent.ansi.extentions.ansiBgColor
 import femtioprocent.ansi.extentions.ansiColor
@@ -8,7 +8,7 @@ import kotlin.test.Test
 class Test1 {
     val verbose = false
 
-    val codes = mapOf<String, femtioprocent.ansi.Color1.Code>(
+    val codes = mapOf<String, femtioprocent.ansi.LegacyColor.Code>(
 	"RED" to Code.RED,
 	"GREEN" to Code.GREEN,
 	"BLUE" to Code.BLUE,
@@ -22,15 +22,15 @@ class Test1 {
     @Test
     fun testLegacy() {
 	codes.entries.forEach { (text, col) ->
-	    println(Color1.normal(col, " ${text} normal "))
-	    println(Color1.bold(col, " ${text} bold "))
-	    println(Color1.faint(col, " ${text} faint "))
-	    println(Color1.crossed(col, " ${text} crossed "))
-	    println(Color1.hiBoldIntensity(col, " ${text} bold intense "))
-	    println(Color1.underline(col, " ${text} underline "))
-	    println(Color1.italic(col, " ${text} italic "))
-	    println(Color1.background(col, " ${text} background "))
-	    println(Color1.hiIntensityBackground(col, " ${text} intense background "))
+	    println(LegacyColor.normal(col, " ${text} normal "))
+	    println(LegacyColor.bold(col, " ${text} bold "))
+	    println(LegacyColor.faint(col, " ${text} faint "))
+	    println(LegacyColor.crossed(col, " ${text} crossed "))
+	    println(LegacyColor.hiBoldIntensity(col, " ${text} bold intense "))
+	    println(LegacyColor.underline(col, " ${text} underline "))
+	    println(LegacyColor.italic(col, " ${text} italic "))
+	    println(LegacyColor.background(col, " ${text} background "))
+	    println(LegacyColor.hiIntensityBackground(col, " ${text} intense background "))
 	}
     }
 
@@ -38,7 +38,7 @@ class Test1 {
     fun testLegacy2() {
 	codes.forEach { fg ->
 	    codes.forEach { bg ->
-		println(Color1.normal(fg.value, bg.value, "    ${fg.key} text on ${bg.key} background    "))
+		println(LegacyColor.normal(fg.value, bg.value, "    ${fg.key} text on ${bg.key} background    "))
 	    }
 	}
     }

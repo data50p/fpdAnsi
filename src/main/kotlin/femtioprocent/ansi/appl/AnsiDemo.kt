@@ -645,7 +645,7 @@ class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    val fg = Color5.fg5(r, g, b, "Color2.fg5($r,$g,$b) ")
+			    val fg = Color5.emitFg5(r, g, b, "Color2.fg5($r,$g,$b) ")
 			    print("  $fg")
 			}
 			println("")
@@ -657,7 +657,7 @@ class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    print(" " + Color5.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -668,7 +668,7 @@ class AnsiDemo {
 		ran5.forEach { b ->
 		    ran5.forEach { r ->
 			ran5.forEach { g ->
-			    print(" " + Color5.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -679,7 +679,7 @@ class AnsiDemo {
 		ran5.forEach { g ->
 		    ran5.forEach { b ->
 			ran5.forEach { r ->
-			    print(" " + Color5.bg5(r, g, b, " Color2.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " Color2.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -693,7 +693,7 @@ class AnsiDemo {
 			ran5.forEach { g ->
 			    ran5.forEach { b ->
 				val bg = Color5.Color5Num(w, w, w)
-				print(Color5.fgbg5(r, g, b, bg, " Color5.fgbg5($r,$g,$b,$bg) "))
+				print(Color5.emitFgBg5(r, g, b, bg, " Color5.fgbg5($r,$g,$b,$bg) "))
 			    }
 			    println("")
 			}
@@ -708,7 +708,7 @@ class AnsiDemo {
 			    val fr = 5 - br
 			    val fg = 5 - bg
 			    val fb = 5 - bb
-			    print(Color5.fgbg5(fr, fg, fb, br, bg, bb, " Color5.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
+			    print(Color5.emitFgBg5(fr, fg, fb, br, bg, bb, " Color5.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
 			}
 			println("")
 		    }
