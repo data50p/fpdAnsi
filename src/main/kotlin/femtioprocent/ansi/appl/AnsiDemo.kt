@@ -10,10 +10,8 @@ import femtioprocent.ansi.Color5
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
-import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random
 import kotlin.reflect.KClass
-import kotlin.time.measureTime
 
 const val lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna elit, viverra in eros nec, accumsan fringilla leo." +
@@ -42,7 +40,7 @@ open class AnsiDemo {
 	ansiColorDemo(arg)
     }
 
-    open fun demo() {
+    open fun demo(narg: Int) {
     }
 
     fun List<Color2.RGB>.pr(prefix: String = "") {
@@ -52,6 +50,23 @@ open class AnsiDemo {
     }
 
     private fun ansiColorDemo(arg: String) {
+
+	var narg: Int = try {
+	    val num = arg.filter { it >= '0' && it <= '9' }
+	    if (num.isNotEmpty())
+		num.toInt()
+	    else
+		0
+	} catch (_: NumberFormatException) {
+	    0
+	}
+
+	var nonarg: String = try {
+	    val s = arg.filter { !(it >= '0' && it <= '9') }
+	    s
+	} catch (_: NumberFormatException) {
+	    ""
+	}
 
 	fun getClassFromLoader(className: String): KClass<*> {
 	    return ClassLoader.getSystemClassLoader().loadClass(className).kotlin
@@ -68,19 +83,9 @@ open class AnsiDemo {
 	    }
 	}
 
-	create<AnsiDemo>(arg)?.let { instance ->
-	    instance.demo()
+	create<AnsiDemo>(nonarg)?.let { instance ->
+	    instance.demo(narg)
 	    return
-	}
-
-	var narg: Int = try {
-	    val num = arg.filter { it >= '0' && it <= '9' }
-	    if (num.isNotEmpty())
-		num.toInt()
-	    else
-		0
-	} catch (_: NumberFormatException) {
-	    0
 	}
 
 	fun Am(ch: String): Boolean {
@@ -533,170 +538,6 @@ open class AnsiDemo {
 			    print(Color5.emitFgBg5(fr, fg, fb, br, bg, bb, " Color5.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
 			}
 			println("")
-		    }
-		}
-	    }
-
-	    Am("cc")           -> {
-
-		val minCube = if (narg == 0) 1 else narg
-		val maxCube = if (narg == 0) 8 else narg
-
-		println("")
-		println("")
-		println("")
-		println(" -------------- Color type 2 -------------")
-
-		fun f1(v: Int): String = v.toString().pL(1)
-		fun f2(v: Int): String = v.toString().pL(2)
-		fun f3(v: Int): String = v.toString().pL(3)
-
-		val colors = Color2.Support::values256
-
-		(minCube..maxCube).forEach { cubeSize ->
-		    println("")
-		    println("Using 256 colors on Fg: (r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-		    colors(cubeSize).forEach { r ->
-			colors(cubeSize).forEach { g ->
-			    colors(cubeSize).forEach { b ->
-				val fg = Color2.emitFg2(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
-				print("  $fg")
-			    }
-			    println("")
-			}
-		    }
-		}
-
-		println("")
-		(minCube..maxCube).forEach { cubeSize ->
-		    println("")
-		    println("Using 256 colors on Bg: (r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-		    colors(cubeSize).forEach { r ->
-			if (cubeSize > 2)
-			    println("")
-			colors(cubeSize).forEach { g ->
-			    colors(cubeSize).forEach { b ->
-				print(" " + Color2.emitBg2(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
-			    }
-			    println("")
-			}
-		    }
-		}
-
-		println("")
-
-		(minCube..maxCube).forEach { cubeSize ->
-		    println("")
-		    println("Using ColorCube Values on Fg: (cubeSize)(r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-		    val csFg = Color2.csFg(cubeSize)
-		    val fn = if (cubeSize <= 10) ::f1 else ::f2
-		    (0..<cubeSize).forEach { r ->
-			(0..<cubeSize).forEach { g ->
-			    (0..<cubeSize).forEach { b ->
-				val fg = csFg(r, g, b, "Color2.csFg(${cubeSize})(${fn(r)},${fn(g)},${fn(b)}) ")
-				print("  $fg")
-			    }
-			    println("")
-			}
-		    }
-		}
-		val painter = Color2.csBg(4, 3, 0, 2)
-
-		(minCube..maxCube).forEach { cubeSize ->
-		    println("")
-		    println("Using ColorCube Values on Bg: (cubeSize, r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-		    val fn = if (cubeSize <= 10) ::f1 else ::f2
-		    (0..<cubeSize).forEach { r ->
-			(0..<cubeSize).forEach { g ->
-			    (0..<cubeSize).forEach { b ->
-				val bg =
-				    Color2.csBg(cubeSize, r, g, b, "Color2.csBg(${cubeSize},${fn(r)},${fn(g)},${fn(b)}) ")
-				print("  $bg")
-			    }
-			    println("")
-			}
-		    }
-		}
-	    }
-
-	    Am("G")            -> {
-		val from = if (narg > 0) narg else 1
-		val to = if (narg > 0) narg else 10
-
-		(from..to).forEach { cubeSize ->
-		    val rgbList = if (cubeSize < 3)
-			listOf(Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1), Random.nextInt(cubeSize - 1))
-		    else
-			(0..<cubeSize).shuffled().take(3)
-		    val rgbBase = RGB(cubeSize, rgbList[0], rgbList[1], rgbList[2])
-
-		    rgbBase.permutationGradient().forEach { rgb_ ->
-			val rgb = if (rgb_.cs != cubeSize) rgb_.toCubeSize(cubeSize) else rgb_
-
-			println("")
-			println(
-			    "Cube size ${cubeSize} -- gradients : " + rgbFg(rgb)(" $rgb") + "    " + rgbBg(
-				rgb
-			    )("  color  ")
-			)
-			println()
-
-
-			val `+` = rgb::inc
-			val `-` = rgb::dec
-			val `=` = rgb::eq0
-
-			measureTime {
-			    val r = Random.nextInt(loremList.size - 8)
-			    val ss = listOf(0, 2, 4).map { lorem(r + it, 2) }
-			    val ll = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 0, 0, 1).toHsv())
-			    val lh = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 255, 255, 255).toHsv())
-			    (0..cubeSize).forEach { n ->
-				val nn = n.toString().pL(2)
-				print(" $nn " + rgbBg(rgb.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
-				print(" $nn " + rgbBg(rgb.moreOrLess(n, `+`, `+`, `+`))(" ${ss[1]} +++ "))
-				print(" $nn " + rgbBg(lh[n].toRGB())(" ${ss[2]} ··· "))
-				print(" $nn " + rgbBg(rgb.moreOrLess(n, `-`, `-`, `-`))(" ${ss[2]} --- "))
-				print(" $nn " + rgbBg(ll[n].toRGB())(" ${ss[2]} ··· "))
-				println()
-			    }
-			}.also { println("$it") }
-			println()
-
-			measureTime {
-			    "+=-".forEach { ch0 ->
-				(0..rgbBase.colorSpan()).forEach { n ->
-				    "+=-".forEach { ch1 ->
-					"+=-".forEach { ch2 ->
-					    val op = "$ch0$ch1$ch2"
-					    val ns = n.toString().pL(2)
-					    op.let {
-						val rgb1 = rgb.moreOrLess(n, it)
-						print(" $ns " + rgbBg(rgb1)(" ${rgb1.toLaconicStringRGB().pR(8)} $it "))
-					    }
-					}
-				    }
-				    println()
-				}
-				println()
-			    }
-			}.also { println("$it") }
-			println()
-		    }
-		}
-
-		true.let {
-		    repeat(3) {
-			listOf(2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256).forEach {
-			    measureTime {
-				val rgbBase = randomRGB(it)
-				(0..it).forEach { n ->
-				    val xyz = rgbBg(rgbBase.moreOrLess(n, rgbBase::inc, rgbBase::eq0, rgbBase::dec))
-				}
-			    }.also { mt ->
-				println("it took $it·$it : $mt")
-			    }
-			}
 		    }
 		}
 	    }

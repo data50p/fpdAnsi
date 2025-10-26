@@ -3,12 +3,11 @@ package femtioprocent.ansi.appl
 import femtioprocent.ansi.Color2.RGB
 import femtioprocent.ansi.Color2.showC
 import femtioprocent.ansi.Display
-import femtioprocent.ansi.appl.AnsiDemo.Companion.randomRGB
 import femtioprocent.ansi.extentions.pL
 
 class AnsiDemoT : AnsiDemo() {
 
-    override fun demo() {
+    override fun demo(narg: Int) {
 	val rgb = randomRGB(256)
 
 	listOf<RGB>(rgb, rgb.byName("rotL"), rgb.byNames(listOf("rotL", "compl")), rgb.byNames(listOf("rotL", "compl", "val+"))).pr()

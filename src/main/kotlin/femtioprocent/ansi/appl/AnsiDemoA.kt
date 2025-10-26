@@ -8,7 +8,7 @@ import kotlin.time.measureTime
 
 class AnsiDemoA : AnsiDemo() {
 
-    override fun demo() {
+    override fun demo(narg: Int) {
 	val display = Display(250, 75)
 
 	val rgbRand00 = randomRGB(256)
