@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "2.2.20"
-    kotlin("plugin.serialization") version "2.2.20"
+    kotlin("jvm") version "2.2.21"
+    kotlin("plugin.serialization") version "2.2.21"
 }
 
 group = "femtioprocent"
@@ -18,14 +18,16 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation(kotlin("reflect"))
+/*
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("commons-codec:commons-codec:1.19.0")
     implementation("org.json:json:20231013")
     implementation("org.fusesource.mqtt-client:mqtt-client:1.15")
-    implementation(kotlin("reflect"))
     implementation(platform("io.arrow-kt:arrow-stack:2.1.0"))
     implementation("io.arrow-kt:arrow-core")
     implementation(fileTree("lib") { include("*.jar") })
+*/
 }
 
 application {
