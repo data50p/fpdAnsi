@@ -1,26 +1,28 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.*
+import femtioprocent.ansi.Color2
 import femtioprocent.ansi.Color2.RGB
 import femtioprocent.ansi.Color2.rgbBg
 import femtioprocent.ansi.Color2.rgbFg
 import femtioprocent.ansi.Color2.showC
 import femtioprocent.ansi.Color2.showL
+import femtioprocent.ansi.Color5
+import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random
-import kotlin.time.Duration
+import kotlin.reflect.KClass
 import kotlin.time.measureTime
 
 const val lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna elit, viverra in eros nec, accumsan fringilla leo." +
-    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
-    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
-    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
-    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
-    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
-    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
+	    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
+	    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
+	    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
+	    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
+	    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
+	    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
 
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
@@ -33,11 +35,14 @@ fun List<Any>.prList(delim: String = "", suffix: String = "") {
     println(frmList(delim) + suffix)
 }
 
-class AnsiDemo {
+open class AnsiDemo {
 
     fun main(arg: String) {
 	println(Version.info())
 	ansiColorDemo(arg)
+    }
+
+    open fun demo() {
     }
 
     fun List<Color2.RGB>.pr(prefix: String = "") {
@@ -47,6 +52,26 @@ class AnsiDemo {
     }
 
     private fun ansiColorDemo(arg: String) {
+
+	fun getClassFromLoader(className: String): KClass<*> {
+	    return ClassLoader.getSystemClassLoader().loadClass(className).kotlin
+	}
+
+	@Suppress("UNCHECKED_CAST")
+	fun <T : AnsiDemo> create(id: String): T? {
+	    try {
+		val cl = getClassFromLoader("femtioprocent.ansi.appl.AnsiDemo$id")
+		val c = cl.constructors.firstOrNull()
+		return c?.call() as T?
+	    } catch (ex: Exception) {
+		return null
+	    }
+	}
+
+	create<AnsiDemo>(arg)?.let { instance ->
+	    instance.demo()
+	    return
+	}
 
 	var narg: Int = try {
 	    val num = arg.filter { it >= '0' && it <= '9' }
@@ -65,7 +90,7 @@ class AnsiDemo {
 	when {
 //<editor-fold desc="empty arg">
 	    arg.isEmpty()
-	    || Am("h") -> {
+		    || Am("h") -> {
 		println("--ansi=D      ->  Dump legacy colors")
 		println("--ansi=d      ->  demo")
 
@@ -80,11 +105,12 @@ class AnsiDemo {
 	    }
 //</editor-fold>
 
-	    Am("D")    -> {
+
+	    Am("D")            -> {
 		Color5.dumpColor5().forEach { println(it) }
 	    }
 
-	    Am("d")    -> {
+	    Am("d")            -> {
 		println("")
 		println(Color2.csFg(4)(1, 2, 3, "XXXXXXXXXXX Color2.csFg(4)(1, 2, 3, s)"))
 		println(Color2.csBg(4)(3, 2, 1, "XXXXXXXXXXX Color2.csBg(4)(1, 2, 3, s)"))
@@ -103,7 +129,7 @@ class AnsiDemo {
 		val lightGreen = cube4(1, 3, 2)
 		val rgb256 = Color2.csRgb(256)(32, 155, 240)
 
-		val painter = Color2.rgbBg (lightGreen)
+		val painter = Color2.rgbBg(lightGreen)
 
 		((4..16) + listOf(256))
 		    .map { lightGreen.toCubeSize(it) }
@@ -380,209 +406,7 @@ class AnsiDemo {
 	    }
 
 
-	    Am("T")    -> {
-
-		val rgb = randomRGB(256)
-
-		listOf<RGB>(rgb, rgb.byName("rotL"), rgb.byNames(listOf("rotL", "compl")), rgb.byNames(listOf("rotL", "compl", "val+"))).pr()
-
-		val fmt = "%-27s"
-		rgb.theComplementary().pr(String.format(fmt, "Complementary"))
-		rgb.theAnalogous(0.06).pr(String.format(fmt, "Analogous"))
-		rgb.theSplitComplementary(0.06).pr(String.format(fmt, "Split Complementary"))
-		rgb.theTriadic().pr(String.format(fmt, "Triadic"))
-		rgb.theDoubleComplementary(0.1).pr(String.format(fmt, "Double Complementary"))
-		rgb.theSquareTetradic().pr(String.format(fmt, "Square Tetradic"))
-		rgb.theDoubleSplitComplementary().pr(String.format(fmt, "Double Split Complementary"))
-
-
-		println()
-		var c1 = rgb.toValue(0.1)
-		repeat(16) {
-		    c1 = c1.byName("val+")
-		    print(" ${c1.showC(w = 8, f = { "    " })}")
-		}
-		println()
-		c1 = rgb.toValue(1.0)
-		repeat(16) {
-		    c1 = c1.byName("val-")
-		    print(" ${c1.showC(w = 8, f = { "    " })}")
-		}
-		println()
-		c1 = rgb.toSaturation(0.1)
-		repeat(16) {
-		    c1 = c1.byName("sat+")
-		    print(" ${c1.showC(w = 8, f = { "    " })}")
-		}
-		println()
-
-		println("Theme")
-
-		val shadow = false
-
-		val lowSatList = mutableListOf<RGB>()
-		with(rgb) {
-		    lowSatList += toSaturation(0.03).toValue(0.97)
-		    lowSatList += toSaturation(0.06).toValue(0.95)
-		    lowSatList += toSaturation(0.1).toValue(0.85)
-		    lowSatList += toSaturation(0.1).toValue(0.70)
-		    lowSatList += toSaturation(0.3).toValue(0.90)
-		    lowSatList += toSaturation(0.5).toValue(0.75)
-		}
-		val lowSatList2 = mutableListOf<RGB>()
-		lowSatList.forEach { lowSatList2 += it; lowSatList2 += it }
-
-		lowSatList.pr("lowSat: ")
-
-		lowSatList2.forEachIndexed { ix, rgbTheme ->
-		    val z2 = ix % 2 == 0
-		    val z = if (z2) RGB::theSplitComplementary else RGB::theAnalogous
-
-		    val colZ = if (z2) rgb.theSplitComplementary(0.06) else rgb.theAnalogous(0.06)
-
-		    val theme1 = listOf<RGB>(
-			rgbTheme,
-			rgbTheme.byNames(listOf("val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+", "val+")),
-			rgbTheme.toValue(0.8),
-			rgbTheme.byNames(listOf("val-", "val-", "val-")),
-			z(rgbTheme, if (z2) 0.16 else 0.08)[1],
-			z(rgbTheme, if (z2) 0.16 else 0.08)[2],
-			colZ[1],
-			colZ[2],
-		    )
-
-		    val theme2 = listOf<RGB>(
-			theme1[0],
-			theme1[0].toValue(theme1[0].toHsv().v * 0.9),
-			theme1[0].toSaturation(theme1[0].toHsv().s * 0.5),
-			theme1[4],
-			theme1[5],
-			theme1[1].theSquareTetradic()[1],
-			theme1[1].theSquareTetradic()[3],
-			theme1[0].toSaturation(0.1).toValue(0.7),
-			theme1[6].toSaturation(0.6).toMaxValue(),
-			theme1[7].toSaturation(0.6).toMaxValue(),
-		    )
-
-		    theme1.pr("Theme1 ${ix.toString().pL(2)} ")
-		    theme2.pr("Theme2 ${ix.toString().pL(2)} ")
-
-		    println()
-		    println(rgbTheme.toHsv().showC())
-		    println()
-
-		    val display = Display(125, 24)
-
-		    fun prRect(x: Int, y: Int, w: Int, h: Int, col: RGB, s: String) {
-			display.rect(x, y, w, h, col)
-			val prfx = if (s.isNotEmpty()) "$s\n" else ""
-			display.setText(x, y, "$prfx${col.toLaconicStringRGB().replace(",", "\n")}")
-		    }
-
-
-		    var xx = 0
-		    var yy = 0
-
-		    display.fill(theme1[1])
-
-		    prRect(0, 0, 15, 5, theme1[1], "")
-
-		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(5, yy + 3, 15, 5, theme1[0], "Hello World")
-
-		    xx = 25
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toValue(theme1[0].toHsv().v * 0.9), "little darker")
-
-		    xx = 50
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toSaturation(theme1[0].toHsv().s * 0.5), "low sat")
-
-		    xx = 75
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[4], if (z2) "compl" else "analogue")
-
-		    xx = 100
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[5], if (z2) "compl" else "analogue")
-
-
-		    xx = 0
-		    yy = 10
-		    if (shadow) display.rect(5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(5, yy + 3, 15, 5, theme1[1].theSquareTetradic()[1], "left")
-
-		    xx = 25
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[1].theSquareTetradic()[3], "right")
-
-		    xx = 50
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[0].toSaturation(0.1).toValue(0.7), "lowsat+darker")
-
-		    xx = 75
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[6].toSaturation(0.6).toMaxValue(), "sat")
-
-		    xx = 100
-		    if (shadow) display.rect(xx + 5 + 1, yy + 3 + 1, 15, 5, theme1[2])
-		    prRect(xx + 5, yy + 3, 15, 5, theme1[7].toSaturation(0.6).toMaxValue(), "sat")
-
-		    display.print(false)
-		}
-	    }
-
-	    Am("A")    -> {
-		val display = Display(250, 75)
-
-		val rgbRand00 = randomRGB(256)
-
-		val item = display.MovingItem(0, 0, RGB(2, 1, 1, 1), "Hello", 1, 1)
-		val item2 = display.MovingItem(20, 12, RGB(2, 1, 1, 1), "World", -1, 2)
-		val item3 = display.MovingItem(60, 20, RGB(2, 1, 1, 1), "Hello", 2, 1)
-		val item4 = display.MovingItem(20, 12, RGB(2, 1, 1, 1), "World", -2, -2)
-		val items = listOf<Display.MovingItem>(item, item2, item3, item4)
-
-		var mt1 = Duration.ZERO
-		val frames = 1250
-		print(Ansi.hideCursor() + Ansi.goto(0, 0) + Ansi.clear())
-		repeat(frames) { frame ->
-		    val verb = true
-		    val rows = display.h
-		    true.let {
-			val other = rgbRand00.toValue(frame / frames.toDouble()) //randomRGB(256)//.toSaturation(Random.nextDouble(1.0))
-			val rgbRand0 = rgbRand00.toMaxValue().rotL().average(other)
-			print(Ansi.hideCursor() + Ansi.goto(0, rows + 1))
-			//println("Base color: ${rgbRand0.showL()}  ${rgbRand0.toHsv()}  -- other: ${other.showL()}  ${other.toHsv()}")
-
-			mt1 = measureTime {
-			    repeat(rows) { row ->
-				if (frame % 8 == 0) {
-				    val value = row.toDouble() / rows
-				    val hsv = rgbRand0.toHsv()
-				    val rgbRand = rgbRand0.toHsv().gradient(rows, rgbRand0.toHsv().clone(s = value))
-				    var rgb2 = rgbRand[row].toRGB()
-				    //if ( verb ) println("other color: $value ${hsv} ${rgbRand0.toHsv().clone(s = value)}  -- ${rgbRand0.toHsv().clone(s = value).toRGB()} ${rgb2.showC()}")
-				    //rgbRand.forEach { println("  " + it.showR()) }
-				    (0..<display.w).forEach { col ->
-					rgb2 = rgb2.average(rgb2.toValue(0.15), 0.05 + 0.01 / (9 + col.toDouble()))
-					display.set(col, row, rgbRand0, rgb2, ' ')
-				    }
-				}
-			    }
-			}
-		    }
-		    items.forEach { it.step() }
-		    val mt2 = measureTime {
-			display.print()
-			Thread.sleep(16)
-		    }
-		    //print(Color2.hideCursor() + Color2.goto(0, display.h + 1) + Color2.clear())
-		    //println(" mt $mt1 $mt2")
-		}
-	    }
-
-	    Am("ca")   -> {
+	    Am("ca")           -> {
 		println("\ncolor5s calling: Color2.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Color5.maxCodeIndex).forEach { ix1 ->
@@ -629,7 +453,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cb")   -> {
+	    Am("cb")           -> {
 
 		println("")
 		println("")
@@ -713,7 +537,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("cc")   -> {
+	    Am("cc")           -> {
 
 		val minCube = if (narg == 0) 1 else narg
 		val maxCube = if (narg == 0) 8 else narg
@@ -795,7 +619,7 @@ class AnsiDemo {
 		}
 	    }
 
-	    Am("G")    -> {
+	    Am("G")            -> {
 		val from = if (narg > 0) narg else 1
 		val to = if (narg > 0) narg else 10
 
