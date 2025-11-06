@@ -38,17 +38,24 @@ class AnsiDemoG : AnsiDemo() {
 		val `=` = rgb::eq0
 
 		measureTime {
-		    val r = Random.nextInt(loremList.size - 10)
-		    val ss = listOf(0, 2, 4, 6, 8).map { lorem(r + it, 2) }
-		    val ll = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 0, 0, 1).toHsv())
-		    val lh = rgb.toHsv().gradient(cubeSize + 1, RGB(256, 255, 255, 255).toHsv())
+		    val r = Random.nextInt(loremList.size - 13)
+		    val ss = listOf(0, 2, 4, 6, 8, 10).map { lorem(r + it, 2) }
+
+		    val list = listOf(
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, 0, 0, 1).toHsv()),
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, 40, 40, 40).toHsv()),
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, Random.nextInt(75), Random.nextInt(75), Random.nextInt(75)).toHsv()),
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, 255, 255, 255).toHsv()),
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, 200, 200, 200).toHsv()),
+			rgb.toHsv().gradient(cubeSize + 1, RGB(256, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)).toHsv()),
+		    )
+
 		    (0..cubeSize).forEach { n ->
 			val nn = n.toString().pL(2)
-			print(" $nn " + rgbBg(rgb.moreOrLess(n, `=`, `=`, `=`))(" ${ss[0]} === "))
-			print(" $nn " + rgbBg(rgb.moreOrLess(n, `+`, `+`, `+`))(" ${ss[1]} +++ "))
-			print(" $nn " + rgbBg(lh[n].toRGB())(" ${ss[2]} ··· "))
-			print(" $nn " + rgbBg(rgb.moreOrLess(n, `-`, `-`, `-`))(" ${ss[3]} --- "))
-			print(" $nn " + rgbBg(ll[n].toRGB())(" ${ss[4]} ··· "))
+			var ix = 0
+			list.forEachIndexed { ix, it ->
+			    print(" $nn " + rgbBg(it[n].toRGB())(" ${ss[ix]} ··· "))
+			}
 			println()
 		    }
 		}.also { println("$it") }
