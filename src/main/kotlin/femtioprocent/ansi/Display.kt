@@ -2,24 +2,24 @@ package femtioprocent.ansi
 
 class Display(val w: Int, val h: Int) {
 
-    data class Cell(var fg: Color2.RGB, var bg: Color2.RGB, var ch: Char)
+    data class Cell(var fg: ColorCS.RGB, var bg: ColorCS.RGB, var ch: Char)
 
     val grid = Array<Cell>(w * h) {
-	val fg = Color2.RGB(2, 1, 1, 1)
-	val bg = Color2.RGB(2, 0, 0, 0)
+	val fg = ColorCS.RGB(2, 1, 1, 1)
+	val bg = ColorCS.RGB(2, 0, 0, 0)
 	Cell(fg, bg, ' ')
     }
 
     val gridCurrent = Array<Cell>(w * h) {
-	val fg = Color2.RGB(2, 0, 1, 1)
-	val bg = Color2.RGB(2, 0, 0, 0)
+	val fg = ColorCS.RGB(2, 0, 1, 1)
+	val bg = ColorCS.RGB(2, 0, 0, 0)
 	Cell(fg, bg, ' ')
     }
 
     init {
     }
 
-    fun set(x: Int, y: Int, fg: Color2.RGB, bg: Color2.RGB, ch: Char) {
+    fun set(x: Int, y: Int, fg: ColorCS.RGB, bg: ColorCS.RGB, ch: Char) {
 	grid[x + y * w] = Cell(fg, bg, ch)
     }
 
@@ -29,7 +29,7 @@ class Display(val w: Int, val h: Int) {
 	}
     }
 
-    fun setText(x: Int, y: Int, fg: Color2.RGB, s: String) {
+    fun setText(x: Int, y: Int, fg: ColorCS.RGB, s: String) {
 	s.forEachIndexed { ix, ch ->
 	    grid[ix + x + y * w].fg = fg
 	    grid[ix + x + y * w].ch = ch
@@ -83,7 +83,7 @@ class Display(val w: Int, val h: Int) {
 		} else {
 		    if (origo && dirty)
 			print(Ansi.goto(x, y))
-		    print(Color2.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
+		    print(ColorCS.rgbFgBg(grid[ix].fg, grid[ix].bg, grid[ix].ch.toString()))
 		    dirty = false
 		    gridCurrent[ix].fg = grid[ix].fg
 		    gridCurrent[ix].bg = grid[ix].bg
@@ -96,7 +96,7 @@ class Display(val w: Int, val h: Int) {
 	println(Ansi.showCursor()) // + "cntAB $cntA $cntB")
     }
 
-    fun fill(bg: Color2.RGB) {
+    fun fill(bg: ColorCS.RGB) {
 	(0..<w).forEach { x ->
 	    (0..<h).forEach { y ->
 		set(x, y, bg, bg, ' ')
@@ -104,7 +104,7 @@ class Display(val w: Int, val h: Int) {
 	}
     }
 
-    fun rect(x: Int, y: Int, w: Int, h: Int, bg: Color2.RGB) {
+    fun rect(x: Int, y: Int, w: Int, h: Int, bg: ColorCS.RGB) {
 	(x..<x + w).forEach { x ->
 	    (y..<y + h).forEach { y ->
 		set(x, y, bg, bg, ' ')
@@ -115,7 +115,7 @@ class Display(val w: Int, val h: Int) {
     val blank = "                                                                                  "
 //	val blank = "012345678901234567890123456789012345678901234567890"
 
-    inner class MovingItem(var x: Int, var y: Int, var fg: Color2.RGB, var s: String, var velox: Int = 0, var veloy: Int = 0) {
+    inner class MovingItem(var x: Int, var y: Int, var fg: ColorCS.RGB, var s: String, var velox: Int = 0, var veloy: Int = 0) {
 
 	fun moveTo(x: Int, y: Int) {
 	    setText(x, y, blank.substring(0, s.length))

@@ -1,6 +1,6 @@
 package femtioprocent.ansi.extentions
 
-import femtioprocent.ansi.Color2
+import femtioprocent.ansi.ColorCS
 import femtioprocent.ansi.LegacyColor
 import femtioprocent.ansi.Color5
 
@@ -13,4 +13,4 @@ fun String.ansiColor(cc: LegacyColor.Code) = LegacyColor.bold(cc, this)
 fun String.ansiBgColor(cc: LegacyColor.Code) = LegacyColor.normal(cc, this)
 // fun String.ansiColor(cc: Color.LegacyColor) = Color.fg(cc, this)
 fun String.ansiColor(cc: Color5.Code, value: Int) = Color5.color5Bg(cc, value, this)
-fun String.color2(rgb: Color2.RGB) = Color2.rgbFg(rgb)(this)
+fun String.colorRGB(rgb: ColorCS.RGB) = ColorCS.rgbFg(rgb)(this)

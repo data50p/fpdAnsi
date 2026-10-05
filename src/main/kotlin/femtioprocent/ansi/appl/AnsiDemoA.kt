@@ -1,7 +1,7 @@
 package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.Color2.RGB
+import femtioprocent.ansi.ColorCS.RGB
 import femtioprocent.ansi.Display
 import kotlin.time.Duration
 import kotlin.time.measureTime
@@ -53,8 +53,6 @@ class AnsiDemoA : AnsiDemo() {
 		display.print()
 		Thread.sleep(16)
 	    }
-	    //print(Color2.hideCursor() + Color2.goto(0, display.h + 1) + Color2.clear())
-	    //println(" mt $mt1 $mt2")
 	}
     }
 }

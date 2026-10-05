@@ -1,9 +1,9 @@
-import femtioprocent.ansi.Color2
-import femtioprocent.ansi.Color2.RGB
-import femtioprocent.ansi.Color2.rgbBg
-import femtioprocent.ansi.Color2.showC
-import femtioprocent.ansi.Color2.showL
-import femtioprocent.ansi.Color2.showRGB
+import femtioprocent.ansi.ColorCS
+import femtioprocent.ansi.ColorCS.RGB
+import femtioprocent.ansi.ColorCS.rgbBg
+import femtioprocent.ansi.ColorCS.showC
+import femtioprocent.ansi.ColorCS.showL
+import femtioprocent.ansi.ColorCS.showRGB
 import femtioprocent.ansi.appl.AnsiDemo.Companion.randomRGB
 import femtioprocent.ansi.appl.prList
 import kotlin.random.Random
@@ -15,7 +15,7 @@ class Test2 {
     @Test
     fun testM1() {
 	(1..256).forEach { n ->
-	    val l = Color2.Support.values256(n)
+	    val l = ColorCS.Support.values256(n)
 	    assert(l.size == n)
 	    assert(l.first() == 0)
 	    if (l.size > 1)
