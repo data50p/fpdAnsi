@@ -1,5 +1,7 @@
 package femtioprocent.ansi
 
+import femtioprocent.ansi.Config.colorOn
+
 object LegacyColor {
 
     enum class Code(val value: Int) {
@@ -14,42 +16,42 @@ object LegacyColor {
     }
 
     fun normal(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[0;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[0;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun bold(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[1;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[1;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun faint(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[2;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[2;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun underline(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[4;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[4;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun italic(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[3;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[3;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun crossed(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[9;${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[9;${cc.value}m${s}\u001b[00m" else s
     }
 
     fun background(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[0;${cc.value + 10}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[0;${cc.value + 10}m${s}\u001b[00m" else s
     }
 
     fun hiBoldIntensity(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[1;${cc.value + 60}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[1;${cc.value + 60}m${s}\u001b[00m" else s
     }
 
     fun hiIntensityBackground(cc: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[1;${cc.value + 70}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[1;${cc.value + 70}m${s}\u001b[00m" else s
     }
 
     fun normal(cc: femtioprocent.ansi.LegacyColor.Code, bg: femtioprocent.ansi.LegacyColor.Code, s: String): String {
-	return "\u001b[1;${bg.value + 10};${cc.value}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[1;${bg.value + 10};${cc.value}m${s}\u001b[00m" else s
     }
 }

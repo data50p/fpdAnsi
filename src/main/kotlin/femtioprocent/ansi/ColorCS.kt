@@ -2,6 +2,7 @@ package femtioprocent.ansi
 
 import femtioprocent.ansi.Ansi.modSpecial
 import femtioprocent.ansi.ColorCS.RGB
+import femtioprocent.ansi.Config.colorOn
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
@@ -18,7 +19,7 @@ object ColorCS {
     // ---------- CSI for color type 2 (8 bits) ----------
 
     fun emitFg2(r: Int, g: Int, b: Int, s: String): String {
-	return "\u001b[38;2;${r};${g};${b}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[38;2;${r};${g};${b}m${s}\u001b[00m" else s
     }
 
     fun emitBg2(r: Int, g: Int, b: Int, s: String): String {
@@ -30,11 +31,11 @@ object ColorCS {
 	    r + g + b > 290 -> 0
 	    else            -> 231
 	}
-	return "\u001b[48;2;${r};${g};${b};38;5;${numfg}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[48;2;${r};${g};${b};38;5;${numfg}m${s}\u001b[00m" else s
     }
 
     fun emitFgBg2(fr: Int, fg: Int, fb: Int, br: Int, bg: Int, bb: Int, s: String): String {
-	return "\u001b[38;2;${fr};${fg};${fb};48;2;${br};${bg};${bb}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[38;2;${fr};${fg};${fb};48;2;${br};${bg};${bb}m${s}\u001b[00m" else s
     }
 
 

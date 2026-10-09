@@ -1,5 +1,6 @@
 package femtioprocent.ansi
 
+import femtioprocent.ansi.Config.colorOn
 import femtioprocent.ansi.extentions.pL
 
 object Color5 {
@@ -129,15 +130,15 @@ object Color5 {
     // ------------------------------------------------------------- Emits actual ansi escape
 
     fun emitFg5(num: Int, s: String): String {
-	return "\u001b[38;5;${num}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[38;5;${num}m${s}\u001b[00m" else s
     }
 
     fun emitBg5(num: Int, s: String): String {
-	return "\u001b[48;5;${num}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[48;5;${num}m${s}\u001b[00m" else s
     }
 
     fun emitFgBg5(numFg: Int, numBg: Int, s: String): String {
-	return "\u001b[38;5;${numFg};48;5;${numBg}m${s}\u001b[00m"
+	return if ( colorOn ) "\u001b[38;5;${numFg};48;5;${numBg}m${s}\u001b[00m" else s
     }
 
     fun emitFg5(r: Int, g: Int, b: Int, s: String): String {
