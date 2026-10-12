@@ -1,20 +1,19 @@
 package femtioprocent.ansi
 
 import femtioprocent.ansi.Ansi.modSpecial
-import femtioprocent.ansi.ColorCS.RGB
+import femtioprocent.ansi.ColorCube.RGB
 import femtioprocent.ansi.Config.colorOn
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random
 
+object ColorCube {
 
-object ColorCS {
-
-    fun showRGB(rgb: ColorCS.RGB, w: Int = 34) = rgb.showC()
-    fun showHSV(rgb: ColorCS.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
-    fun showRGB(hsv: ColorCS.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
-    fun showHSV(hsv: ColorCS.HSV, w: Int = 32) = hsv.showC()
+    fun showRGB(rgb: ColorCube.RGB, w: Int = 34) = rgb.showC()
+    fun showHSV(rgb: ColorCube.RGB, w: Int = 32) = rgb.toHsv().toString().pR(w).rgbBg(rgb)
+    fun showRGB(hsv: ColorCube.HSV, w: Int = 34) = hsv.toRGB().toString().pR(w).rgbBg(hsv.toRGB())
+    fun showHSV(hsv: ColorCube.HSV, w: Int = 32) = hsv.showC()
 
     // ---------- CSI for color type 2 (8 bits) ----------
 
