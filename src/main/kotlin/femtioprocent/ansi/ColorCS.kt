@@ -124,8 +124,11 @@ object ColorCS {
 
     data class RGB(val cs: Int, val r: Int, val g: Int, val b: Int) {
 
-	constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
-		this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
+	    constructor(cs: Int, rf: Double, gf: Double, bf: Double) :
+			    this(cs, fromDouble(rf, cs), fromDouble(gf, cs), fromDouble(bf, cs))
+
+	    constructor(rf: Double, gf: Double, bf: Double) :
+			    this(256, fromDouble(rf, 256), fromDouble(gf, 256), fromDouble(bf, 256))
 
 	fun toCubeSize(cs: Int = 256): RGB {
 	    val f = (cs - 1).toDouble() / (this@RGB.cs - 1).toDouble()
