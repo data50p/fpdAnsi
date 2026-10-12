@@ -1,11 +1,11 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.ColorCS
-import femtioprocent.ansi.ColorCS.RGB
-import femtioprocent.ansi.ColorCS.rgbBg
-import femtioprocent.ansi.ColorCS.rgbFg
-import femtioprocent.ansi.ColorCS.showC
-import femtioprocent.ansi.ColorCS.showL
+import femtioprocent.ansi.ColorCube
+import femtioprocent.ansi.ColorCube.RGB
+import femtioprocent.ansi.ColorCube.rgbBg
+import femtioprocent.ansi.ColorCube.rgbFg
+import femtioprocent.ansi.ColorCube.showC
+import femtioprocent.ansi.ColorCube.showL
 import femtioprocent.ansi.Color5
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
@@ -43,7 +43,7 @@ open class AnsiDemo {
     open fun demo(narg: Int) {
     }
 
-    fun List<ColorCS.RGB>.pr(prefix: String = "") {
+    fun List<ColorCube.RGB>.pr(prefix: String = "") {
 	print(prefix)
 	forEach { print(it.showC(w = 15, f = { it.toLaconicStringRGB() })) }
 	println()
@@ -117,24 +117,24 @@ open class AnsiDemo {
 
 	    Am("d")            -> {
 		println("")
-		println(ColorCS.csFg(4)(1, 2, 3, "XXXXXXXXXXX ColorCS.csFg(4)(1, 2, 3, s)"))
-		println(ColorCS.csBg(4)(3, 2, 1, "XXXXXXXXXXX ColorCS.csBg(4)(1, 2, 3, s)"))
-		println(ColorCS.csFg(4, 3, 2, 3)("XXXXXXXXXXX ColorCS.csFg(4, 3, 2, 3)(s)"))
-		println(ColorCS.csBg(4, 3, 0, 1)("XXXXXXXXXXX ColorCS.csBg(4, 3, 0, 1)(s)"))
-		println(ColorCS.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX ColorCS.csFgRGB(4)(0, 2, 3)(s)"))
-		println(ColorCS.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX ColorCS.csBgRGB(4)(3, 0, 2)(s)"))
+		println(ColorCube.csFg(4)(1, 2, 3, "XXXXXXXXXXX ColorCube.csFg(4)(1, 2, 3, s)"))
+		println(ColorCube.csBg(4)(3, 2, 1, "XXXXXXXXXXX ColorCube.csBg(4)(1, 2, 3, s)"))
+		println(ColorCube.csFg(4, 3, 2, 3)("XXXXXXXXXXX ColorCube.csFg(4, 3, 2, 3)(s)"))
+		println(ColorCube.csBg(4, 3, 0, 1)("XXXXXXXXXXX ColorCube.csBg(4, 3, 0, 1)(s)"))
+		println(ColorCube.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX ColorCube.csFgRGB(4)(0, 2, 3)(s)"))
+		println(ColorCube.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX ColorCube.csBgRGB(4)(3, 0, 2)(s)"))
 		println()
 
 
-		val cube4 = ColorCS.csRgb(4)
-		val cube5 = ColorCS.csRgb(5)
+		val cube4 = ColorCube.csRgb(4)
+		val cube5 = ColorCube.csRgb(5)
 
 		val yellow = cube4(3, 3, 1)
 		val lightMagenta = cube4(3, 2, 3)
 		val lightGreen = cube4(1, 3, 2)
-		val rgb256 = ColorCS.csRgb(256)(32, 155, 240)
+		val rgb256 = ColorCube.csRgb(256)(32, 155, 240)
 
-		val painter = ColorCS.rgbBg(lightGreen)
+		val painter = ColorCube.rgbBg(lightGreen)
 
 		((4..16) + listOf(256))
 		    .map { lightGreen.toCubeSize(it) }
@@ -172,19 +172,19 @@ open class AnsiDemo {
 		val lightMagenta8 = lightMagenta256.toCubeSize(8)
 		val lightGreen8 = lightGreen256.toCubeSize(8)
 
-		println(ColorCS.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
-		println(ColorCS.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
+		println(ColorCube.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
+		println(ColorCube.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
 		println()
 
-		println(painter("ZZZZZZZZZZZZZ ColorCS.rgbBg( ColorCS.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
-		println(ColorCS.rgbBg(lightGreen256)("ZZZZZZZZZZZZZ ColorCS.rgbBg( ColorCS.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
-		println(ColorCS.rgbBg(lightGreen4)("ZZZZZZZZZZZZZ ColorCS.rgbBg( ColorCS.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
-		println(ColorCS.rgbBg(lightGreen8)("ZZZZZZZZZZZZZ ColorCS.rgbBg( ColorCS.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
+		println(painter("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
+		println(ColorCube.rgbBg(lightGreen256)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
+		println(ColorCube.rgbBg(lightGreen4)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
+		println(ColorCube.rgbBg(lightGreen8)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
 
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCS.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCS.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCS.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCS.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
+		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
 
 		listOf(lightGreen, lightMagenta, lightGreen256, lightMagenta256).prList(" ")
 		println()
@@ -194,19 +194,19 @@ open class AnsiDemo {
 		val cellSample2 = "·"
 		val cellWidth1 = cellSample1.length + 2
 		val cellWidth2 = cellSample2.length + 0
-		fun formatter1(rgb: ColorCS.RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
-		fun formatter2(_rgb: ColorCS.RGB) = "·".pC(cellWidth2)
-		fun formatter3(_rgb: ColorCS.RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
+		fun formatter1(rgb: ColorCube.RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
+		fun formatter2(_rgb: ColorCube.RGB) = "·".pC(cellWidth2)
+		fun formatter3(_rgb: ColorCube.RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
 
-		val red = ColorCS.csRgb(256)(255, 0, 0)
-		println("ColorCS Gradient")
+		val red = ColorCube.csRgb(256)(255, 0, 0)
+		println("ColorCube Gradient")
 		red.hueGradient(12).forEach { it2 ->
 		    print("${formatter1(it2)} ".rgbBg(it2))
 		}
 		println()
 		println()
 
-		println("ColorCS Gradients")
+		println("ColorCube Gradients")
 		red.hueGradient(6).forEach { it1 ->
 		    it1.hueGradient(6).forEach { it2 ->
 			print("${formatter1(it2)} ".rgbBg(it2))
@@ -216,7 +216,7 @@ open class AnsiDemo {
 		println()
 		println()
 
-		println("ColorCS Gradient 180°")
+		println("ColorCube Gradient 180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -225,7 +225,7 @@ open class AnsiDemo {
 		}
 		println()
 
-		println("ColorCS Gradient -180°")
+		println("ColorCube Gradient -180°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, -180.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -234,7 +234,7 @@ open class AnsiDemo {
 		}
 		println()
 
-		println("ColorCS Gradient 45°")
+		println("ColorCube Gradient 45°")
 		repeat(8) {
 		    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
 			print(" XX ".rgbBg(it2))
@@ -259,9 +259,9 @@ open class AnsiDemo {
 		    val max2 = 8
 		    val cubeSize = 100
 
-		    println("        color-1           ColorCS             HSV              Hue              Saturation       Value             color-2")
+		    println("        color-1           ColorCube             HSV              Hue              Saturation       Value             color-2")
 		    repeat(max2) {
-			val rgbRand = ColorCS.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
+			val rgbRand = ColorCube.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
 			(0..<max2).forEach {
 			    val rgbRand2 = rgbRand.similarRandom(0.85)
 
@@ -273,19 +273,19 @@ open class AnsiDemo {
 
 			    println(
 				"Avg ${
-				    rgbRand.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    rgbRand.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				}  ${
-				    rgbAv.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    rgbAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				} ${
-				    hsvAv.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    hsvAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				} ${
-				    hsvHAv.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    hsvHAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				} ${
-				    hsvSAv.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    hsvSAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				} ${
-				    hsvVAv.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    hsvVAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				}  ${
-				    rgbRand2.showC(16, f = ColorCS.RGB::toLaconicStringRGB)
+				    rgbRand2.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
 				}"
 			    )
 			}
@@ -305,7 +305,7 @@ open class AnsiDemo {
 		    val defaultLoops = 10
 		    val lastItem = repeatIx == maxRepeat - 1
 
-		    val (loops: Int, formatter: (ColorCS.RGB) -> String, cellWidth: Int) =
+		    val (loops: Int, formatter: (ColorCube.RGB) -> String, cellWidth: Int) =
 			if (lastItem)
 			    Triple(defaultLoops * cellWidth1, ::formatter2, cellWidth2)
 			else
@@ -340,7 +340,7 @@ open class AnsiDemo {
 		    println()
 
 		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
-		    fun printForm(hsv: ColorCS.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
+		    fun printForm(hsv: ColorCube.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 		    print("Hue    360° ")
 		    rgbRand.hueGradient(loops).forEach { printForm(it) }
@@ -412,7 +412,7 @@ open class AnsiDemo {
 
 
 	    Am("ca")           -> {
-		println("\ncolor5s calling: ColorCS.color5(ix1, ix2, string)")
+		println("\ncolor5s calling: ColorCube.color5(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Color5.maxCodeIndex).forEach { ix1 ->
 		    print("color5 $ix1: ")
@@ -422,7 +422,7 @@ open class AnsiDemo {
 		    }
 		    println("")
 		}
-		println("\ncolor5s calling: ColorCS.color5Bg(ix1, ix2, string)")
+		println("\ncolor5s calling: ColorCube.color5Bg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Color5.maxCodeIndex).forEach { ix1 ->
 		    print("color5 $ix1: ")
@@ -432,7 +432,7 @@ open class AnsiDemo {
 		    }
 		    println("")
 		}
-		println("\ncolor5s calling: ColorCS.color5FgBg(ix1, ix2, string)")
+		println("\ncolor5s calling: ColorCube.color5FgBg(ix1, ix2, string)")
 		println("color5 ix1: (ix2, string)...")
 		(0..Color5.maxCodeIndex).forEach { ix1 ->
 		    val complement = Color5.Code.valueOf(Color5.color5ByIndex(ix1).complement)
@@ -472,7 +472,7 @@ open class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    val fg = Color5.emitFg5(r, g, b, "ColorCS.fg5($r,$g,$b) ")
+			    val fg = Color5.emitFg5(r, g, b, "ColorCube.fg5($r,$g,$b) ")
 			    print("  $fg")
 			}
 			println("")
@@ -484,7 +484,7 @@ open class AnsiDemo {
 		ran5.forEach { r ->
 		    ran5.forEach { g ->
 			ran5.forEach { b ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCS.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -495,7 +495,7 @@ open class AnsiDemo {
 		ran5.forEach { b ->
 		    ran5.forEach { r ->
 			ran5.forEach { g ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCS.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -506,7 +506,7 @@ open class AnsiDemo {
 		ran5.forEach { g ->
 		    ran5.forEach { b ->
 			ran5.forEach { r ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCS.bg5($r,$g,$b) "))
+			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
 			}
 			println("")
 		    }
@@ -546,7 +546,7 @@ open class AnsiDemo {
 
     companion object {
 
-	fun randomRGB(cubeSize: Int = 256): ColorCS.RGB = ColorCS.RGB(
+	fun randomRGB(cubeSize: Int = 256): ColorCube.RGB = ColorCube.RGB(
 	    cubeSize,
 	    Random.nextInt(cubeSize),
 	    Random.nextInt(cubeSize),

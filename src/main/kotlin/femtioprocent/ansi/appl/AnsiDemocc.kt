@@ -1,6 +1,6 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.ColorCS
+import femtioprocent.ansi.ColorCube
 import femtioprocent.ansi.extentions.pL
 
 class AnsiDemocc : AnsiDemo() {
@@ -18,7 +18,7 @@ class AnsiDemocc : AnsiDemo() {
 	fun f2(v: Int): String = v.toString().pL(2)
 	fun f3(v: Int): String = v.toString().pL(3)
 
-	val colors = ColorCS.Support::values256
+	val colors = ColorCube.Support::values256
 
 	(minCube..maxCube).forEach { cubeSize ->
 	    println("")
@@ -26,7 +26,7 @@ class AnsiDemocc : AnsiDemo() {
 	    colors(cubeSize).forEach { r ->
 		colors(cubeSize).forEach { g ->
 		    colors(cubeSize).forEach { b ->
-			val fg = ColorCS.emitFg2(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
+			val fg = ColorCube.emitFg2(r, g, b, "Color2.fg256(${f3(r)},${f3(g)},${f3(b)}) ")
 			print("  $fg")
 		    }
 		    println("")
@@ -43,7 +43,7 @@ class AnsiDemocc : AnsiDemo() {
 		    println("")
 		colors(cubeSize).forEach { g ->
 		    colors(cubeSize).forEach { b ->
-			print(" " + ColorCS.emitBg2(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
+			print(" " + ColorCube.emitBg2(r, g, b, " Color2.bg256(${f3(r)},${f3(g)},${f3(b)}) "))
 		    }
 		    println("")
 		}
@@ -55,7 +55,7 @@ class AnsiDemocc : AnsiDemo() {
 	(minCube..maxCube).forEach { cubeSize ->
 	    println("")
 	    println("Using ColorCube Values on Fg: (cubeSize)(r, g, b, s) cube size: $cubeSize, total colors ${cubeSize * cubeSize * cubeSize}")
-	    val csFg = ColorCS.csFg(cubeSize)
+	    val csFg = ColorCube.csFg(cubeSize)
 	    val fn = if (cubeSize <= 10) ::f1 else ::f2
 	    (0..<cubeSize).forEach { r ->
 		(0..<cubeSize).forEach { g ->
@@ -67,7 +67,7 @@ class AnsiDemocc : AnsiDemo() {
 		}
 	    }
 	}
-	val painter = ColorCS.csBg(4, 3, 0, 2)
+	val painter = ColorCube.csBg(4, 3, 0, 2)
 
 	(minCube..maxCube).forEach { cubeSize ->
 	    println("")
@@ -77,7 +77,7 @@ class AnsiDemocc : AnsiDemo() {
 		(0..<cubeSize).forEach { g ->
 		    (0..<cubeSize).forEach { b ->
 			val bg =
-			    ColorCS.csBg(cubeSize, r, g, b, "Color2.csBg(${cubeSize},${fn(r)},${fn(g)},${fn(b)}) ")
+			    ColorCube.csBg(cubeSize, r, g, b, "Color2.csBg(${cubeSize},${fn(r)},${fn(g)},${fn(b)}) ")
 			print("  $bg")
 		    }
 		    println("")

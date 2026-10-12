@@ -1,8 +1,8 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.ColorCS.RGB
-import femtioprocent.ansi.ColorCS.rgbBg
-import femtioprocent.ansi.ColorCS.rgbFg
+import femtioprocent.ansi.ColorCube.RGB
+import femtioprocent.ansi.ColorCube.rgbBg
+import femtioprocent.ansi.ColorCube.rgbFg
 import femtioprocent.ansi.extentions.pL
 import femtioprocent.ansi.extentions.pR
 import kotlin.random.Random

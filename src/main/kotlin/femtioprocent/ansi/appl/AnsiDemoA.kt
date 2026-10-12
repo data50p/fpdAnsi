@@ -1,7 +1,7 @@
 package femtioprocent.ansi.appl
 
 import femtioprocent.ansi.Ansi
-import femtioprocent.ansi.ColorCS.RGB
+import femtioprocent.ansi.ColorCube.RGB
 import femtioprocent.ansi.Display
 import kotlin.time.Duration
 import kotlin.time.measureTime

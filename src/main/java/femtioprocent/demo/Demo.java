@@ -1,8 +1,8 @@
 package femtioprocent.demo;
 
 import femtioprocent.ansi.LegacyColor;
-import femtioprocent.ansi.ColorCS;
-import femtioprocent.ansi.ColorCS.RGB;
+import femtioprocent.ansi.ColorCube;
+import femtioprocent.ansi.ColorCube.RGB;
 import femtioprocent.ansi.Color5;
 import femtioprocent.ansi.appl.AnsiDemo;
 import kotlin.jvm.functions.Function2;
@@ -82,15 +82,15 @@ public class Demo {
         // Create a random color in a specified color cube size
 
         System.out.println("");
-        System.out.println("" + rgb.toString() + " -> " + ColorCS.INSTANCE.rgbBg(" Hello ", rgb));
-        System.out.println(ColorCS.INSTANCE.showC(rgb, 48, "Some blue: ", RGB::toString));
-        System.out.println(ColorCS.INSTANCE.showC(rgb.inverse(), 32, "inverse: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
+        System.out.println("" + rgb.toString() + " -> " + ColorCube.INSTANCE.rgbBg(" Hello ", rgb));
+        System.out.println(ColorCube.INSTANCE.showC(rgb, 48, "Some blue: ", RGB::toString));
+        System.out.println(ColorCube.INSTANCE.showC(rgb.inverse(), 32, "inverse: ", rgb1 -> "R,G,B = " + rgb1.toLaconicStringRGB()));
 
         System.out.println("");
 
         RGB fromCol = AnsiDemo.Companion.randomRGB(100).toSaturation(0.2).toValue(0.5);
         RGB toCol = fromCol.complement().toMaxSaturation().toMaxValue();
-        List<ColorCS.HSV> list = fromCol.toHsv().gradient(12, toCol.toHsv());
+        List<ColorCube.HSV> list = fromCol.toHsv().gradient(12, toCol.toHsv());
 
         System.out.println("From " + fromCol + "  to " + toCol);
 
@@ -98,16 +98,16 @@ public class Demo {
             RGB c = list.get(ix).toRGB();
             if (ix > 0)
                 System.out.print(" -> ");
-            System.out.print(ColorCS.INSTANCE.rgbBg(" " + ix + " ", c));
-            System.out.print(ColorCS.INSTANCE.rgbFg(" XXXXX", c));
+            System.out.print(ColorCube.INSTANCE.rgbBg(" " + ix + " ", c));
+            System.out.print(ColorCube.INSTANCE.rgbFg(" XXXXX", c));
         }
         System.out.println();
 
-        Function2<String, RGB, String> fg = ColorCS.INSTANCE::rgbFg;
-        Function2<String, RGB, String> bg = ColorCS.INSTANCE::rgbBg;
+        Function2<String, RGB, String> fg = ColorCube.INSTANCE::rgbFg;
+        Function2<String, RGB, String> bg = ColorCube.INSTANCE::rgbBg;
 
         var cnt = 0;
-        for (ColorCS.HSV hsv : list) {
+        for (ColorCube.HSV hsv : list) {
             RGB c2 = hsv.toRGB();
             if (cnt > 0)
                 System.out.print(" -> ");

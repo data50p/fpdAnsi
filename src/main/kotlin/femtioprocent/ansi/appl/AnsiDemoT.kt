@@ -1,7 +1,7 @@
 package femtioprocent.ansi.appl
 
-import femtioprocent.ansi.ColorCS.RGB
-import femtioprocent.ansi.ColorCS.showC
+import femtioprocent.ansi.ColorCube.RGB
+import femtioprocent.ansi.ColorCube.showC
 import femtioprocent.ansi.Display
 import femtioprocent.ansi.extentions.pL
 
