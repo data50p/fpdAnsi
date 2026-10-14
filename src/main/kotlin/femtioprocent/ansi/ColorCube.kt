@@ -196,6 +196,9 @@ object ColorCube {
 
         fun complement() = toHsv().let { it.clone(h = (it.h + 180.0) % 360.0).toRGB() }.toCubeSize(cs)
 
+        fun rotR(deg: Int) = toHsv().let { it.clone(h = (it.h + deg) % 360.0).toRGB() }.toCubeSize(cs)
+        fun rotL(deg: Int) = toHsv().let { it.clone(h = (it.h - deg + 360.0) % 360.0).toRGB() }.toCubeSize(cs)
+
         fun theComplementary(): List<RGB> {
             return mutableListOf<RGB>().also {
                 it += this
