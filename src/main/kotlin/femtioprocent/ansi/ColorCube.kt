@@ -495,7 +495,7 @@ object ColorCube {
         }
 
         fun toCSSColor(): String {
-            return "#${r.toHexString(numberHexFormat)}${g.toHexString(numberHexFormat)}${b.toHexString(numberHexFormat)};"
+            return "#${r.toHexString(numberHexFormat)}${g.toHexString(numberHexFormat)}${b.toHexString(numberHexFormat)}"
         }
 
         companion object Companion {
