@@ -561,6 +561,8 @@ object ColorCube {
             return RGB(256, r, g, b)
         }
 
+        fun toCSSColor() = toRGB().toCSSColor()
+
         override fun toString(): String {
             return "HSV{%7.3f,%7.3f,%7.3f}".format(h, s, v)
         }
