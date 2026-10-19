@@ -561,11 +561,11 @@ object ColorCube {
         }
 
         fun subtractHue(deg: Double): HSV {
-            return HSV((360.0 + h + deg) % 360.0 , s, v)
+            return HSV((360.0 + h - deg) % 360.0 , s, v)
         }
 
         fun subtractSaturation(factor: Double): HSV {
-            return HSV(h, v - v * factor, v)
+            return HSV(h, s - s * factor, v)
         }
 
         fun subtractValue(factor: Double): HSV {
