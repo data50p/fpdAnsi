@@ -294,52 +294,12 @@ object ColorCube {
         fun toSaturation(value: Double) = toHsv().clone(s = value).toRGB().toCubeSize(cs)
         fun toValue(value: Double) = toHsv().clone(v = value).toRGB().toCubeSize(cs)
 
-        fun addValue(value: Double): RGB {
-            val hsv = toHsv()
-            val vv = when {
-                hsv.v < 0.3 -> value / 3.0
-                hsv.v > 0.6 -> (value + 1) / 2.0
-                else -> value
-            }
-            val nval = hsv.v + (1.0 - hsv.v) * vv
-            return hsv.clone(v = nval).toRGB().toCubeSize(cs)
-        }
-
-        fun addSaturation(value: Double): RGB {
-            val hsv = toHsv()
-            val ss = when {
-                hsv.s <= 1.0 -> 0.3
-                hsv.s < 0.3 -> value / 3.0
-                hsv.s > 0.71 -> (value + 1) / 2.0
-                else -> value
-            }
-            val nval = hsv.s + (1.0 - hsv.s) * ss
-            return hsv.clone(s = nval).toRGB().toCubeSize(cs)
-        }
-
-        fun subValue(value: Double): RGB {
-            val hsv = toHsv()
-            val vv = when {
-                hsv.s <= 1.0 -> value
-                hsv.v < 0.3 -> value / 3.0
-                hsv.v > 0.6 -> (value + 1) / 2.0
-                else -> value
-            }
-            val nval = hsv.v - (hsv.v) * vv
-            return hsv.clone(v = nval).toRGB().toCubeSize(cs)
-        }
-
-        fun subSaturation(value: Double): RGB {
-            val hsv = toHsv()
-            val ss = when {
-                hsv.s <= 1.0 -> 0.3
-                hsv.s < 0.3 -> value / 3.0
-                hsv.s > 0.71 -> (value + 1) / 2.0
-                else -> value
-            }
-            val nval = hsv.s + (1.0 - hsv.s) * ss
-            return hsv.clone(s = nval).toRGB().toCubeSize(cs)
-        }
+        fun addValue(value: Double): RGB = toHsv().addValue(value).toRGB()
+        fun addSaturation(value: Double): RGB = toHsv().addSaturation(value).toRGB()
+        fun addHue(deg: Double): RGB = toHsv().addHue(deg).toRGB()
+        fun subtractValue(value: Double): RGB = toHsv().subtractValue(value).toRGB()
+        fun subtractSaturation(value: Double): RGB = toHsv().subtractSaturation(value).toRGB()
+        fun subtractHue(deg: Double): RGB = toHsv().subtractHue(deg).toRGB()
 
         fun toMaxValue() = toValue(1.0)
         fun toMaxSaturation() = toSaturation(1.0)
@@ -444,8 +404,8 @@ object ColorCube {
                 "inv" -> inverse()
                 "val+" -> addValue(0.12)
                 "sat+" -> addSaturation(0.3)
-                "val-" -> subValue(0.12)
-                "sat-" -> subSaturation(0.3)
+                "val-" -> subtractValue(0.12)
+                "sat-" -> subtractSaturation(0.3)
                 else -> this
             }
         }
