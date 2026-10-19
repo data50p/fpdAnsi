@@ -548,8 +548,8 @@ object ColorCube {
             return HSV(h, s, avg(v, other.v))
         }
 
-        fun addHue(factor: Double): HSV {
-            return HSV((1.0 - h) * factor + h , s, v)
+        fun addHue(deg: Double): HSV {
+            return HSV((360.0 + h + deg) % 360.0 , s, v)
         }
 
         fun addSaturation(factor: Double): HSV {
@@ -557,11 +557,11 @@ object ColorCube {
         }
 
         fun addValue(factor: Double): HSV {
-            return HSV(h, s, (360.0 * factor + v) % 365.0)
+            return HSV(h, s, (1.0 - v) * factor + v)
         }
 
-        fun subtractHue(factor: Double): HSV {
-            return HSV(h - h * factor , s, v)
+        fun subtractHue(deg: Double): HSV {
+            return HSV((360.0 + h + deg) % 360.0 , s, v)
         }
 
         fun subtractSaturation(factor: Double): HSV {
@@ -569,7 +569,7 @@ object ColorCube {
         }
 
         fun subtractValue(factor: Double): HSV {
-            return HSV(h, s, (v - (360.0 * factor)) % 365.0)
+            return HSV(h, s, v - v * factor)
         }
 
         fun average(other: HSV): HSV {
