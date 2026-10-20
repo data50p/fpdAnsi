@@ -468,8 +468,15 @@ object ColorCube {
     }
 
 
+    /**
+     * h [0..360)
+     * s [0..1)
+     * v [0..1)
+     */
     data class HSV(val h: Double, val s: Double, val v: Double) {
 
+        constructor(hi: Int, si: Int, li: Int) : this(hi.toDouble(), si.toDouble() / 100.0, li.toDouble() / 100.0)
+        
         fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v): HSV {
             return HSV(h, s, v)
         }
