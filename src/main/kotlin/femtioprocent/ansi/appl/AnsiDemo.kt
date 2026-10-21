@@ -401,20 +401,28 @@ open class AnsiDemo {
                     rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
                     println()
 
-                    print(frmtLeft("Hue 0-360"))
+                    print(frmtLeft("HSV h 0-360"))
+                    rgbRand.gradientHSV_H(loops).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("HSV s 0-1"))
+                    rgbRand.gradientHSV_S(loops).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("HSV v 0-1"))
+                    rgbRand.gradientHSV_V(loops).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("HSL h 0-360"))
                     rgbRand.gradientHSL_H(loops).forEach { printForm(it) }
                     println()
 
-                    print(frmtLeft("Sat 0-1"))
+                    print(frmtLeft("HSL s 0-1"))
                     rgbRand.gradientHSL_S(loops).forEach { printForm(it) }
                     println()
 
-                    print(frmtLeft("Lev 0-1"))
+                    print(frmtLeft("HSL l 0-1"))
                     rgbRand.gradientHSL_L(loops).forEach { printForm(it) }
-                    println()
-
-                    print(frmtLeft("Val 0-1"))
-                    rgbRand.gradientHSV_V(loops).forEach { printForm(it) }
                     println()
 
                     println()

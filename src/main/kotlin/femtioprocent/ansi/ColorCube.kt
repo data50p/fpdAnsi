@@ -367,6 +367,14 @@ object ColorCube {
             return toHsl().gradientL(loops).map { it.toRGB().toCubeSize(cs) }
         }
 
+        fun gradientHSV_H(loops: Int = 12): List<RGB> {
+            return toHsv().gradientH(loops).map { it.toRGB().toCubeSize(cs) }
+        }
+
+        fun gradientHSV_S(loops: Int = 12): List<RGB> {
+            return toHsv().gradientS(loops).map { it.toRGB().toCubeSize(cs) }
+        }
+
         fun gradientHSV_V(loops: Int = 12): List<RGB> {
             return toHsv().gradientV(loops).map { it.toRGB().toCubeSize(cs) }
         }
@@ -544,6 +552,30 @@ object ColorCube {
                 l += hsv2
             }
             return l
+        }
+
+        fun gradientH(loops: Int = 6): List<HSV> {
+            val list = mutableListOf<HSV>()
+
+            val stepv = 360.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSV((it * stepv).modSpecial(360.0), s, v)
+                list += hsv2
+            }
+            return list
+        }
+
+        fun gradientS(loops: Int = 6): List<HSV> {
+            val list = mutableListOf<HSV>()
+
+            val stepv = 1.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSV(h, (it * stepv).modSpecial(1.0), v)
+                list += hsv2
+            }
+            return list
         }
 
         fun gradientV(loops: Int = 6): List<HSV> {
