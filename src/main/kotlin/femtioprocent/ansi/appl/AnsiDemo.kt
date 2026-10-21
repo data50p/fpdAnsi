@@ -400,7 +400,7 @@ open class AnsiDemo {
                     print(frmtLeft("HSV s 0-1"))
                     rgbRand.gradientHSV_S(loops).forEach { printForm(it) }
                     println()
-                    
+
                     print(frmtLeft("HSV v 0-1"))
                     rgbRand.gradientHSV_V(loops).forEach { printForm(it) }
                     println()

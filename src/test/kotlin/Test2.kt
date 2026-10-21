@@ -115,11 +115,6 @@ class Test2 {
 	val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
 	rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
 	println()
-	val g1 = rgbBase.saturationGradient(12)
-	g1.forEach {
-	    listOf(showRGB(it), it.toHsv().showC()).prList()
-	}
-	println()
 
 	val hsvBase = rgbBase.toHsv()
 	val g2 = hsvBase.gradient(12, hsvBase.clone(s = 1.0))
@@ -139,12 +134,6 @@ class Test2 {
 	println("testValueGradient6")
 	val rgbBase = RGB(8, Random.nextInt(8), Random.nextInt(8), Random.nextInt(8))
 	rgbBase.also { listOf(showRGB(it), it.toHsv().showC()).prList() }
-	println()
-
-	val g1 = rgbBase.valueGradient(12)
-	g1.forEach {
-	    listOf(showRGB(it), it.toHsv().showC()).prList()
-	}
 	println()
 
 	val hsvBase = rgbBase.toHsv()
