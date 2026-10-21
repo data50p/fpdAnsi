@@ -355,20 +355,20 @@ object ColorCube {
             return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
         }
 
-        fun gradientHSL_H(loops: Int = 12, rgb: RGB): List<RGB> {
-            return toHsl().gradientH(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        fun gradientHSL_H(loops: Int = 12): List<RGB> {
+            return toHsl().gradientH(loops).map { it.toRGB().toCubeSize(cs) }
         }
 
-        fun gradientHSL_S(loops: Int = 12, rgb: RGB): List<RGB> {
-            return toHsl().gradientS(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        fun gradientHSL_S(loops: Int = 12): List<RGB> {
+            return toHsl().gradientS(loops).map { it.toRGB().toCubeSize(cs) }
         }
 
-        fun gradientHSL_L(loops: Int = 12, rgb: RGB): List<RGB> {
-            return toHsl().gradientL(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        fun gradientHSL_L(loops: Int = 12): List<RGB> {
+            return toHsl().gradientL(loops).map { it.toRGB().toCubeSize(cs) }
         }
 
-        fun gradientHSV_V(loops: Int = 12, rgb: RGB): List<RGB> {
-            return toHsv().gradientV(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
+        fun gradientHSV_V(loops: Int = 12): List<RGB> {
+            return toHsv().gradientV(loops).map { it.toRGB().toCubeSize(cs) }
         }
 
 
@@ -546,7 +546,7 @@ object ColorCube {
             return l
         }
 
-        fun gradientV(loops: Int = 6, hsv2: HSV): List<HSV> {
+        fun gradientV(loops: Int = 6): List<HSV> {
             val list = mutableListOf<HSV>()
 
             val stepv = 1.0 / (loops - 1)
@@ -665,7 +665,7 @@ object ColorCube {
             return list
         }
 
-        fun gradientH(loops: Int = 6, hsv2: HSL): List<HSL> {
+        fun gradientH(loops: Int = 6): List<HSL> {
             val list = mutableListOf<HSL>()
 
 
@@ -678,7 +678,7 @@ object ColorCube {
             return list
         }
 
-        fun gradientS(loops: Int = 6, hsv2: HSL): List<HSL> {
+        fun gradientS(loops: Int = 6): List<HSL> {
             val list = mutableListOf<HSL>()
 
 
@@ -691,7 +691,7 @@ object ColorCube {
             return list
         }
 
-        fun gradientL(loops: Int = 6, hsv2: HSL): List<HSL> {
+        fun gradientL(loops: Int = 6): List<HSL> {
             val list = mutableListOf<HSL>()
 
 

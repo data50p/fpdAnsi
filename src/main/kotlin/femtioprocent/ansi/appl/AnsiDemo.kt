@@ -399,19 +399,19 @@ open class AnsiDemo {
                     println()
 
                     print("Hue 0-360   ")
-                    rgbRand.gradientHSL_H(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    rgbRand.gradientHSL_H(loops).forEach { printForm(it) }
                     println()
 
                     print("Sat 0-1     ")
-                    rgbRand.gradientHSL_S(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    rgbRand.gradientHSL_S(loops).forEach { printForm(it) }
                     println()
 
                     print("Lev 0-1     ")
-                    rgbRand.gradientHSL_L(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    rgbRand.gradientHSL_L(loops).forEach { printForm(it) }
                     println()
 
                     print("Val 0-1     ")
-                    rgbRand.gradientHSV_V(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    rgbRand.gradientHSV_V(loops).forEach { printForm(it) }
                     println()
 
                     println()
