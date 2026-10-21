@@ -355,6 +355,19 @@ object ColorCube {
             return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
         }
 
+        fun gradientHSL_H(loops: Int = 12, rgb: RGB): List<RGB> {
+            return toHsl().gradientH(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        }
+
+        fun gradientHSL_S(loops: Int = 12, rgb: RGB): List<RGB> {
+            return toHsl().gradientS(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        }
+
+        fun gradientHSL_L(loops: Int = 12, rgb: RGB): List<RGB> {
+            return toHsl().gradientL(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
+        }
+
+
         fun permutationGradient(): List<RGB> {
             val l = mutableListOf<RGB>()
             l += this
@@ -415,6 +428,7 @@ object ColorCube {
         }
 
         fun toHsv(): HSV = (if (cs == 256) this else toCubeSize(256)).toHsv256()
+        fun toHsl(): HSL = (if (cs == 256) this else toCubeSize(256)).toHsl256()
 
         private fun toHsv256(): HSV {
             require(cs == 256) { "Only 256 bits color" }
@@ -441,6 +455,33 @@ object ColorCube {
             val v = cmax
 
             return HSV(h, s, v)
+        }
+
+        private fun toHsl256(): HSL {
+            require(cs == 256) { "Only 256 bits color" }
+
+            val rd = r / 255.0
+            val gd = g / 255.0
+            val bd = b / 255.0
+            val cmax = Math.max(rd, Math.max(gd, bd))
+            val cmin = Math.min(rd, Math.min(gd, bd))
+            val delta = cmax - cmin
+
+            val h = 60.0 * when (cmax) {
+                rd if delta != 0.0 -> ((gd - bd) / delta + 6.0) % 6.0
+                gd if delta != 0.0 -> ((bd - rd) / delta) + 2.0
+                bd if delta != 0.0 -> ((rd - gd) / delta) + 4.0
+                else -> 0.0
+            }
+
+            val s = when (cmax) {
+                0.0 -> 0.0
+                else -> delta / cmax
+            }
+
+            val l = (cmax+cmin) / 2.0
+
+            return HSL(h, s, l)
         }
 
         fun toLaconicStringRGB() = "$r,$g,$b"
@@ -475,7 +516,7 @@ object ColorCube {
      */
     data class HSV(val h: Double, val s: Double, val v: Double) {
 
-        constructor(hi: Int, si: Int, li: Int) : this(hi.toDouble(), si.toDouble() / 100.0, li.toDouble() / 100.0)
+        constructor(hi: Int, si: Int, vi: Int) : this(hi.toDouble(), si.toDouble() / 100.0, vi.toDouble() / 100.0)
         
         fun clone(h: Double = this.h, s: Double = this.s, v: Double = this.v): HSV {
             return HSV(h, s, v)
@@ -572,6 +613,139 @@ object ColorCube {
 
         override fun toString(): String {
             return "HSV{%7.3f,%7.3f,%7.3f}".format(h, s, v)
+        }
+    }
+
+    /**
+     * h [0..360)
+     * s [0..1)
+     * v [0..1)
+     */
+    data class HSL(val h: Double, val s: Double, val l: Double) {
+
+        constructor(hi: Int, si: Int, li: Int) : this(hi.toDouble(), si.toDouble() / 100.0, li.toDouble() / 100.0)
+
+        fun clone(h: Double = this.h, s: Double = this.s, l: Double = this.l): HSL {
+            return HSL(h, s, l)
+        }
+
+        fun gradient(loops: Int = 6, hsv2: HSL): List<HSL> {
+            val list = mutableListOf<HSL>()
+
+            val dh = hsv2.h - h
+            val ds = hsv2.s - s
+            val dv = hsv2.l - l
+
+            val steph = dh / (loops - 1)
+            val steps = ds / (loops - 1)
+            val stepv = dv / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 =
+                    HSL((h + it * steph) % 360.0, (s + it * steps).modSpecial(1.0), (l + it * stepv).modSpecial(1.0))
+                // avoid v == 1.000
+                list += hsv2
+            }
+            return list
+        }
+
+        fun gradientH(loops: Int = 6, hsv2: HSL): List<HSL> {
+            val list = mutableListOf<HSL>()
+
+
+            val stepv = 360.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSL((it * stepv).modSpecial(360.0), s, l)
+                list += hsv2
+            }
+            return list
+        }
+
+        fun gradientS(loops: Int = 6, hsv2: HSL): List<HSL> {
+            val list = mutableListOf<HSL>()
+
+
+            val stepv = 1.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSL(h, (it * stepv).modSpecial(1.0), l)
+                list += hsv2
+            }
+            return list
+        }
+
+        fun gradientL(loops: Int = 6, hsv2: HSL): List<HSL> {
+            val list = mutableListOf<HSL>()
+
+
+            val stepv = 1.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSL(h, s, (it * stepv).modSpecial(1.0))
+                list += hsv2
+            }
+            return list
+        }
+
+        private fun avg(d1: Double, d2: Double) = (d1 + d2) / 2.0
+
+        fun averageHue(other: HSL): HSL {
+            return HSL(avg(h, other.h), s, l)
+        }
+
+        fun averageSaturation(other: HSL): HSL {
+            return HSL(h, avg(s, other.s), l)
+        }
+
+        fun averageValue(other: HSL): HSL {
+            return HSL(h, s, avg(l, other.l))
+        }
+
+        fun addHue(deg: Double): HSL {
+            return HSL((360.0 + h + deg) % 360.0 , s, l)
+        }
+
+        fun addSaturation(factor: Double): HSL {
+            return HSL(h, (1.0 - s) * factor + s, l)
+        }
+
+        fun addValue(factor: Double): HSL {
+            return HSL(h, s, (1.0 - l) * factor + l)
+        }
+
+        fun subtractHue(deg: Double): HSL {
+            return HSL((360.0 + h - deg) % 360.0 , s, l)
+        }
+
+        fun subtractSaturation(factor: Double): HSL {
+            return HSL(h, s - s * factor, l)
+        }
+
+        fun subtractValue(factor: Double): HSL {
+            return HSL(h, s, l - l * factor)
+        }
+
+        fun average(other: HSL): HSL {
+            return HSL(
+                avg(h, other.h),
+                avg(s, other.s),
+                avg(l, other.l)
+            )
+        }
+
+        fun toRGB(): RGB {
+            val hsv_v = l + s * Math.min(l, 1.0 - l)
+            val hsv_s = if ( hsv_v == 0.0 ) 0.0 else 2.0 * ( 1.0 - l / hsv_v)
+
+            val hsv = HSV(h, hsv_s, hsv_v)
+            return hsv.toRGB()
+        }
+
+        fun toCSSColor() = toRGB().toCSSColor()
+
+        override fun toString(): String {
+            return "HSL{%7.3f,%7.3f,%7.3f}".format(h, s, l)
         }
     }
 

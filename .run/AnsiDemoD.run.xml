@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="AnsiDemoA" type="JetRunConfigurationType">
+  <configuration default="false" name="AnsiDemoD" type="JetRunConfigurationType">
     <option name="MAIN_CLASS_NAME" value="femtioprocent.ansi.appl.AnsiDemo" />
     <module name="ansi.main" />
-    <option name="PROGRAM_PARAMETERS" value="A" />
+    <option name="PROGRAM_PARAMETERS" value="d" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

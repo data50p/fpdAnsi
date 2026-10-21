@@ -1,12 +1,12 @@
 package femtioprocent.ansi.appl
 
+import femtioprocent.ansi.Color5
 import femtioprocent.ansi.ColorCube
 import femtioprocent.ansi.ColorCube.RGB
 import femtioprocent.ansi.ColorCube.rgbBg
 import femtioprocent.ansi.ColorCube.rgbFg
 import femtioprocent.ansi.ColorCube.showC
 import femtioprocent.ansi.ColorCube.showL
-import femtioprocent.ansi.Color5
 import femtioprocent.ansi.Version
 import femtioprocent.ansi.extentions.pC
 import femtioprocent.ansi.extentions.pL
@@ -15,12 +15,12 @@ import kotlin.reflect.KClass
 
 const val lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum urna elit, viverra in eros nec, accumsan fringilla leo." +
-	    " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
-	    " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
-	    " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
-	    " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
-	    " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
-	    " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
+            " Aliquam dolor sapien, gravida eu lobortis ut, ornare eu odio. Donec aliquet pharetra ligula, eu dapibus dui egestas quis." +
+            " Proin et fermentum nibh. Nulla ullamcorper rutrum sapien id tristique. Phasellus viverra facilisis augue, eget ullamcorper sapien lacinia quis." +
+            " Integer ultricies, libero vel luctus sodales, ipsum sem maximus eros, quis mattis justo nisl vel risus." +
+            " Vivamus mi diam, interdum a laoreet placerat, feugiat sit amet purus. Phasellus vulputate semper finibus." +
+            " Integer maximus eleifend pharetra. Nulla congue eleifend finibus. Nunc posuere varius ornare." +
+            " Maecenas pharetra auctor elit, non accumsan felis elementum id. Maecenas at rhoncus purus. Curabitur nec mi ac mi mollis pulvinar ut ut arcu."
 
 val loremList = lorem.replace(".", "").replace(",", "").split(" ")
 fun lorem(m: Int, n: Int): String = loremList.drop(m).take(n).joinToString(" ")
@@ -36,531 +36,551 @@ fun List<Any>.prList(delim: String = "", suffix: String = "") {
 open class AnsiDemo {
 
     fun main(arg: String) {
-	println(Version.info())
-	ansiColorDemo(arg)
+        println(Version.info())
+        ansiColorDemo(arg)
     }
 
     open fun demo(narg: Int) {
     }
 
     fun List<ColorCube.RGB>.pr(prefix: String = "") {
-	print(prefix)
-	forEach { print(it.showC(w = 15, f = { it.toLaconicStringRGB() })) }
-	println()
+        print(prefix)
+        forEach { print(it.showC(w = 15, f = { it.toLaconicStringRGB() })) }
+        println()
     }
 
     private fun ansiColorDemo(arg: String) {
 
-	var narg: Int = try {
-	    val num = arg.filter { it >= '0' && it <= '9' }
-	    if (num.isNotEmpty())
-		num.toInt()
-	    else
-		0
-	} catch (_: NumberFormatException) {
-	    0
-	}
+        var narg: Int = try {
+            val num = arg.filter { it >= '0' && it <= '9' }
+            if (num.isNotEmpty())
+                num.toInt()
+            else
+                0
+        } catch (_: NumberFormatException) {
+            0
+        }
 
-	var nonarg: String = try {
-	    val s = arg.filter { !(it >= '0' && it <= '9') }
-	    s
-	} catch (_: NumberFormatException) {
-	    ""
-	}
+        var nonarg: String = try {
+            val s = arg.filter { !(it >= '0' && it <= '9') }
+            s
+        } catch (_: NumberFormatException) {
+            ""
+        }
 
-	fun getClassFromLoader(className: String): KClass<*> {
-	    return ClassLoader.getSystemClassLoader().loadClass(className).kotlin
-	}
+        fun getClassFromLoader(className: String): KClass<*> {
+            return ClassLoader.getSystemClassLoader().loadClass(className).kotlin
+        }
 
-	@Suppress("UNCHECKED_CAST")
-	fun <T : AnsiDemo> create(id: String): T? {
-	    try {
-		val cl = getClassFromLoader("femtioprocent.ansi.appl.AnsiDemo$id")
-		val c = cl.constructors.firstOrNull()
-		return c?.call() as T?
-	    } catch (ex: Exception) {
-		return null
-	    }
-	}
+        @Suppress("UNCHECKED_CAST")
+        fun <T : AnsiDemo> create(id: String): T? {
+            try {
+                val cl = getClassFromLoader("femtioprocent.ansi.appl.AnsiDemo$id")
+                val c = cl.constructors.firstOrNull()
+                return c?.call() as T?
+            } catch (ex: Exception) {
+                return null
+            }
+        }
 
-	create<AnsiDemo>(nonarg)?.let { instance ->
-	    instance.demo(narg)
-	    return
-	}
+        create<AnsiDemo>(nonarg)?.let { instance ->
+            instance.demo(narg)
+            return
+        }
 
-	fun Am(ch: String): Boolean {
-	    return arg.isEmpty() || arg.contains(ch)
-	}
+        fun Am(ch: String): Boolean {
+            return arg.isEmpty() || arg.contains(ch)
+        }
 
-	when {
+        when {
 //<editor-fold desc="empty arg">
-	    arg.isEmpty()
-		    || Am("h") -> {
-		println("--ansi=D      ->  Dump legacy colors")
-		println("--ansi=d      ->  demo")
+            arg.isEmpty()
+                    || Am("h") -> {
+                println("--ansi=D      ->  Dump legacy colors")
+                println("--ansi=d      ->  demo")
 
-		println("--ansi=ca     ->  Dump type 5 colors")
-		println("--ansi=cb     ->  Type 5 colors (6 bits)")
-		println("--ansi=cc(#)  ->  Type 2 colors (8 bits), # = color cube size")
-		println("--ansi=G(#)   ->  Gradients on colors, # = color cube size")
-		println("--ansi=A      ->  Animation demo")
-		println("--ansi=T      ->  Theme demo")
-		println("--ansi=h      ->  https://en.wikipedia.org/wiki/Help!")
-		System.exit(2)
-	    }
+                println("--ansi=ca     ->  Dump type 5 colors")
+                println("--ansi=cb     ->  Type 5 colors (6 bits)")
+                println("--ansi=cc(#)  ->  Type 2 colors (8 bits), # = color cube size")
+                println("--ansi=G(#)   ->  Gradients on colors, # = color cube size")
+                println("--ansi=A      ->  Animation demo")
+                println("--ansi=T      ->  Theme demo")
+                println("--ansi=h      ->  https://en.wikipedia.org/wiki/Help!")
+                System.exit(2)
+            }
 //</editor-fold>
 
 
-	    Am("D")            -> {
-		Color5.dumpColor5().forEach { println(it) }
-	    }
-
-	    Am("d")            -> {
-		println("")
-		println(ColorCube.csFg(4)(1, 2, 3, "XXXXXXXXXXX ColorCube.csFg(4)(1, 2, 3, s)"))
-		println(ColorCube.csBg(4)(3, 2, 1, "XXXXXXXXXXX ColorCube.csBg(4)(1, 2, 3, s)"))
-		println(ColorCube.csFg(4, 3, 2, 3)("XXXXXXXXXXX ColorCube.csFg(4, 3, 2, 3)(s)"))
-		println(ColorCube.csBg(4, 3, 0, 1)("XXXXXXXXXXX ColorCube.csBg(4, 3, 0, 1)(s)"))
-		println(ColorCube.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX ColorCube.csFgRGB(4)(0, 2, 3)(s)"))
-		println(ColorCube.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX ColorCube.csBgRGB(4)(3, 0, 2)(s)"))
-		println()
-
-
-		val cube4 = ColorCube.csRgb(4)
-		val cube5 = ColorCube.csRgb(5)
-
-		val yellow = cube4(3, 3, 1)
-		val lightMagenta = cube4(3, 2, 3)
-		val lightGreen = cube4(1, 3, 2)
-		val rgb256 = ColorCube.csRgb(256)(32, 155, 240)
-
-		val painter = ColorCube.rgbBg(lightGreen)
-
-		((4..16) + listOf(256))
-		    .map { lightGreen.toCubeSize(it) }
-		    .map { rgb -> rgb to rgb.toCubeSize(4) }
-		    .forEach { (rgb, rgb2) -> listOf(lightGreen.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
-
-		((4..16) + listOf(256))
-		    .map { rgb256.toCubeSize(it) }
-		    .map { rgb -> rgb to rgb.toCubeSize(256) }
-		    .forEach { (rgb, rgb2) -> listOf(rgb256.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
-		println()
-
-		((2..256)).forEach { cs ->
-		    val rgb = randomRGB(cs)
-		    val rgb256 = rgb.toCubeSize(256)
-		    val hsv = rgb256.toHsv()
-		    val rgb_256 = hsv.toRGB()
-		    val rgb_N = rgb_256.toCubeSize(cs)
-
-		    listOf(
-			rgb.showL(),
-			rgb256.showL(),
-			rgb256.toHsv().showL(),
-			rgb_256.showL(),
-			rgb_N.showL()
-		    ).prList(" -> ")
-		}
-
-
-		val lightMagenta256 = lightMagenta.toCubeSize(256)
-
-		val lightGreen256 = lightGreen.toCubeSize(256)
-		val lightMagenta4 = lightMagenta256.toCubeSize(4)
-		val lightGreen4 = lightGreen256.toCubeSize(4)
-		val lightMagenta8 = lightMagenta256.toCubeSize(8)
-		val lightGreen8 = lightGreen256.toCubeSize(8)
-
-		println(ColorCube.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
-		println(ColorCube.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
-		println()
-
-		println(painter("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
-		println(ColorCube.rgbBg(lightGreen256)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
-		println(ColorCube.rgbBg(lightGreen4)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
-		println(ColorCube.rgbBg(lightGreen8)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
-
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
-		println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
-
-		listOf(lightGreen, lightMagenta, lightGreen256, lightMagenta256).prList(" ")
-		println()
-
-
-		val cellSample1 = "236,120,136"
-		val cellSample2 = "·"
-		val cellWidth1 = cellSample1.length + 2
-		val cellWidth2 = cellSample2.length + 0
-		fun formatter1(rgb: ColorCube.RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
-		fun formatter2(_rgb: ColorCube.RGB) = "·".pC(cellWidth2)
-		fun formatter3(_rgb: ColorCube.RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
-
-		val red = ColorCube.csRgb(256)(255, 0, 0)
-		println("ColorCube Gradient")
-		red.hueGradient(12).forEach { it2 ->
-		    print("${formatter1(it2)} ".rgbBg(it2))
-		}
-		println()
-		println()
-
-		println("ColorCube Gradients")
-		red.hueGradient(6).forEach { it1 ->
-		    it1.hueGradient(6).forEach { it2 ->
-			print("${formatter1(it2)} ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-		println()
-
-		println("ColorCube Gradient 180°")
-		repeat(8) {
-		    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
-			print(" XX ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-
-		println("ColorCube Gradient -180°")
-		repeat(8) {
-		    randomRGB().hueGradient(36, -180.0).forEach { it2 ->
-			print(" XX ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-
-		println("ColorCube Gradient 45°")
-		repeat(8) {
-		    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
-			print(" XX ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-
-		println("Gradient color1 -> color2")
-		repeat(8) {
-		    val rgbRandG1 = randomRGB()
-		    val rgbRandG2 = randomRGB()
-
-		    rgbRandG1.gradient(144, rgbRandG2).forEach { it2 ->
-			print("·".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-
-		true.let {
-		    val max2 = 8
-		    val cubeSize = 100
-
-		    println("        color-1           ColorCube             HSV              Hue              Saturation       Value             color-2")
-		    repeat(max2) {
-			val rgbRand = ColorCube.RGB(cubeSize, Random.nextInt(cubeSize), Random.nextInt(cubeSize), Random.nextInt(cubeSize))
-			(0..<max2).forEach {
-			    val rgbRand2 = rgbRand.similarRandom(0.85)
-
-			    val rgbAv = rgbRand.average(rgbRand2)
-			    val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
-			    val hsvHAv = rgbRand.toHsv().averageHue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
-			    val hsvSAv = rgbRand.toHsv().averageSaturation(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
-			    val hsvVAv = rgbRand.toHsv().averageValue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
-
-			    println(
-				"Avg ${
-				    rgbRand.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				}  ${
-				    rgbAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				} ${
-				    hsvAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				} ${
-				    hsvHAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				} ${
-				    hsvSAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				} ${
-				    hsvVAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				}  ${
-				    rgbRand2.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
-				}"
-			    )
-			}
-			println()
-		    }
-		    println()
-		}
-
-		println()
-		println()
-		println()
-
-
-		val maxRepeat = 8
-		repeat(maxRepeat) { repeatIx ->
-
-		    val defaultLoops = 10
-		    val lastItem = repeatIx == maxRepeat - 1
-
-		    val (loops: Int, formatter: (ColorCube.RGB) -> String, cellWidth: Int) =
-			if (lastItem)
-			    Triple(defaultLoops * cellWidth1, ::formatter2, cellWidth2)
-			else
-			    Triple(defaultLoops, ::formatter1, cellWidth1)
-
-		    val tableWidth = cellWidth * loops
-		    val cubeSize = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
-
-		    val rgbRand = randomRGB(cubeSize)
-		    println("            " + "Base color $rgbRand".pC(tableWidth).rgbBg(rgbRand))
-
-		    val tL = RGB::toLaconicStringRGB
-		    val col = 6
-		    val www = tableWidth / col
-
-		    print("            ")
-		    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
-		    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
-		    print(rgbRand.complement().showC(www, "cmpl ", tL))
-		    print(rgbRand.toSaturation(0.5).showC(www, "smid ", tL))
-		    print(rgbRand.toValue(0.5).showC(tableWidth - (col - 1) * www, "vmid ", tL))
-		    print(rgbRand.toSaturation(0.5).toValue(0.5).showC(www, "svmid ", tL))
-		    println()
-
-		    print("            ")
-		    print(rgbRand.rotL().showC(www, "rotL ", tL))
-		    print(rgbRand.rotR().showC(www, "rotR ", tL))
-		    print(rgbRand.mixRG().showC(www, "mixRG ", tL))
-		    print(rgbRand.mixRB().showC(www, "mixRB ", tL))
-		    print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
-		    print(rgbRand.inverse().showC(www, "inv ", tL))
-		    println()
-
-		    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
-		    fun printForm(hsv: ColorCube.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
-
-		    print("Hue    360° ")
-		    rgbRand.hueGradient(loops).forEach { printForm(it) }
-		    println()
-
-		    print("Satur  rgb  ")
-		    rgbRand.saturationGradient(loops).forEach { printForm(it) }
-		    println()
-
-		    print("Sat Min v1  ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Sat Min     ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Sat Max     ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Sat Max v1  ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Value  rgb  ")
-		    rgbRand.valueGradient(loops).forEach { printForm(it) }
-		    println()
-
-		    print("Val Max rgb ")
-		    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { printForm(it) }
-		    println()
-
-		    print("Val Max hsv ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Val Min rgb ")
-		    val rgbRand256 = rgbRand.toCubeSize(256)
-		    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128)).forEach { printForm(it) }
-		    println()
-
-		    print("Val Min hsv ")
-		    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { printForm(it) }
-		    println()
-
-		    print("Val Min rgb0")
-		    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
-		    println()
-		    println()
-		}
-
-		println()
-		println("Permutation Gradient")
-		val cs = 5
-
-		val rgb = (0..<cs).shuffled().take(3)
-		val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
-		rgbRand.permutationGradient().forEach { it1 ->
-		    it1.permutationGradient().forEach { it2 ->
-			print("${formatter1(it2)} ".rgbBg(it2))
-		    }
-		    println()
-		}
-		println()
-
-		println()
-	    }
-
-
-	    Am("ca")           -> {
-		println("\ncolor5s calling: ColorCube.color5(ix1, ix2, string)")
-		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxCodeIndex).forEach { ix1 ->
-		    print("color5 $ix1: ")
-		    print(Color5.color5ByIndex(ix1).name.pL(7))
-		    (0..Color5.maxColor5Value).forEach { ix2 ->
-			print(Color5.color5(Color5.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
-		    }
-		    println("")
-		}
-		println("\ncolor5s calling: ColorCube.color5Bg(ix1, ix2, string)")
-		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxCodeIndex).forEach { ix1 ->
-		    print("color5 $ix1: ")
-		    print(Color5.color5ByIndex(ix1).name.pL(7))
-		    (0..Color5.maxColor5Value).forEach { ix2 ->
-			print(Color5.color5Bg(Color5.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
-		    }
-		    println("")
-		}
-		println("\ncolor5s calling: ColorCube.color5FgBg(ix1, ix2, string)")
-		println("color5 ix1: (ix2, string)...")
-		(0..Color5.maxCodeIndex).forEach { ix1 ->
-		    val complement = Color5.Code.valueOf(Color5.color5ByIndex(ix1).complement)
-		    val fix1 = complement.ordinal
-		    val fgcolor5 = Color5.color5ByIndex(fix1)
-		    print("color5 $fix1 $ix1: ")
-		    print(Color5.color5ByIndex(fix1).name.pL(7) + "  ")
-		    print(Color5.color5ByIndex(ix1).name.pL(7) + "  ")
-
-		    (0..Color5.maxColor5Value).forEach { ix2 ->
-			val fix2 = ix2 // Color5.maxColor5Value - ix2
-			print(
-			    Color5.color5FgBg(
-				fgcolor5,
-				fix2,
-				Color5.color5ByIndex(ix1),
-				ix2,
-				"  ($fix2 $ix2 ##########)"
-			    )
-			)
-		    }
-		    println("")
-		}
-	    }
-
-	    Am("cb")           -> {
-
-		println("")
-		println("")
-		println("")
-		println(" -------------- Color type 5 -------------")
-
-		val ran5 = 0..5
-
-		println("")
-		println("fg5(r, g, b) only")
-		ran5.forEach { r ->
-		    ran5.forEach { g ->
-			ran5.forEach { b ->
-			    val fg = Color5.emitFg5(r, g, b, "ColorCube.fg5($r,$g,$b) ")
-			    print("  $fg")
-			}
-			println("")
-		    }
-		}
-
-		println("")
-		println("bg5(r, g, b) only")
-		ran5.forEach { r ->
-		    ran5.forEach { g ->
-			ran5.forEach { b ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
-			}
-			println("")
-		    }
-		}
-
-		println("")
-		println("bg5(r, g, b) only")
-		ran5.forEach { b ->
-		    ran5.forEach { r ->
-			ran5.forEach { g ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
-			}
-			println("")
-		    }
-		}
-
-		println("")
-		println("bg5(r, g, b) only")
-		ran5.forEach { g ->
-		    ran5.forEach { b ->
-			ran5.forEach { r ->
-			    print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
-			}
-			println("")
-		    }
-		}
-
-		println("")
-		ran5.forEach { w ->
-		    println("")
-		    println("fgbg5(r, g, b, grays $w)")
-		    ran5.forEach { r ->
-			ran5.forEach { g ->
-			    ran5.forEach { b ->
-				val bg = Color5.Color5Num(w, w, w)
-				print(Color5.emitFgBg5(r, g, b, w, w, w, " Color5.fgbg5($r,$g,$b,$w,$w,$w) "))
-			    }
-			    println("")
-			}
-		    }
-		}
-
-		println("")
-		println("fgbg5(r, g, b, br, bg, bb) on complement")
-		ran5.forEach { br ->
-		    ran5.forEach { bg ->
-			ran5.forEach { bb ->
-			    val fr = 5 - br
-			    val fg = 5 - bg
-			    val fb = 5 - bb
-			    print(Color5.emitFgBg5(fr, fg, fb, br, bg, bb, " Color5.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
-			}
-			println("")
-		    }
-		}
-	    }
-	}
+            Am("D") -> {
+                Color5.dumpColor5().forEach { println(it) }
+            }
+
+            Am("d") -> {
+                println("")
+                println(ColorCube.csFg(4)(1, 2, 3, "XXXXXXXXXXX ColorCube.csFg(4)(1, 2, 3, s)"))
+                println(ColorCube.csBg(4)(3, 2, 1, "XXXXXXXXXXX ColorCube.csBg(4)(1, 2, 3, s)"))
+                println(ColorCube.csFg(4, 3, 2, 3)("XXXXXXXXXXX ColorCube.csFg(4, 3, 2, 3)(s)"))
+                println(ColorCube.csBg(4, 3, 0, 1)("XXXXXXXXXXX ColorCube.csBg(4, 3, 0, 1)(s)"))
+                println(ColorCube.csFgRGB(4)(0, 2, 3)("XXXXXXXXXXX ColorCube.csFgRGB(4)(0, 2, 3)(s)"))
+                println(ColorCube.csBgRGB(4)(3, 0, 2)("XXXXXXXXXXX ColorCube.csBgRGB(4)(3, 0, 2)(s)"))
+                println()
+
+
+                val cube4 = ColorCube.csRgb(4)
+                val cube5 = ColorCube.csRgb(5)
+
+                val yellow = cube4(3, 3, 1)
+                val lightMagenta = cube4(3, 2, 3)
+                val lightGreen = cube4(1, 3, 2)
+                val rgb256 = ColorCube.csRgb(256)(32, 155, 240)
+
+                val painter = ColorCube.rgbBg(lightGreen)
+
+                ((4..16) + listOf(256))
+                    .map { lightGreen.toCubeSize(it) }
+                    .map { rgb -> rgb to rgb.toCubeSize(4) }
+                    .forEach { (rgb, rgb2) -> listOf(lightGreen.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
+
+                ((4..16) + listOf(256))
+                    .map { rgb256.toCubeSize(it) }
+                    .map { rgb -> rgb to rgb.toCubeSize(256) }
+                    .forEach { (rgb, rgb2) -> listOf(rgb256.showL(), rgb.showL(), rgb2.showL()).prList(" -> ") }
+                println()
+
+                ((2..256)).forEach { cs ->
+                    val rgb = randomRGB(cs)
+                    val rgb256 = rgb.toCubeSize(256)
+                    val hsv = rgb256.toHsv()
+                    val rgb_256 = hsv.toRGB()
+                    val rgb_N = rgb_256.toCubeSize(cs)
+
+                    listOf(
+                        rgb.showL(),
+                        rgb256.showL(),
+                        rgb256.toHsv().showL(),
+                        rgb_256.showL(),
+                        rgb_N.showL()
+                    ).prList(" -> ")
+                }
+
+
+                val lightMagenta256 = lightMagenta.toCubeSize(256)
+
+                val lightGreen256 = lightGreen.toCubeSize(256)
+                val lightMagenta4 = lightMagenta256.toCubeSize(4)
+                val lightGreen4 = lightGreen256.toCubeSize(4)
+                val lightMagenta8 = lightMagenta256.toCubeSize(8)
+                val lightGreen8 = lightGreen256.toCubeSize(8)
+
+                println(ColorCube.rgbFgBg(yellow, cube5(0, 0, 4), lorem(0, 4)))
+                println(ColorCube.csFgBg(3, 2, 0, 2, 4, 1, 0, 1, " QWERTY123 "))
+                println()
+
+                println(painter("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csrgb(4)(3, 2, 3) )(s)") + "   ${lightGreen}")
+                println(ColorCube.rgbBg(lightGreen256)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen256}")
+                println(ColorCube.rgbBg(lightGreen4)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen4}")
+                println(ColorCube.rgbBg(lightGreen8)("ZZZZZZZZZZZZZ ColorCube.rgbBg( ColorCube.csRGB(4)(3, 2, 3) )(s)") + "   ${lightGreen8}")
+
+                println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta) + "   ${lightMagenta}")
+                println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta256) + "   ${lightMagenta256}")
+                println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta4) + "   ${lightMagenta4}")
+                println("ZZZZZZZZZZZZZ  String.rgbFg(ColorCube.csRGB(4)(3, 2, 3))".rgbFg(lightMagenta8) + "   ${lightMagenta8}")
+
+                listOf(lightGreen, lightMagenta, lightGreen256, lightMagenta256).prList(" ")
+                println()
+
+
+                val cellSample1 = "236,120,136"
+                val cellSample2 = "·"
+                val cellWidth1 = cellSample1.length + 2
+                val cellWidth2 = cellSample2.length + 0
+                fun formatter1(rgb: ColorCube.RGB) = rgb.toLaconicStringRGB().pC(cellWidth1)
+                fun formatter2(_rgb: ColorCube.RGB) = "·".pC(cellWidth2)
+                fun formatter3(_rgb: ColorCube.RGB, ch: Char = '·') = "$ch".pC(cellWidth2)
+
+                val red = ColorCube.csRgb(256)(255, 0, 0)
+                println("ColorCube Gradient")
+                red.hueGradient(12).forEach { it2 ->
+                    print("${formatter1(it2)} ".rgbBg(it2))
+                }
+                println()
+                println()
+
+                println("ColorCube Gradients")
+                red.hueGradient(6).forEach { it1 ->
+                    it1.hueGradient(6).forEach { it2 ->
+                        print("${formatter1(it2)} ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+                println()
+
+                println("ColorCube Gradient 180°")
+                repeat(8) {
+                    randomRGB().hueGradient(36, 180.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+                println("ColorCube Gradient -180°")
+                repeat(8) {
+                    randomRGB().hueGradient(36, -180.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+                println("ColorCube Gradient 45°")
+                repeat(8) {
+                    randomRGB().hueGradient(36, 45.0).forEach { it2 ->
+                        print(" XX ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+                println("Gradient color1 -> color2")
+                repeat(8) {
+                    val rgbRandG1 = randomRGB()
+                    val rgbRandG2 = randomRGB()
+
+                    rgbRandG1.gradient(144, rgbRandG2).forEach { it2 ->
+                        print("·".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+                true.let {
+                    val max2 = 8
+                    val cubeSize = 100
+
+                    println("        color-1           ColorCube             HSV              Hue              Saturation       Value             color-2")
+                    repeat(max2) {
+                        val rgbRand = ColorCube.RGB(
+                            cubeSize,
+                            Random.nextInt(cubeSize),
+                            Random.nextInt(cubeSize),
+                            Random.nextInt(cubeSize)
+                        )
+                        (0..<max2).forEach {
+                            val rgbRand2 = rgbRand.similarRandom(0.85)
+
+                            val rgbAv = rgbRand.average(rgbRand2)
+                            val hsvAv = rgbRand.toHsv().average(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+                            val hsvHAv = rgbRand.toHsv().averageHue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+                            val hsvSAv =
+                                rgbRand.toHsv().averageSaturation(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+                            val hsvVAv = rgbRand.toHsv().averageValue(rgbRand2.toHsv()).toRGB().toCubeSize(cubeSize)
+
+                            println(
+                                "Avg ${
+                                    rgbRand.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                }  ${
+                                    rgbAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                } ${
+                                    hsvAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                } ${
+                                    hsvHAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                } ${
+                                    hsvSAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                } ${
+                                    hsvVAv.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                }  ${
+                                    rgbRand2.showC(16, f = ColorCube.RGB::toLaconicStringRGB)
+                                }"
+                            )
+                        }
+                        println()
+                    }
+                    println()
+                }
+
+                println()
+                println()
+                println()
+
+
+                val maxRepeat = 8
+                repeat(maxRepeat) { repeatIx ->
+
+                    val defaultLoops = 10
+                    val lastItem = repeatIx == maxRepeat - 1
+
+                    val (loops: Int, formatter: (ColorCube.RGB) -> String, cellWidth: Int) =
+                        if (lastItem)
+                            Triple(defaultLoops * cellWidth1, ::formatter2, cellWidth2)
+                        else
+                            Triple(defaultLoops, ::formatter1, cellWidth1)
+
+                    val tableWidth = cellWidth * loops
+                    val cubeSize = listOf(4, 7, 11, 16, 32, 64, 128, 256).shuffled().first()
+
+                    val rgbRand = randomRGB(cubeSize)
+                    println("            " + "Base color $rgbRand".pC(tableWidth).rgbBg(rgbRand))
+
+                    val tL = RGB::toLaconicStringRGB
+                    val col = 6
+                    val www = tableWidth / col
+
+                    print("            ")
+                    print(rgbRand.toMaxValue().showC(www, "mxV ", tL))
+                    print(rgbRand.toMaxSaturation().showC(www, "mxS ", tL))
+                    print(rgbRand.complement().showC(www, "cmpl ", tL))
+                    print(rgbRand.toSaturation(0.5).showC(www, "smid ", tL))
+                    print(rgbRand.toValue(0.5).showC(tableWidth - (col - 1) * www, "vmid ", tL))
+                    print(rgbRand.toSaturation(0.5).toValue(0.5).showC(www, "svmid ", tL))
+                    println()
+
+                    print("            ")
+                    print(rgbRand.rotL().showC(www, "rotL ", tL))
+                    print(rgbRand.rotR().showC(www, "rotR ", tL))
+                    print(rgbRand.mixRG().showC(www, "mixRG ", tL))
+                    print(rgbRand.mixRB().showC(www, "mixRB ", tL))
+                    print(rgbRand.mixGB().showC(tableWidth - (col - 1) * www, "mixGB ", tL))
+                    print(rgbRand.inverse().showC(www, "inv ", tL))
+                    println()
+
+                    fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
+                    fun printForm(hsv: ColorCube.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
+
+                    print("Hue    360° ")
+                    rgbRand.hueGradient(loops).forEach { printForm(it) }
+                    println()
+
+                    print("Satur  rgb  ")
+                    rgbRand.saturationGradient(loops).forEach { printForm(it) }
+                    println()
+
+                    print("Sat Min v1  ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Sat Min     ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Sat Max     ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Sat Max v1  ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Value  rgb  ")
+                    rgbRand.valueGradient(loops).forEach { printForm(it) }
+                    println()
+
+                    print("Val Max rgb ")
+                    rgbRand.gradient(loops, rgbRand.toHsv().clone(v = 1.0).toRGB()).forEach { printForm(it) }
+                    println()
+
+                    print("Val Max hsv ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 1.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Val Min rgb ")
+                    val rgbRand256 = rgbRand.toCubeSize(256)
+                    rgbRand.gradient(loops, RGB(256, rgbRand256.r / 128, rgbRand256.g / 128, rgbRand256.b / 128))
+                        .forEach { printForm(it) }
+                    println()
+
+                    print("Val Min hsv ")
+                    rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(v = 0.0)).forEach { printForm(it) }
+                    println()
+
+                    print("Val Min rgb0")
+                    rgbRand.gradient(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    println()
+
+                    print("Hue 0-360   ")
+                    rgbRand.gradientHSL_H(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    println()
+
+                    print("Sat 0-1     ")
+                    rgbRand.gradientHSL_S(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    println()
+
+                    print("Lev 0-1     ")
+                    rgbRand.gradientHSL_L(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    println()
+
+                    println()
+                }
+
+                println()
+                println("Permutation Gradient")
+                val cs = 5
+
+                val rgb = (0..<cs).shuffled().take(3)
+                val rgbRand = RGB(cs, rgb[0], rgb[1], rgb[2])
+                rgbRand.permutationGradient().forEach { it1 ->
+                    it1.permutationGradient().forEach { it2 ->
+                        print("${formatter1(it2)} ".rgbBg(it2))
+                    }
+                    println()
+                }
+                println()
+
+                println()
+            }
+
+
+            Am("ca") -> {
+                println("\ncolor5s calling: ColorCube.color5(ix1, ix2, string)")
+                println("color5 ix1: (ix2, string)...")
+                (0..Color5.maxCodeIndex).forEach { ix1 ->
+                    print("color5 $ix1: ")
+                    print(Color5.color5ByIndex(ix1).name.pL(7))
+                    (0..Color5.maxColor5Value).forEach { ix2 ->
+                        print(Color5.color5(Color5.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
+                    }
+                    println("")
+                }
+                println("\ncolor5s calling: ColorCube.color5Bg(ix1, ix2, string)")
+                println("color5 ix1: (ix2, string)...")
+                (0..Color5.maxCodeIndex).forEach { ix1 ->
+                    print("color5 $ix1: ")
+                    print(Color5.color5ByIndex(ix1).name.pL(7))
+                    (0..Color5.maxColor5Value).forEach { ix2 ->
+                        print(Color5.color5Bg(Color5.color5ByIndex(ix1), ix2, "  ($ix2 ##########)"))
+                    }
+                    println("")
+                }
+                println("\ncolor5s calling: ColorCube.color5FgBg(ix1, ix2, string)")
+                println("color5 ix1: (ix2, string)...")
+                (0..Color5.maxCodeIndex).forEach { ix1 ->
+                    val complement = Color5.Code.valueOf(Color5.color5ByIndex(ix1).complement)
+                    val fix1 = complement.ordinal
+                    val fgcolor5 = Color5.color5ByIndex(fix1)
+                    print("color5 $fix1 $ix1: ")
+                    print(Color5.color5ByIndex(fix1).name.pL(7) + "  ")
+                    print(Color5.color5ByIndex(ix1).name.pL(7) + "  ")
+
+                    (0..Color5.maxColor5Value).forEach { ix2 ->
+                        val fix2 = ix2 // Color5.maxColor5Value - ix2
+                        print(
+                            Color5.color5FgBg(
+                                fgcolor5,
+                                fix2,
+                                Color5.color5ByIndex(ix1),
+                                ix2,
+                                "  ($fix2 $ix2 ##########)"
+                            )
+                        )
+                    }
+                    println("")
+                }
+            }
+
+            Am("cb") -> {
+
+                println("")
+                println("")
+                println("")
+                println(" -------------- Color type 5 -------------")
+
+                val ran5 = 0..5
+
+                println("")
+                println("fg5(r, g, b) only")
+                ran5.forEach { r ->
+                    ran5.forEach { g ->
+                        ran5.forEach { b ->
+                            val fg = Color5.emitFg5(r, g, b, "ColorCube.fg5($r,$g,$b) ")
+                            print("  $fg")
+                        }
+                        println("")
+                    }
+                }
+
+                println("")
+                println("bg5(r, g, b) only")
+                ran5.forEach { r ->
+                    ran5.forEach { g ->
+                        ran5.forEach { b ->
+                            print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
+                        }
+                        println("")
+                    }
+                }
+
+                println("")
+                println("bg5(r, g, b) only")
+                ran5.forEach { b ->
+                    ran5.forEach { r ->
+                        ran5.forEach { g ->
+                            print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
+                        }
+                        println("")
+                    }
+                }
+
+                println("")
+                println("bg5(r, g, b) only")
+                ran5.forEach { g ->
+                    ran5.forEach { b ->
+                        ran5.forEach { r ->
+                            print(" " + Color5.emitBg5(r, g, b, " ColorCube.bg5($r,$g,$b) "))
+                        }
+                        println("")
+                    }
+                }
+
+                println("")
+                ran5.forEach { w ->
+                    println("")
+                    println("fgbg5(r, g, b, grays $w)")
+                    ran5.forEach { r ->
+                        ran5.forEach { g ->
+                            ran5.forEach { b ->
+                                val bg = Color5.Color5Num(w, w, w)
+                                print(Color5.emitFgBg5(r, g, b, w, w, w, " Color5.fgbg5($r,$g,$b,$w,$w,$w) "))
+                            }
+                            println("")
+                        }
+                    }
+                }
+
+                println("")
+                println("fgbg5(r, g, b, br, bg, bb) on complement")
+                ran5.forEach { br ->
+                    ran5.forEach { bg ->
+                        ran5.forEach { bb ->
+                            val fr = 5 - br
+                            val fg = 5 - bg
+                            val fb = 5 - bb
+                            print(Color5.emitFgBg5(fr, fg, fb, br, bg, bb, " Color5.fgbg5($fr,$fg,$fb, $br,$bg,$bb) "))
+                        }
+                        println("")
+                    }
+                }
+            }
+        }
     }
 
     companion object {
 
-	fun randomRGB(cubeSize: Int = 256): ColorCube.RGB = ColorCube.RGB(
-	    cubeSize,
-	    Random.nextInt(cubeSize),
-	    Random.nextInt(cubeSize),
-	    Random.nextInt(cubeSize)
-	)
+        fun randomRGB(cubeSize: Int = 256): ColorCube.RGB = ColorCube.RGB(
+            cubeSize,
+            Random.nextInt(cubeSize),
+            Random.nextInt(cubeSize),
+            Random.nextInt(cubeSize)
+        )
 
-	fun main() {
-	    AnsiDemo().main("G3")
-	}
+        fun main() {
+            AnsiDemo().main("G3")
+        }
 
-	@JvmStatic
-	fun main(args: Array<String>) {
-	    AnsiDemo().main(if (args.size > 0) args[0] else "d")
-	}
+        @JvmStatic
+        fun main(args: Array<String>) {
+            AnsiDemo().main(if (args.size > 0) args[0] else "d")
+        }
     }
 }
 
