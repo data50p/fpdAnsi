@@ -317,40 +317,6 @@ object ColorCube {
             return l
         }
 
-        fun saturationGradient(loops: Int = 12): List<RGB> {
-            val l = mutableListOf<RGB>()
-
-            val step = 0.999999 / (loops - 1)
-            var hsv = toHsv()
-
-            hsv = HSV(hsv.h, 0.0, hsv.v)
-
-            repeat(loops) {
-                val hsv2 = HSV(hsv.h, (hsv.s + it * step).modSpecial(1.0), hsv.v)
-                l += hsv2.toRGB()
-            }
-            return l
-        }
-
-        /**
-         * A problem when reaching black target (value == 0)
-         */
-        fun valueGradient(loops: Int = 12): List<RGB> {
-            val l = mutableListOf<RGB>()
-
-            val step = 0.999999 / (loops - 1)
-            var hsv = toHsv()
-
-            val vv = hsv.v
-            hsv = HSV(hsv.h, hsv.s, 0.0)
-
-            repeat(loops) {
-                val hsv2 = HSV(hsv.h, hsv.s, (hsv.v + it * step).modSpecial(1.0))
-                l += hsv2.toRGB()
-            }
-            return l
-        }
-
         fun gradient(loops: Int = 12, rgb: RGB): List<RGB> {
             return toHsv().gradient(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
         }

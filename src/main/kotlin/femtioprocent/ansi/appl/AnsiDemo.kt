@@ -355,10 +355,6 @@ open class AnsiDemo {
                     rgbRand.hueGradient(loops).forEach { printForm(it) }
                     println()
 
-                    print(frmtLeft("Sat-HSV 0-1"))
-                    rgbRand.saturationGradient(loops).forEach { printForm(it) }
-                    println()
-
                     print(frmtLeft("Sat s=0 v -> 1"))
                     rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { printForm(it) }
                     println()
@@ -373,10 +369,6 @@ open class AnsiDemo {
 
                     print(frmtLeft("Sat -> 1 v = 1"))
                     rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 1.0, v = 1.0)).forEach { printForm(it) }
-                    println()
-
-                    print(frmtLeft("Value  rgb"))
-                    rgbRand.valueGradient(loops).forEach { printForm(it) }
                     println()
 
                     print(frmtLeft("Val Max rgb"))
@@ -408,7 +400,7 @@ open class AnsiDemo {
                     print(frmtLeft("HSV s 0-1"))
                     rgbRand.gradientHSV_S(loops).forEach { printForm(it) }
                     println()
-
+                    
                     print(frmtLeft("HSV v 0-1"))
                     rgbRand.gradientHSV_V(loops).forEach { printForm(it) }
                     println()
