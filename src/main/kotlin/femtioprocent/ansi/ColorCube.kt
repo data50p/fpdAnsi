@@ -367,6 +367,10 @@ object ColorCube {
             return toHsl().gradientL(loops, rgb.toHsl()).map { it.toRGB().toCubeSize(cs) }
         }
 
+        fun gradientHSV_V(loops: Int = 12, rgb: RGB): List<RGB> {
+            return toHsv().gradientV(loops, rgb.toHsv()).map { it.toRGB().toCubeSize(cs) }
+        }
+
 
         fun permutationGradient(): List<RGB> {
             val l = mutableListOf<RGB>()
@@ -540,6 +544,18 @@ object ColorCube {
                 l += hsv2
             }
             return l
+        }
+
+        fun gradientV(loops: Int = 6, hsv2: HSV): List<HSV> {
+            val list = mutableListOf<HSV>()
+
+            val stepv = 1.0 / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 = HSV(h, s, (it * stepv).modSpecial(1.0))
+                list += hsv2
+            }
+            return list
         }
 
         private fun avg(d1: Double, d2: Double) = (d1 + d2) / 2.0

@@ -410,6 +410,10 @@ open class AnsiDemo {
                     rgbRand.gradientHSL_L(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
                     println()
 
+                    print("Val 0-1     ")
+                    rgbRand.gradientHSV_V(loops, RGB(256, 0, 0, 0)).forEach { printForm(it) }
+                    println()
+
                     println()
                 }
 
