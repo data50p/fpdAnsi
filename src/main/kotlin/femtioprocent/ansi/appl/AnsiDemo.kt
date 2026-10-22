@@ -385,45 +385,22 @@ open class AnsiDemo {
                     rgbRand.toHsv().gradient(loops, "sv", rgbRand2.toHsv()).forEach { printForm(it) }
                     println()
 
-                    with (">==") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    val codes = listOf(
+                        "<==",
+                        "=<=",
+                        "==<",
+                        "><<",
+                        "=+=",
+                        "==+",
+                        "=++",
+                    )
+                    codes.forEach {code ->
+                        with(code) {
+                            rgbRand.toHsv().gradient(loops, this).forEachIndexed { ix, it -> (if (ix == 0) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                        }
+                        println()
                     }
-                    println()
 
-                    with("<==") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("=<=") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("==<") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("><<") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("=+=") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("==+") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
-
-                    with("=++") {
-                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
-                    }
-                    println()
 
                     print(frmtLeft("Sat s=0 v -> 1"))
                     rgbRand.toHsv().gradient(loops, rgbRand.toHsv().clone(s = 0.0, v = 1.0)).forEach { printForm(it) }
