@@ -385,6 +385,16 @@ open class AnsiDemo {
                     rgbRand.toHsv().gradient(loops, "sv", rgbRand2.toHsv()).forEach { printForm(it) }
                     println()
 
+                    val codeChars = "<>+-="
+                    val codesList = mutableListOf<String>()
+                    codeChars.toCharArray().forEach { c0 ->
+                        codeChars.toCharArray().forEach { c1 ->
+                            codeChars.toCharArray().forEach { c2 ->
+                                codesList.add("$c0$c1$c2")
+                            }
+                        }
+                    }
+
                     val codes = listOf(
                         "<==",
                         "=<=",
@@ -394,7 +404,7 @@ open class AnsiDemo {
                         "==+",
                         "=++",
                     )
-                    codes.forEach {code ->
+                    codesList.forEach {code ->
                         with(code) {
                             rgbRand.toHsv().gradient(loops, this).forEachIndexed { ix, it -> (if (ix == 0) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
                         }
