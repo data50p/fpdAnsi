@@ -347,12 +347,82 @@ open class AnsiDemo {
                     print(rgbRand.inverse().showC(www, "inv ", tL))
                     println()
 
+                    val rgbRand2 = randomRGB(cubeSize)
+
                     fun printForm(rgb: RGB) = print(formatter(rgb).rgbBg(rgb))
                     fun printForm(hsv: ColorCube.HSV) = hsv.toRGB().also { print(formatter(it).rgbBg(it)) }
 
 
                     print(frmtLeft("Hue    360°"))
                     rgbRand.hueGradient(loops).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 hsv"))
+                    rgbRand.toHsv().gradient(loops, "hsv", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 h"))
+                    rgbRand.toHsv().gradient(loops, "h", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 s"))
+                    rgbRand.toHsv().gradient(loops, "s", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 v"))
+                    rgbRand.toHsv().gradient(loops, "v", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 hs"))
+                    rgbRand.toHsv().gradient(loops, "hs", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 hv"))
+                    rgbRand.toHsv().gradient(loops, "hv", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    print(frmtLeft("random2 sv"))
+                    rgbRand.toHsv().gradient(loops, "sv", rgbRand2.toHsv()).forEach { printForm(it) }
+                    println()
+
+                    with (">==") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("<==") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("=<=") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("==<") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("><<") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("=+=") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("==+") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
+                    println()
+
+                    with("=++") {
+                        rgbRand.toHsv().gradient(loops, this).forEachIndexed {ix, it -> (if ( ix == 0 ) "${print(frmtLeft(this))}\n" else "") + "${printForm(it)}" }
+                    }
                     println()
 
                     print(frmtLeft("Sat s=0 v -> 1"))

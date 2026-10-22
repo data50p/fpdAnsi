@@ -520,6 +520,78 @@ object ColorCube {
             return l
         }
 
+        fun gradient(loops: Int = 6, code: String): List<HSV> {
+            val l = mutableListOf<HSV>()
+
+            var hft = Pair(h, h)
+            var sft = Pair(s, s)
+            var vft = Pair(v, v)
+
+            if ( code[0] == '<' ) hft = Pair(0.01, 360.0)
+            if ( code[1] == '<' ) sft = Pair(0.01, 1.0)
+            if ( code[2] == '<' ) vft = Pair(0.01, 1.0)
+
+            if ( code[0] == '>' ) hft = Pair(360.0, 0.0)
+            if ( code[1] == '>' ) sft = Pair(1.0, 0.0)
+            if ( code[2] == '>' ) vft = Pair(1.0, 0.0)
+
+            if ( code[0] == '+' ) hft = Pair(h, 360.0)
+            if ( code[1] == '+' ) sft = Pair(s, 1.0)
+            if ( code[2] == '+' ) vft = Pair(v, 1.0)
+
+            if ( code[0] == '-' ) hft = Pair(h, 0.0)
+            if ( code[1] == '-' ) sft = Pair(s, 0.0)
+            if ( code[2] == '-' ) vft = Pair(v, 0.0)
+
+            var sh = hft.first
+            var ss = sft.first
+            var sv = vft.first
+
+            if ( code[0] == '=' ) sh = h
+            if ( code[1] == '=' ) ss = s
+            if ( code[2] == '=' ) sv = v
+
+            val dh = hft.second - hft.first
+            val ds =  sft.second - sft.first
+            val dv =  vft.second - vft.first
+
+            val steph = dh / (loops - 1)
+            val steps = ds / (loops - 1)
+            val stepv = dv / (loops - 1)
+
+            repeat(loops) {
+                val nh = (360.0 + sh + it * steph).modSpecial(360.0)
+                val ns = (1.0 + ss + it * steps).modSpecial(1.0)
+                val nv = (1.0 + sv + it * stepv).modSpecial(1.0)
+
+                //println("GRADIENT: $code  $hft $sft $vft   ∆ $dh $ds $dv  V $nh $ns $nv")
+                val hsv2 = HSV(nh, ns, nv)
+                // avoid v == 1.000
+                l += hsv2
+            }
+            return l
+        }
+
+        fun gradient(loops: Int = 6, spec: String, hsv2: HSV): List<HSV> {
+            val l = mutableListOf<HSV>()
+
+            val dh = if ( spec.contains('h') ) hsv2.h - h else 0.0
+            val ds = if ( spec.contains('s') ) hsv2.s - s else 0.0
+            val dv = if ( spec.contains('v') ) hsv2.v - v else 0.0
+
+            val steph = dh / (loops - 1)
+            val steps = ds / (loops - 1)
+            val stepv = dv / (loops - 1)
+
+            repeat(loops) {
+                val hsv2 =
+                    HSV((h + it * steph) % 360.0, (s + it * steps).modSpecial(1.0), (v + it * stepv).modSpecial(1.0))
+                // avoid v == 1.000
+                l += hsv2
+            }
+            return l
+        }
+
         fun gradientH(loops: Int = 6): List<HSV> {
             val list = mutableListOf<HSV>()
 
