@@ -527,21 +527,21 @@ object ColorCube {
             var sft = Pair(s, s)
             var vft = Pair(v, v)
 
-            if ( code[0] == '<' ) hft = Pair(0.01, 359.0)
-            if ( code[1] == '<' ) sft = Pair(0.01, 0.99)
-            if ( code[2] == '<' ) vft = Pair(0.01, 0.99)
+            if ( code[0] == '<' ) hft = Pair(0.001, 359.999)
+            if ( code[1] == '<' ) sft = Pair(0.001, 0.999)
+            if ( code[2] == '<' ) vft = Pair(0.001, 0.999)
 
-            if ( code[0] == '>' ) hft = Pair(359.0, 0.01)
-            if ( code[1] == '>' ) sft = Pair(0.99, 0.01)
-            if ( code[2] == '>' ) vft = Pair(0.99, 0.01)
+            if ( code[0] == '>' ) hft = Pair(359.9999, 0.001)
+            if ( code[1] == '>' ) sft = Pair(0.999, 0.001)
+            if ( code[2] == '>' ) vft = Pair(0.999, 0.001)
 
-            if ( code[0] == '+' ) hft = Pair(h, 359.0)
-            if ( code[1] == '+' ) sft = Pair(s, 0.99)
-            if ( code[2] == '+' ) vft = Pair(v, 0.99)
+            if ( code[0] == '+' ) hft = Pair(h, 359.9999)
+            if ( code[1] == '+' ) sft = Pair(s, 0.999)
+            if ( code[2] == '+' ) vft = Pair(v, 0.999)
 
-            if ( code[0] == '-' ) hft = Pair(h, 0.01)
-            if ( code[1] == '-' ) sft = Pair(s, 0.01)
-            if ( code[2] == '-' ) vft = Pair(v, 0.01)
+            if ( code[0] == '-' ) hft = Pair(h, 0.001)
+            if ( code[1] == '-' ) sft = Pair(s, 0.001)
+            if ( code[2] == '-' ) vft = Pair(v, 0.001)
 
             var sh = hft.first
             var ss = sft.first
